@@ -8,7 +8,7 @@
 
 angular.module('btford.markdown', ['ngSanitize']).
   provider('markdownConverter', function () {
-    var opts = {};
+    var opts = { extensions: ['mathjax'] };
     return {
       config: function (newOpts) {
         opts = newOpts;

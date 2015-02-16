@@ -19,27 +19,43 @@ texapp.directive('texlist', [function() {
 
 				if (viewValue) {
 					var c = 0;
-					angular.forEach(viewValue.split(separator), function(value) {
+					var values = viewValue.split(separator);
+					var removed = state.length > values.length;
+					angular.forEach(values, function(value) {
 
 						// horrible code, only here as proof of concept. merges very incorrect
-						if (value && state[c]){
+						if (!angular.isUndefined(value) && !angular.isUndefined(state[c])){
+							//line was updated
 							if(state[c].text !== value){
 								state[c] = {
 									text: trimValues ? trim(value) : value,
 									html: '',
 									dirty: true
 								};
+								if(state[c].text === '')
+									state[c].text = '<br />';
 							}
-						};
-						if (value && !state[c]){
+							c++;
+						}
+						else if (value && !state[c] && !removed){
+							//line was added
 							state.splice(c, 0, {
 									text: trimValues ? trim(value) : value,
 									html: '',
 									dirty: true
 								});
-						};
-						c++;
+							c++;
+						}
+						else if (value && removed){
+							//line was removed
+							state[c] = undefined;
+						}
 					});
+
+
+					if(c < state.length)
+						for(c; c < state.length; c++)
+							delete state[c];
 				}
 
 				return state;

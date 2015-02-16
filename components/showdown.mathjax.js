@@ -14,7 +14,7 @@
                     return match;
                 } else {
                     //hacking a guid onto here, as the id attribute is stripped later in the pipeline
-                    return '<div class="mathjax" href=' + guid() + '">$' + equation + '$</div>';
+                    return '<div><div class="mathjax loader" href="' + guid() + '">$' + equation + '$</div></div>';
                 }
             }},
 

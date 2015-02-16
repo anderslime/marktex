@@ -84,3 +84,12 @@ body {
 	background-color: black;
 	color: white;
 }
+
+svg rect {
+    fill: white;
+}
+
+svg.loader {
+	zoom: 0.4;
+	padding-left: 2em;
+}
