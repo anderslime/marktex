@@ -17,47 +17,44 @@ texapp.directive('texList', [function() {
 
 				var list = [];
 
-				if (viewValue) {
-					var c = 0;
-					var values = viewValue.split(separator);
-					var removed = state.length > values.length;
-					angular.forEach(values, function(value) {
+				var c = 0;
+				var values = viewValue.split(separator);
+				var removed = state.length > values.length;
+				angular.forEach(values, function(value) {
 
-						// horrible code, only here as proof of concept. merges very incorrect
-						if (!angular.isUndefined(value) && !angular.isUndefined(state[c])){
-							//line was updated
-							if(state[c].text !== value){
-								state[c] = {
-									text: trimValues ? trim(value) : value,
-									html: '',
-									dirty: true
-								};
-								if(state[c].text === '')
-									state[c].text = '<br />';
-							}
-							c++;
+					// horrible code, only here as proof of concept. merges very incorrect
+					if (!angular.isUndefined(value) && !angular.isUndefined(state[c])){
+						//line was updated
+						if(state[c].text !== value){
+							state[c] = {
+								text: trimValues ? trim(value) : value,
+								html: '',
+								dirty: true
+							};
+							if(state[c].text === '')
+								state[c].text = '<br />';
 						}
-						else if (value && !state[c] && !removed){
-							//line was added
-							state.splice(c, 0, {
-									text: trimValues ? trim(value) : value,
-									html: '',
-									dirty: true
-								});
-							c++;
-						}
-						else if (value && removed){
-							//line was removed
-							state[c] = undefined;
-						}
-					});
+						c++;
+					}
+					else if (value && !state[c] && !removed){
+						//line was added
+						state.splice(c, 0, {
+								text: trimValues ? trim(value) : value,
+								html: '',
+								dirty: true
+							});
+						c++;
+					}
+					else if (value && removed){
+						//line was removed
+						state[c] = undefined;
+					}
+				});
 
-
-					if(c < state.length)
-						for(c; c < state.length; c++)
-							delete state[c];
-				}
-
+				if(c < state.length)
+					for(c; c < state.length; c++)
+						delete state[c];
+				
 				return state;
 			};
 

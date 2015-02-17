@@ -59,28 +59,36 @@ body {
 	height: 100%;
 	font-family: monospace;
 	font-size: 0.8em;
-	padding:10px;
+	padding: 10px;
 	outline: none;
 }
 
 .page {
-	width: 210mm;
-	/*max-height: 297mm;*/
+	/*width: 210mm;
+	max-height: 297mm;
 	margin-left: auto;
-	margin-right: auto;
-	padding: 20mm 30mm;
-	font-size: 1.6vw;
+	margin-right: auto;*/
+	padding: 1em;
+	/*font-size: 1.6vw;*/
 	font-family: "Computer Modern";
 }
 
-.mathjax{
-	padding-left: 0.5em;
-	padding-right: 0.5em;
+.mathjax {
+	/*padding-left: 0.5em;
+	padding-right: 0.5em;*/
 }
 
-.mathjax-wrapper {
-	display: -webkit-box;
+.mathjax-wrapper p, .mathjax-wrapper div{
+	display:inline;
 }
+
+/*.mathjax-wrapper div, .mathjax-wrapper p {
+	float: left;
+}
+
+.mathjax-wrapper p {
+	white-space: pre;
+}*/
 
 .toolbox {
 	/*position: absolute;
@@ -92,11 +100,11 @@ body {
 	outline: none;
 }
 
-.ui-splitbar{
+.ui-splitbar {
 	background-color: lightgray;
 }
 
-.white{
+.white {
 	background-color: white;
 	color: black;
 }
