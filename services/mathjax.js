@@ -50,7 +50,7 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 			//that allows for dirty tracking in loader directive. this will allow for toggling the loading animation
 			html = html.replace('><div ', '><div loader="stateAsHtml[' + index + '].dirty" ');
 			//put another id on the inner div, this is used for mathjax typeset tracking
-			html = html.replace('<', '< id="' + oid + '" ');
+			html = '<div id="' + oid + '" class="mathjax-wrapper">' + html + '</div>';
 			html = html.replace(new RegExp('href', 'g'), 'id');
 
 			//we should have some logic for reprocessing, as a full typeset might be too expensive. maybe.
@@ -65,7 +65,8 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 
 				sTimeout = setTimeout(function(){
 					console.log('typesetting');
-					state.jaxid = iid;
+					state.iid = iid;
+					state.oid = oid;
 					
 					//inform mathjax to typeset the element with id = iid
 					MathJax.Hub.Queue(['Typeset', MathJax.Hub, iid ]);

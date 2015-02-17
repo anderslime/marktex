@@ -37,16 +37,19 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 
 		//for states being markdowned and mathjaxed
 		//must be made faster
-		angular.forEach(angular.element('.mathjax'), function(e){
+		/*angular.forEach(angular.element('.mathjax'), function(e){
 			var $e = angular.element(e);
 			var id = $e.attr('id');
 
-			angular.forEach($scope.state, function(s){
-				if(s.jaxid === id){
-					s.html = $e.html();
-					s.dirty = false;
-				}
-			});
+			
+		});*/
+
+		angular.forEach($scope.state, function(s){
+			if(s.oid !== undefined){
+				s.html = $('#' + s.oid)[0].outerHTML; // html must contain the full html, now it only holds the jax element
+				s.dirty = false;
+			}
 		});
+
 	});
 }]);
