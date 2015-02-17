@@ -1,13 +1,13 @@
-texapp.directive('texlist', [function() {
+texapp.directive('texList', [function() {
 	return {
 	    restrict: 'A',
 	    priority: 100,
 	    require: 'ngModel',
 	    link: function(scope, element, attr, ctrl) {
 
-			var texlist = element.attr(attr.$attr.texlist) || ', ';
+			var texList = element.attr(attr.$attr.texList) || ', ';
 			var trimValues = attr.ngTrim !== 'false';
-			var separator = trimValues ? angular.trim(texlist) : texlist;
+			var separator = trimValues ? angular.trim(texList) : texList;
 
 			var parse = function(viewValue) {
 				var state = scope.$eval(attr.ngModel);

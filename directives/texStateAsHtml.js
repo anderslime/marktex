@@ -1,6 +1,6 @@
-texapp.directive('stateAsHtml', ['$compile', 'mathjaxservice', function($compile, mathjaxservice) {
+texapp.directive('texStateAsHtml', ['$compile', 'mathjaxservice', function($compile, mathjaxservice) {
 
-	function stateToHtml(state){
+	function stateAsHtml(state){
 		return state.map(function(val, i) {
 			if(val != undefined){
 				if(val.dirty)
@@ -12,10 +12,10 @@ texapp.directive('stateAsHtml', ['$compile', 'mathjaxservice', function($compile
 
 	return {
 		restrict: "A",
-        scope: { 'stateAsHtml': '=' },
+        scope: { 'texStateAsHtml': '=' },
 		link: function(scope, element, attrs) {
-			scope.$watch('stateAsHtml', function(state) {
-				var elements = stateToHtml(state);
+			scope.$watch('texStateAsHtml', function(state) {
+				var elements = stateAsHtml(state);
 				elements = elements.replace(new RegExp('ng-transclude', 'g'), '');
 		        element.html(elements);
 		        $compile(element.contents())(scope);

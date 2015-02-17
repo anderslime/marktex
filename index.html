@@ -31,9 +31,9 @@
 
     <script src="controllers/main.js"></script>
     <script src="services/mathjax.js"></script>
-    <script src="directives/texlist.js"></script>
-    <script src="directives/loader.js"></script>
-    <script src="directives/stateAsHtml.js"></script>
+    <script src="directives/texList.js"></script>
+    <script src="directives/texLoader.js"></script>
+    <script src="directives/texStateAsHtml.js"></script>
 
 	<script type="text/javascript">
 		MathJax.Hub.Config({
@@ -101,9 +101,9 @@
 				  </span>
 				</button>
 			</div><br/>
-			<textarea class="texinput" ng-class="color" btf-markdown="markdown" ng-model="state" texlist="&#10;" ng-trim="false"></textarea>
+			<textarea class="texinput" ng-class="color" btf-markdown="markdown" ng-model="state" tex-list="&#10;" ng-trim="false"></textarea>
 		</div>
-		<div id="page" class="page" state-as-html="state"></div>
+		<div id="page" class="page" tex-state-as-html="state"></div>
       </div>
     </div>
 </body>

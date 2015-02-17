@@ -48,7 +48,7 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 
 			//put the id on the outer div of the html returned from markdownConverter. also, put a scope variable
 			//that allows for dirty tracking in loader directive. this will allow for toggling the loading animation
-			html = html.replace('><div ', '><div loader="stateAsHtml[' + index + '].dirty" ');
+			html = html.replace('><div ', '><div tex-loader="texStateAsHtml[' + index + '].dirty" ');
 			//put another id on the inner div, this is used for mathjax typeset tracking
 			html = '<div id="' + oid + '" class="mathjax-wrapper">' + html + '</div>';
 			html = html.replace(new RegExp('href', 'g'), 'id');
