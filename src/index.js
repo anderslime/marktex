@@ -9,13 +9,8 @@ connect = require('connect');
 webserver = connect();
 
 webserver.use(cors());
-webserver.use(serveStatic('./dist'));
+webserver.use(serveStatic('./'));
 
-backend.addProjection('_users', 'users', 'json0', { x: true });
-
-share = sharejs.server.createClient({ backend: backend });
-
-webserver.use('/doc', share.rest());
 
 port = 9000;
 
