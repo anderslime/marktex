@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html ng-app="texapp">
+
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+
+    <title>TeX POC</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="components/angular-ui-layout/ui-layout.css"/>
+	<link rel="stylesheet" href="components/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="components/bootstrap/css/bootstrap-theme.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Dependencies -->
+	<script src="components/jquery.js"></script>
+	<script src="components/angular.js"></script>
+	<script src="components/angular-sanitize.js"></script>
+	<script src="components/ace/ace.js"></script>
+	<script src="components/ui-ace.js"></script>
+	<script src="components/showdown.js"></script>
+	<script src="components/showdown.mathjax.js"></script>
+	<script src="components/angular-markdown-directive-markdown.js"></script>
+	<script src="components/bootstrap/js/bootstrap.js"></script>
+	<script src="components/ui-bootstrap-tpls.js"></script>
+	<script src="components/MathJax/MathJax.js?config=TeX-AMS_HTML-full&delayStartupUntil=configured"></script>
+	<script src="components/raf.js"></script>
+	<script src="components/angular-ui-layout/ui-layout.js"></script>
+	<script src="components/jaxconfig.js"></script>
+
+	<!-- sharejs -->
+	<script src="components/sharejs/channel/bcsocket.js"></script>
+	<script src="components/sharejs/text.js"></script>
+	<script src="components/sharejs/json0.js"></script>
+	<script src="components/sharejs/share.js"></script>
+
+    <script src="main.js"></script>
+
+</head>
+
+<body ng-controller="mainController" ng-class="color">
+
+	<div ui-layout>
+      <div ui-layout="{flow : 'column'}" on-resize="onPageResize()" >
+        <div class="toolbox">
+        	<div ui-ace="aceOptions" ng-model="document"></div>
+		</div>
+		<div id="page" class="page" tex-markdown="document"></div>
+
+      </div>
+    </div>
+</body>
+
+</html>
