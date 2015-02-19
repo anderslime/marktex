@@ -11,8 +11,6 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 		doc.subscribe();
 
 		doc.whenReady(function() {
-			console.log('doc ready, data: ', doc.getSnapshot());
-
 			if (!doc.type)
 				doc.create('text');
 
