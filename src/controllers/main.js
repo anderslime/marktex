@@ -3,6 +3,28 @@ var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.la
 texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compile',
 							function( $scope,   mathjaxservice,   $sce,   $compile) {
 
+	var socket = new BCSocket('http://localhost:7000/channel', { reconnect: true });
+	var sjs = new sharejs.Connection(socket);
+
+	var aceLoaded = function(_editor) {
+		var doc = sjs.get('docs', 'hello');
+		doc.subscribe();
+
+		doc.whenReady(function() {
+			console.log('doc ready, data: ', doc.getSnapshot());
+
+			if (!doc.type)
+				doc.create('text');
+
+			doc.attach_ace(_editor);
+		});
+	};
+
+	
+
+
+
+
 	$scope.color = 'black';
 
 	//defalt state
@@ -13,7 +35,8 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 		useWrapMode : true,
 		showGutter: false,
 		theme:'twilight',
-		mode: 'markdown'
+		mode: 'markdown',
+  		onLoad: aceLoaded
 	};
 
 	var scaleTimeout;

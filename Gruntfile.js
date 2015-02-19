@@ -81,6 +81,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-usemin');
 	grunt.loadNpmTasks('grunt-browserify');
 
-	grunt.registerTask('default', [ 'copy:default', 'browserify']);
+	grunt.registerTask('default', [ 'copy:default', 'browserify:dist']);
 	grunt.registerTask('jax', [ 'copy:jax']);
 };
