@@ -11,10 +11,6 @@ webserver = connect();
 webserver.use(cors());
 webserver.use(serveStatic('./dist'));
 
-// Setup livedb, browserchannel and sharejs
-livedb = require('livedb');
-backend = livedb.client(livedb.memory());
-
 backend.addProjection('_users', 'users', 'json0', { x: true });
 
 share = sharejs.server.createClient({ backend: backend });
