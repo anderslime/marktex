@@ -40,14 +40,14 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 		});
 	}
 
-    function postprocessMathJaxState(state, html, index){
+    function postprocessMathJaxState(html){
     	var e = $(html)
 		var oid = guid(); // id of outer element
 		var iid = $(html).find('.mathjax').attr('href'); // id of inner element, the one with the jax
 
 		//put the id on the outer div of the html returned from markdownConverter. also, put a scope variable
 		//that allows for dirty tracking in loader directive. this will allow for toggling the loading animation
-		html = html.replace('><div ', '><div tex-loader="texStateAsHtml[' + index + '].dirty" ');
+		//html = html.replace('><div ', '><div ');
 		//put another id on the inner div, this is used for mathjax typeset tracking
 		html = '<div id="' + oid + '" class="mathjax-wrapper">' + html + '</div>';
 		html = html.replace(new RegExp('href', 'g'), 'id');
@@ -64,8 +64,6 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 
 			sTimeout = setTimeout(function(){
 				console.log('typesetting');
-				state.iid = iid;
-				state.oid = oid;
 				
 				//inform mathjax to typeset the element with id = iid
 				MathJax.Hub.Queue(['Typeset', MathJax.Hub, iid]);
@@ -74,30 +72,27 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 		return html;
     }
 
-	function typeset(state, index){
-		// if state is not dirty, return stored html
-		if(!state.dirty)
-			return state.html;
+	function typeset(d){
+		if(d == undefined || d.length === 0)
+			return '';
 
 		//get markdowned value
-		var html = state.text == undefined ? "" : $sanitize(markdownConverter.makeHtml(replaceSlashes(state.text)));
+		var html = d == undefined ? "" : $sanitize(markdownConverter.makeHtml(replaceSlashes(d)));
 
 		//if markdowned value contains the class mathjax, we know we have to deal with something that must be jaxxed.
 		//several ugly hacks will be made here, like manipulating html manually and so on. this is because it is
 		//impossible to control what comes back from the markdownConverter, except for classes and href's
-		if(html.indexOf('><div class="mathjax ') >= 0){
-			html = postprocessMathJaxState(state, html, index);
-		}else{
-			//if the state did not require mathjax, inform listener that this state is now ready to marked as not dirty
-			$rootScope.$broadcast('typeset', { state: state, html: html });
-		}
+		if(html.indexOf('><div class="mathjax ') >= 0)
+			html = postprocessMathJaxState(html);
+		else
+			$rootScope.$broadcast('typeset');
 
 		return html;
 	}
 
 	return {
-		typeset: function(string, element){
-			return typeset(string, element);
+		typeset: function(d){
+			return typeset(d);
 		},
 		updateZoom: function(){
 			var zoom = (body.width() - toolbox.width() - splitbar.width()) / page.outerWidth();

@@ -16,9 +16,11 @@
 	<link rel="stylesheet" href="css/style.css">
 
 	<!-- Dependencies -->
+	<script src="bower_components/ace-builds/src-min-noconflict/ace.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-sanitize.min.js"></script>
+	<script src="bower_components/angular-ui-ace/ui-ace.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
 	<script src="components/showdown.mathjax.js"></script>
 	<script src="bower_components/angular-markdown-directive/markdown.js"></script>
@@ -35,6 +37,7 @@
     <script src="directives/texList.js"></script>
     <script src="directives/texLoader.js"></script>
     <script src="directives/texStateAsHtml.js"></script>
+    <script src="directives/texMarkdown.js"></script>
 
 </head>
 
@@ -43,9 +46,11 @@
 	<div ui-layout>
       <div ui-layout="{flow : 'column'}" on-resize="onPageResize()" >
         <div class="toolbox">
-			<textarea class="texinput" ng-class="color" btf-markdown="markdown" ng-model="state" tex-list="&#10;" ng-trim="false"></textarea>
+        	<div ui-ace="aceOptions" ng-model="document"></div>
+			<!--<<textarea class="texinput" ng-class="color" btf-markdown="markdown" ng-model="state" tex-list="&#10;" ng-trim="false"></textarea>-->
 		</div>
-		<div id="page" class="page" tex-state-as-html="state"></div>
+		<div id="page" class="page" tex-markdown="document"></div>
+
       </div>
     </div>
 </body>

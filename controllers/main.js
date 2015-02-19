@@ -1,4 +1,4 @@
-var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.layout']);
+var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.layout', 'ui.ace']);
 
 texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compile',
 							function( $scope,   mathjaxservice,   $sce,   $compile) {
@@ -6,7 +6,15 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 	$scope.color = 'black';
 
 	//defalt state
-	$scope.state = [ { text: '$$line1 \\sqrt{b^2-4ac}$$', html: '', dirty: true }, { text: '## line2', html: '', dirty: true }];
+	$scope.document = '$$line1 \\sqrt{b^2-4ac}$$\n## line2';
+
+	//ace options
+	$scope.aceOptions = {
+		useWrapMode : true,
+		showGutter: false,
+		theme:'twilight',
+		mode: 'markdown'
+	};
 
 	var scaleTimeout;
 	var specialElementHandlers = {
@@ -31,6 +39,7 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 	    e.contents().filter(function() {
 		    return this.nodeType === 3 && this.parentNode.nodeName !== 'P';
 		}).wrap(wrapelm);
+
 		if(!e.hasClass('mathjax'))
 			angular.forEach(e.children(), function(c){
 				wrapTextNodes($(c), wrapelm);
@@ -50,9 +59,10 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 
 		//for states being markdowned and mathjaxed
 		angular.forEach($scope.state, function(s){
-			if(s.oid !== undefined){
-				wrapTextNodes($('#' + s.oid), '<p/>');
-				s.html = $('#' + s.oid)[0].outerHTML; // html must contain the full html, now it only holds the jax element
+			var e = $('#' + s.oid);
+			if(s.oid !== undefined && e[0] !== undefined){
+				wrapTextNodes(e, '<p/>');
+				s.html = e[0].outerHTML; // html must contain the full html, now it only holds the jax element
 				s.dirty = false;
 			}
 		});

@@ -63,6 +63,8 @@ body {
 	outline: none;
 }
 
+.ace_editor { height: 200px; }
+
 .page {
 	/*width: 210mm;
 	max-height: 297mm;
