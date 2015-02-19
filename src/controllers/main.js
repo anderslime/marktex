@@ -1,13 +1,14 @@
-var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.layout', 'ui.ace']);
+var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.layout', 'ui.ace', 'ngRoute']);
 
-texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compile',
-							function( $scope,   mathjaxservice,   $sce,   $compile) {
+texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compile', '$routeParams',
+							function( $scope,   mathjaxservice,   $sce,   $compile,   $routeParams) {
 
 	var socket = new BCSocket('http://localhost:7000/channel', { reconnect: true });
 	var sjs = new sharejs.Connection(socket);
 
 	var aceLoaded = function(_editor) {
-		var doc = sjs.get('docs', 'hello');
+		var docname = document.location.href.substring(document.location.href.indexOf('#/') + 2);
+		var doc = sjs.get('docs', docname);
 		doc.subscribe();
 
 		doc.whenReady(function() {
@@ -23,8 +24,8 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 
 	$scope.color = 'black';
 
-	//defalt state
-	$scope.document = '$$line1 \\sqrt{b^2-4ac}$$\n## line2';
+	//defalt document content
+	$scope.document = '';
 
 	//ace options
 	$scope.aceOptions = {

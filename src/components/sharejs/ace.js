@@ -146,11 +146,11 @@
       suppress = false;
       return check();
     };
-    doc.onRemove = function(pos, text) {
+    doc.onRemove = function(pos, length) {
       var range;
 
       suppress = true;
-      range = Range.fromPoints(offsetToPos(pos), offsetToPos(pos + text.length));
+      range = Range.fromPoints(offsetToPos(pos), offsetToPos(pos + length));
       editorDoc.remove(range);
       suppress = false;
       return check();

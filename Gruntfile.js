@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-	// Project configuration.
+	
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		
@@ -20,11 +20,13 @@ module.exports = function(grunt) {
 					{ expand: true, flatten: false, cwd: 'src/', src: ['css/**'], dest: 'dist'},
 					{ expand: true, flatten: false, cwd: 'src/', src: ['components/**'], dest: 'dist'},
 					{ expand: true, flatten: false, cwd: 'bower_components/ace-builds/src-min-noconflict/', src: ['theme-twilight.js', 'mode-markdown.js'], dest: 'dist/components/ace/'},
+					{ expand: true, flatten: false, cwd: 'bower_components/bootstrap/dist/', src: ['fonts/**'], dest: 'dist/components/bootstrap/'},
 
 					{ src: 'bower_components/ace-builds/src-min-noconflict/ace.js', dest: 'dist/components/ace/ace.js' },
 					{ src: 'bower_components/jquery/dist/jquery.min.js', dest: 'dist/components/jquery.js' },
 					{ src: 'bower_components/angular/angular.min.js', dest: 'dist/components/angular.js' },
 					{ src: 'bower_components/angular-sanitize/angular-sanitize.min.js', dest: 'dist/components/angular-sanitize.js' },
+					{ src: 'bower_components/angular-route/angular-route.min.js', dest: 'dist/components/angular-route.js' },
 					{ src: 'bower_components/angular-ui-ace/ui-ace.min.js', dest: 'dist/components/ui-ace.js' },
 					{ src: 'bower_components/showdown/compressed/Showdown.min.js', dest: 'dist/components/showdown.js' },
 					{ src: 'bower_components/angular-markdown-directive/markdown.js', dest: 'dist/components/angular-markdown-directive-markdown.js' },
@@ -33,7 +35,7 @@ module.exports = function(grunt) {
 					{ src: 'bower_components/bootstrap/dist/css/bootstrap-theme.min.css', dest: 'dist/components/bootstrap/css/bootstrap-theme.css' },
 					{ src: 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js', dest: 'dist/components/ui-bootstrap-tpls.js' },
 					{ src: 'bower_components/raf/index.js', dest: 'dist/components/raf.js' },
-					{ src: 'bower_components/angular-ui-layout/ui-layout.min.js', dest: 'dist/components/angular-ui-layout/ui-layout.js' },
+					{ src: 'bower_components/angular-ui-layout/ui-layout.js', dest: 'dist/components/angular-ui-layout/ui-layout.js' },
 					{ src: 'bower_components/angular-ui-layout/ui-layout.css', dest: 'dist/components/angular-ui-layout/ui-layout.css' }
 				]
 			},
@@ -100,8 +102,11 @@ module.exports = function(grunt) {
 		connect: {
 			options: {
 				port: 9000,
-				hostname: 'localhost'
+				hostname: '0.0.0.0'
 			},
+			rules: [
+				{from: '/d/([0-9]+)/?$', to: '/index.html'}
+			],
 			server: {
 				options: {
 					middleware: function (connect) {

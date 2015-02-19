@@ -63,43 +63,24 @@ body {
 	outline: none;
 }
 
-.ace_editor { height: 200px; }
-
-.page {
-	/*width: 210mm;
-	max-height: 297mm;
-	margin-left: auto;
-	margin-right: auto;*/
-	padding: 1em;
-	/*font-size: 1.6vw;*/
-	font-family: "Computer Modern";
+.ace_editor {
+	position:absolute;
+	top:0;
+	bottom:0;
+	height: 100%;
 }
 
-.mathjax {
-	/*padding-left: 0.5em;
-	padding-right: 0.5em;*/
+.document {
+	padding-left: 0.5em;
+	font-family: 'Source Sans Pro', 'Computer Modern', sans-serif;
 }
 
 .mathjax-wrapper p, .mathjax-wrapper div{
 	display:inline;
 }
-
-/*.mathjax-wrapper div, .mathjax-wrapper p {
-	float: left;
-}
-
-.mathjax-wrapper p {
-	white-space: pre;
-}*/
-
 .toolbox {
 	/*position: absolute;
 	bottom: 0;*/
-}
-
-.btn-toolbox {
-	height: 3em;
-	outline: none;
 }
 
 .ui-splitbar {
