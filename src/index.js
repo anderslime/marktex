@@ -9,7 +9,7 @@ connect = require('connect');
 webserver = connect();
 
 webserver.use(cors());
-webserver.use(serveStatic('./'));
+webserver.use(serveStatic('.'));
 
 
 port = 9000;
