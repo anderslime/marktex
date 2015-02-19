@@ -27,8 +27,7 @@
     "serve-static": "^1.9.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "echo postinstall time; ./node_modules/grunt-cli/bin/grunt heroku"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
