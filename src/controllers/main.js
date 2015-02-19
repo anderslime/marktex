@@ -23,8 +23,6 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 	
 
 
-
-
 	$scope.color = 'black';
 
 	//defalt state

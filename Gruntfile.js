@@ -14,7 +14,7 @@ module.exports = function(grunt) {
 		},
 
 		copy: {
-			'default': {
+			dist: {
 				files: [
 					{ src: 'src/index.html', dest: 'dist/index.html'},
 					{ expand: true, flatten: false, cwd: 'src/', src: ['css/**'], dest: 'dist'},
@@ -71,16 +71,61 @@ module.exports = function(grunt) {
 		    	src: ['dist/components/**'],
 		    	dest: 'dist/components.js',
 		    },
+		},
+
+		clean: {
+			dist: {
+				src: [
+					'dist/*',
+					'!dist/components/**',
+					'dist/components/*',
+					'!dist/components/MathJax/**'
+				]
+			},
+			jax: {
+				src: [ 'dist/components/MathJax']
+			}
+		},
+
+		watch: {
+			dist: {
+				files: ['Gruntfile.js', 'src/**', '!src/node_modules/**/*' ],
+				tasks: ['watchbase'],
+				options: {
+					livereload: true
+				}
+			}
+		},
+
+		connect: {
+			options: {
+				port: 9000,
+				hostname: 'localhost'
+			},
+			server: {
+				options: {
+					middleware: function (connect) {
+						return [
+							require('connect-livereload')(),
+							connect.static('dist')
+						];
+					}
+
+				}
+			}
 		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-bowercopy');
 	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-usemin');
 	grunt.loadNpmTasks('grunt-browserify');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 
-	grunt.registerTask('default', [ 'copy:default', 'browserify:dist']);
-	grunt.registerTask('jax', [ 'copy:jax']);
+	grunt.registerTask('default', [ 'clean:dist', 'copy:dist', 'browserify:dist', 'connect:server', 'watch:dist']);
+	grunt.registerTask('watchbase', [ 'copy:dist', 'browserify:dist' ]);
+	grunt.registerTask('jax', [ 'clean:jax','copy:jax']);
+
 };
