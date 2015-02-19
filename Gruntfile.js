@@ -70,7 +70,7 @@ module.exports = function(grunt) {
 		    	separator: ';',
 		    },
 		    dist: {
-		    	//todo
+		    	//todo 
 		    	src: ['dist/components/**'],
 		    	dest: 'dist/components.js',
 		    },
