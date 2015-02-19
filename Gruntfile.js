@@ -17,6 +17,7 @@ module.exports = function(grunt) {
 			dist: {
 				files: [
 					{ src: 'src/index.html', dest: 'dist/index.html'},
+					{ src: 'src/index.js', dest: 'dist/index.js'},
 					{ expand: true, flatten: false, cwd: 'src/', src: ['css/**'], dest: 'dist'},
 					{ expand: true, flatten: false, cwd: 'src/', src: ['components/**'], dest: 'dist'},
 					{ expand: true, flatten: false, cwd: 'bower_components/ace-builds/src-min-noconflict/', src: ['theme-twilight.js', 'mode-markdown.js'], dest: 'dist/components/ace/'},
@@ -132,5 +133,6 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', [ 'clean:dist', 'copy:dist', 'browserify:dist', 'connect:server', 'watch:dist']);
 	grunt.registerTask('watchbase', [ 'copy:dist', 'browserify:dist' ]);
 	grunt.registerTask('jax', [ 'clean:jax','copy:jax']);
+	grunt.registerTask('heroku', [ 'clean:dist', 'copy:dist', 'browserify:dist']);
 
 };
