@@ -1,0 +1,23 @@
+{
+  "name": "Tex",
+  "version": "0.0.0",
+  "authors": [
+    "Andreas Toftegaard <toftegaard.andreas@gmail.com>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "MathJax": "~2.5.0",
+    "angular-markdown-directive": "~0.3.1",
+    "angular-ui-ace": "bower",
+    "angular-ui-layout": "bower"
+  }
+}
