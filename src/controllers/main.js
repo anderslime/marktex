@@ -3,7 +3,7 @@ var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.la
 texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compile', '$routeParams',
 							function( $scope,   mathjaxservice,   $sce,   $compile,   $routeParams) {
 
-	var socket = new BCSocket('http://localhost:7000/channel', { reconnect: true });
+	var socket = new BCSocket('http://enigmatic-citadel-9501.herokuapp.com/channel', { reconnect: true });
 	var sjs = new sharejs.Connection(socket);
 
 	var aceLoaded = function(_editor) {
