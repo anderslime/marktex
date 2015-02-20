@@ -133,6 +133,6 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', [ 'clean:dist', 'copy:dist', 'browserify:dist', 'connect:server', 'watch:dist']);
 	grunt.registerTask('watchbase', [ 'copy:dist', 'browserify:dist' ]);
 	grunt.registerTask('jax', [ 'clean:jax','copy:jax']);
-	grunt.registerTask('heroku', [ 'clean:dist', 'copy:dist', 'browserify:dist']);
+	grunt.registerTask('heroku', [ 'clean:dist', 'copy:jax', 'copy:dist', 'browserify:dist']);
 
 };
