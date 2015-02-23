@@ -51,6 +51,7 @@ html, body {
 
 body {
 	box-sizing: border-box;
+	font-family: 'Source Sans Pro', 'Computer Modern', sans-serif;
 }
 
 .texinput {
@@ -70,6 +71,10 @@ body {
 	height: 100%;
 }
 
+.topbar {
+	background-color: lightgray;
+}
+
 .document {
 	padding-left: 0.5em;
 	font-family: 'Source Sans Pro', 'Computer Modern', sans-serif;
@@ -78,10 +83,6 @@ body {
 .mathjax-wrapper p, .mathjax-wrapper div{
 	display:inline;
 }
-.toolbox {
-	/*position: absolute;
-	bottom: 0;*/
-}
 
 .ui-splitbar {
 	background-color: lightgray;
@@ -89,11 +90,11 @@ body {
 
 .white {
 	background-color: white;
-	color: black;
+	color: #141414;
 }
 
 .black {
-	background-color: black;
+	background-color: #141414;
 	color: white;
 }
 

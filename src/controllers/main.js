@@ -1,5 +1,11 @@
 var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.layout', 'ui.ace', 'ngRoute']);
 
+texapp.config(['markdownConverterProvider', function (markdownConverterProvider) {
+	markdownConverterProvider.config({
+		extensions: ['mathjax']
+	});
+}]);
+
 texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compile', '$routeParams',
 							function( $scope,   mathjaxservice,   $sce,   $compile,   $routeParams) {
 
@@ -19,9 +25,13 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 		});
 	};
 
-	
+	var statechanged = function(){ $scope.state = sjs.socket.readyState; $scope.$apply(); };
+	sjs.socket.onclose 	 = statechanged;
+	sjs.socket.onerror 	 = statechanged;
+	sjs.socket.onopen 	 = statechanged;
+	sjs.socket.onmessage = statechanged;
 
-
+	$scope.state = 0; //conecting
 	$scope.color = 'black';
 
 	//defalt document content

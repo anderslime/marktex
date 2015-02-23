@@ -45,14 +45,16 @@
 </head>
 
 <body ng-controller="mainController" ng-class="color">
+	<div ui-layout="{dividerSize: 0}">
+		<div ui-layout-container size="25px" class="topbar"><span class="label" ng-class="state | rstolabel">{{ state | rstotext }}</span></div>
+		<div ui-layout-container> 
+			<div ui-layout="{flow : 'column'}" on-resize="onPageResize()">
+				
+				<div ui-layout-container><div ui-ace="aceOptions" ng-model="document"></div></div>
+				<div ui-layout-container><div class="document" tex-markdown="document"></div></div>
 
-	<div ui-layout>
-      <div ui-layout="{flow : 'column'}" on-resize="onPageResize()">
-       	
-       	<div ui-layout-container><div ui-ace="aceOptions" ng-model="document"></div></div>
-		<div ui-layout-container><div class="document" tex-markdown="document"></div></div>
-
-      </div>
+			</div>
+		</div>
     </div>
 </body>
 

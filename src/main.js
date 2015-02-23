@@ -1,9 +1,8 @@
-var sharejsace = require('./components/sharejs/ace');
-
-var main = require('./controllers/main');
-var mathjaxservice = require('./services/mathjax');
-
-//var texlist = require('./directives/texList');
-var texloader = require('./directives/texLoader');
-var texstateashtml = require('./directives/texStateAsHtml');
-var texmarkdown = require('./directives/texMarkdown');
+require('./components/sharejs/ace');
+require('./controllers/main');
+require('./services/mathjax');
+require('./directives/texList');
+require('./directives/texLoader');
+require('./directives/texStateAsHtml');
+require('./directives/texMarkdown');
+require('./filters/readystate');

@@ -8,7 +8,7 @@
         return [
 
             // @username syntax
-            { type: 'lang', regex: '\\B(\\\\)?~D~D(.+)~D~D', replace: function(match, leadingSlash, equation) {
+            { type: 'lang', regex: '\\B(\\\\)?~D(.+)~D', replace: function(match, leadingSlash, equation) {
                 // Check if we matched the leading \ and return nothing changed if so
                 if (leadingSlash === '\\') {
                     return match;
