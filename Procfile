@@ -1,1 +1,2 @@
-web: node dist/index.js dist/
+web: sh -c 'cd ./dist/'
+web: node index.js
