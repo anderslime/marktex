@@ -4,7 +4,7 @@ texapp.directive('texStateAsHtml', ['$compile', 'mathjaxservice', function($comp
 
 	function stateAsHtml(state){
 		return state.map(function(val, i) {
-			if(val != undefined){
+			if(val !== undefined){
 				if(val.dirty)
 					return mathjaxservice.typeset(val, i);
 				return val.html;
@@ -19,7 +19,7 @@ texapp.directive('texStateAsHtml', ['$compile', 'mathjaxservice', function($comp
 			var time;
 			scope.$watch('texStateAsHtml', function(state, oldstate) {
 
-				if(state.every(function(k){ return !k.dirty }))
+				if(state.every(function(k){ return !k.dirty; }))
 					return;
 
 				if(time)

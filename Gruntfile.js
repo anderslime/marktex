@@ -32,7 +32,7 @@ module.exports = function(grunt) {
 		browserify: {
 			dist: {
 				src: 'src/main.js',
-				dest: 'dist/main.js',
+				dest: 'dist/main.min.js',
 				options: {
 					transform: ['uglifyify']
 				}
@@ -128,6 +128,10 @@ module.exports = function(grunt) {
 					'./dist/index.html': './src/index.html'
 				}
 			}
+		},
+
+		jshint: {
+		    all: ['Gruntfile.js', 'src/**/*.js']
 		}
 
 	});
@@ -140,9 +144,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-text-replace');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-htmlmin');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
 
-	grunt.registerTask('default', [ 'clean:dist', 'copy:dist', 'replace:dev', 'browserify', 'cssmin', 'connect:server', 'watch']);
-	grunt.registerTask('watchbase', [ 'copy:dist', 'replace:dev', 'cssmin', 'browserify']);
-	grunt.registerTask('heroku', [ 'clean:dist', 'copy:dist', 'replace:dist', 'browserify:dist', 'cssmin', 'htmlmin']);
+	grunt.registerTask('default', [ 'jshint', 'clean:dist', 'copy:dist', 'replace:dev', 'browserify', 'cssmin', 'connect:server', 'watch']);
+	grunt.registerTask('watchbase', [ 'jshint', 'copy:dist', 'replace:dev', 'cssmin', 'browserify']);
+	grunt.registerTask('heroku', [ 'jshint', 'clean:dist', 'copy:dist', 'replace:dist', 'browserify:dist', 'cssmin', 'htmlmin']);
 
 };
