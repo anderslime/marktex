@@ -87,8 +87,8 @@ module.exports = function(grunt) {
 
 		replace: {
 			dev: {
-				src: [ 'src/config.js' ],
-				dest: 'src/config.dev.js',
+				src: [ './src/config.js' ],
+				dest: './src/config.dev.js',
 				replacements: [{
 					from: '\'@@config\'',
 					to: function (match) {
@@ -97,8 +97,8 @@ module.exports = function(grunt) {
 				}]
 			},
 			dist: {
-				src: [ 'src/config.js' ],
-				dest: 'src/config.dev.js',
+				src: [ './src/config.js' ],
+				dest: './src/config.dev.js',
 				replacements: [{
 					from: '\'@@config\'',
 					to: function (match) {

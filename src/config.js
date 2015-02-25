@@ -1,1 +1,1 @@
-module.exports = {"serverurl":"http://localhost:7000/channel"};
+module.exports = '@@config';
