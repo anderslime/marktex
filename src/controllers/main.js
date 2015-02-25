@@ -1,5 +1,4 @@
 var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.layout', 'ui.ace', 'ngRoute']);
-var config = require('../config.js');
 
 texapp.config(['markdownConverterProvider', function (markdownConverterProvider) {
 	markdownConverterProvider.config({
@@ -9,6 +8,11 @@ texapp.config(['markdownConverterProvider', function (markdownConverterProvider)
 
 texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compile', '$routeParams',
 							function( $scope,   mathjaxservice,   $sce,   $compile,   $routeParams) {
+
+	var config = require('../config.dev.js');
+	var BCSocket = require('../../components/sharejs/channel/bcsocket.js').BCSocket;
+	var sharejs = require('sharejs');
+
 	var docloaded = false;
 	var socket = new BCSocket(config.serverurl, { reconnect: true });
 	var sjs = new sharejs.Connection(socket);
