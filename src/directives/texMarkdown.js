@@ -1,6 +1,6 @@
 var texapp = require('../controllers/main.js');
 
-texapp.directive('texMarkdown', ['$compile', 'mathjaxservice', function($compile, mathjaxservice) {
+texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', function($rootScope, $compile, mathjaxservice) {
 	return {
 		restrict: "A",
         scope: { 'texMarkdown': '=' },
@@ -8,6 +8,7 @@ texapp.directive('texMarkdown', ['$compile', 'mathjaxservice', function($compile
 			scope.$watch('texMarkdown', function(newVal, oldVal) {
 				element.html(mathjaxservice.typeset(newVal));
 			    $compile(element.contents())(scope);
+			    $rootScope.$broadcast('typeset');
 			});
 	    }
 	};
