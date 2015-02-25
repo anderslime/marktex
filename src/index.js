@@ -1,4 +1,4 @@
-var connect, port, share, webserver, serveStatic, cors;
+var connect, port = 9000, share, webserver, serveStatic, cors;
 
 // Require
 cors = require('cors');
@@ -10,9 +10,6 @@ webserver = connect();
 
 webserver.use(cors());
 webserver.use(serveStatic('./dist/'));
-
-
-port = 9000;
 
 webserver.listen(process.env.PORT || port);
 

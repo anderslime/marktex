@@ -9,31 +9,45 @@ texapp.config(['markdownConverterProvider', function (markdownConverterProvider)
 
 texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compile', '$routeParams',
 							function( $scope,   mathjaxservice,   $sce,   $compile,   $routeParams) {
+	var docloaded = false;
+	var socket = new BCSocket(config.serverurl, { reconnect: true });
+	var sjs = new sharejs.Connection(socket);
 
-	var sjs = new sharejs.Connection(new BCSocket(config.serverurl, { reconnect: true }));
+	//listen to sharejs socket state changes
+	function socketStateChanged(){ $scope.state = (!docloaded ? 0 : sjs.socket.readyState); $scope.$apply(); }
 
 	//occurs when ace editor is loaded. will initialize a document afterwards
 	var aceLoaded = function(_editor) {
 		var docname = document.location.href.substring(document.location.href.indexOf('#/') + 2);
 		var doc = sjs.get('docs', docname);
-		doc.subscribe();
+		
+		doc.connection.on('connected', function(){
+			socketStateChanged();
+		});
+		doc.connection.on('open', function(){
+			socketStateChanged();
+		});
+		doc.connection.on('close', function(){
+			socketStateChanged();
+		});
+		doc.connection.on('error', function(){
+			socketStateChanged();
+		});
 
+		//note that the connection state will remain 'connecting' at least until this method has fired
 		doc.whenReady(function() {
+			docloaded = true;
 			if (!doc.type)
 				doc.create('text');
 
 			doc.attach_ace(_editor);
+			socketStateChanged();
 		});
+
+		doc.subscribe();
 	};
 
-	//listen to sharejs socket state changes
-	var socketStateChanged = function(){ $scope.state = sjs.socket.readyState; $scope.$apply(); };
-	sjs.socket.onclose 	 = socketStateChanged;
-	sjs.socket.onerror 	 = socketStateChanged;
-	sjs.socket.onopen 	 = socketStateChanged;
-	sjs.socket.onmessage = socketStateChanged;
-
-	$scope.state = 0; //conecting
+	$scope.state = 0; //connecting
 	$scope.color = 'black';
 
 	//defalt document content
