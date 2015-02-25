@@ -15,21 +15,25 @@ module.exports = function(grunt) {
 		copy: {
 			dist: {
 				files: [
-					{ src: 'src/index.html', dest: 'dist/index.html'},
-					{ src: 'src/index.js', dest: 'dist/index.js'},
-					{ expand: true, flatten: false, cwd: 'bower_components/bootstrap/dist/', src: ['fonts/**'], dest: 'dist'},
-					{ expand: true, flatten: false, src: ['components/**'], dest: 'dist'},
-					{ expand: true, flatten: false, cwd: 'src/', src: ['fonts/**'], dest: 'dist'}
+					{ src: 'src/index.html', dest: 'dist/index.html' },
+					{ src: 'src/index.js', dest: 'dist/index.js' },
+					{ expand: true, flatten: false, cwd: 'bower_components/bootstrap/dist/', src: ['fonts/**'], dest: 'dist' },
+					{ expand: true, flatten: false, src: ['components/**'], dest: 'dist' },
+					{ expand: true, flatten: false, cwd: 'src/', src: ['fonts/**'], dest: 'dist' }
 				]
 			},
 			jax: {
 				files: [
-					{expand: true, flatten: false, cwd: 'bower_components/', src: ['MathJax/**'], dest: 'dist/components'},
+					{ expand: true, flatten: false, cwd: 'bower_components/', src: ['MathJax/**'], dest: 'dist/components' },
 				]
 			}
 		},
 
 		browserify: {
+			dev: {
+				src: 'src/main.js',
+				dest: 'dist/main.min.js'
+			},
 			dist: {
 				src: 'src/main.js',
 				dest: 'dist/main.min.js',
@@ -52,8 +56,8 @@ module.exports = function(grunt) {
 
 		watch: {
 			dist: {
-				files: ['Gruntfile.js', 'package.json', 'src/**', '!src/node_modules/**/*' ],
-				tasks: ['watchbase'],
+				files: [ 'Gruntfile.js', 'package.json', 'src/**', '!src/node_modules/**/*' ],
+				tasks: [ 'watchbase'],
 				options: {
 					livereload: true
 				}
@@ -66,7 +70,7 @@ module.exports = function(grunt) {
 				hostname: '0.0.0.0'
 			},
 			rules: [
-				{from: '/d/([0-9]+)/?$', to: '/index.html'}
+				{ from: '/d/([0-9]+)/?$', to: '/index.html' }
 			],
 			server: {
 				options: {
@@ -83,7 +87,7 @@ module.exports = function(grunt) {
 
 		replace: {
 			dev: {
-				src: ['src/config.js'],
+				src: [ 'src/config.js' ],
 				dest: 'src/config.dev.js',
 				replacements: [{
 					from: '\'@@config\'',
@@ -93,7 +97,7 @@ module.exports = function(grunt) {
 				}]
 			},
 			dist: {
-				src: ['src/config.js'],
+				src: [ 'src/config.js' ],
 				dest: 'src/config.dev.js',
 				replacements: [{
 					from: '\'@@config\'',
@@ -131,7 +135,7 @@ module.exports = function(grunt) {
 		},
 
 		jshint: {
-		    all: ['Gruntfile.js', 'src/**/*.js']
+		    all: [ 'Gruntfile.js', 'src/**/*.js' ]
 		}
 
 	});
@@ -146,8 +150,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-htmlmin');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 
-	grunt.registerTask('default', [ 'jshint', 'clean:dist', 'copy:dist', 'replace:dev', 'browserify', 'cssmin', 'connect:server', 'watch']);
-	grunt.registerTask('watchbase', [ 'jshint', 'copy:dist', 'replace:dev', 'cssmin', 'browserify']);
-	grunt.registerTask('heroku', [ 'jshint', 'clean:dist', 'copy:dist', 'replace:dist', 'browserify:dist', 'cssmin', 'htmlmin']);
+	grunt.registerTask('default', [ 'jshint', 'clean:dist', 'copy:dist', 'replace:dev', 'browserify:dev', 'cssmin', 'connect:server', 'watch' ]);
+	grunt.registerTask('watchbase', [ 'jshint', 'copy:dist', 'replace:dev', 'cssmin', 'browserify:dev' ]);
+	grunt.registerTask('heroku', [ 'jshint', 'clean:dist', 'copy:dist', 'replace:dist', 'browserify:dist', 'cssmin', 'htmlmin' ]);
 
 };
