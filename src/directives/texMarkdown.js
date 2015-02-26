@@ -7,18 +7,18 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', fun
         scope: { 'texMarkdown': '=' },
         template: '<div class="document"></div><div class="document-preview"></div>',
         link: function(scope, element, attrs) {
+        	var pdocElem = element.find('.document-preview');
+			var docElem = element.find('.document');
+
 			scope.$watch('texMarkdown', function(newVal, oldVal) {
 				if(timeout)
 					clearTimeout(timeout);
 
-				var pdocElem = element.find('.document-preview');
-				var docElem = element.find('.document');
-
-				pdocElem.html(mathjaxservice.markdown(newVal));
-			    $compile(element.contents())(scope);
-			    $rootScope.$broadcast('jax-preprocess', pdocElem);
+			    //$rootScope.$broadcast('jax-preprocess', pdocElem);
 			    
 				timeout = setTimeout(function(){
+					pdocElem.html(mathjaxservice.markdown(newVal));
+			    	$compile(element.contents())(scope);
 					$rootScope.$broadcast('jax-typeset', pdocElem);
 				}, 300);
 
