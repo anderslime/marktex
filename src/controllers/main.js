@@ -64,7 +64,7 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 	$scope.aceOptions = {
 		useWrapMode : true,
 		showGutter: false,
-		theme:'twilight',
+		theme:'chrome',
 		mode: 'markdown',
 		highlightActiveLine: false,
   		onLoad: aceLoaded
