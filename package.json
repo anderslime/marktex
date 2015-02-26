@@ -45,7 +45,7 @@
     "markdown": "./bower_components/angular-markdown-directive/markdown.js",
     "bootstrap": "./bower_components/bootstrap/dist/js/bootstrap.js",
     "uibootstrap": "./bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
-    "raf": "./bower_components/raf/index.js",
+    "raf": "./components/raf/index.js",
     "uilayout": "./components/angular-ui-layout/ui-layout.js",
     "angularroute": "./bower_components/angular-route/angular-route.js",
     "uiace": "./bower_components/angular-ui-ace/ui-ace.js",
