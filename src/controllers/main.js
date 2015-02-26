@@ -9,11 +9,15 @@ texapp.config(['markdownConverterProvider', function (markdownConverterProvider)
 texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compile', '$routeParams',
 							function( $scope,   mathjaxservice,   $sce,   $compile,   $routeParams) {
 
+	$scope.state = 0; //connecting
+	$scope.color = 'black';
+	$scope.document = '';
+	$scope.docloaded = false;
+
+	var scaleTimeout;
 	var config = require('../config.dev.js');
 	var BCSocket = require('../../components/sharejs/channel/bcsocket.js').BCSocket;
 	var sharejs = require('sharejs');
-
-	$scope.docloaded = false;
 	var socket = new BCSocket(config.serverurl, { reconnect: true });
 	var sjs = new sharejs.Connection(socket);
 
@@ -55,12 +59,6 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 		doc.subscribe();
 	};
 
-	$scope.state = 0; //connecting
-	$scope.color = 'black';
-
-	//defalt document content
-	$scope.document = '';
-
 	//ace options
 	$scope.aceOptions = {
 		useWrapMode : true,
@@ -70,7 +68,6 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
   		onLoad: aceLoaded
 	};
 
-	var scaleTimeout;
 	var specialElementHandlers = {
 	    '.toolbox': function (element, renderer) {
 	        return true;

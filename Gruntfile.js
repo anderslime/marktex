@@ -61,7 +61,7 @@ module.exports = function(grunt) {
 
 		watch: {
 			dist: {
-				files: [ 'Gruntfile.js', 'package.json', 'src/**', '!src/node_modules/**/*' ],
+				files: [ 'Gruntfile.js', 'package.json', 'src/**', 'components/**', '!src/node_modules/**/*' ],
 				tasks: [ 'watchbase'],
 				options: {
 					livereload: true

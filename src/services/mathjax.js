@@ -10,7 +10,7 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 	$rootScope.$on('jax-typeset', function(e, args){
 		typesetting = true;
 		MathJax.Hub.Queue(['Typeset', MathJax.Hub, args[0]]);
-		MathJax.Hub.Queue(function(){
+		MathJax.Hub.Queue(function(x){
 			typesetting = false;
 			$rootScope.$broadcast('jax-typeset-done');
 		});

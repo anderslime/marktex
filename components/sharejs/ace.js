@@ -142,7 +142,12 @@ sharejs.Doc.prototype['attach_ace'] = function(editor, keepEditorContents) {
   };
   doc.onInsert = function(pos, text) {
     suppress = true;
-    editorDoc.insert(offsetToPos(pos), text);
+    var poss = offsetToPos(pos);
+    var cpos = editor.getCursorPosition();
+    editorDoc.insert(poss, text);
+    if(poss.row === cpos.row && poss.column === cpos.column && text === '\n')
+      editor.moveCursorToPosition(poss);
+
     suppress = false;
     return check();
   };

@@ -9,6 +9,14 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', fun
         link: function(scope, element, attrs) {
         	var pdocElem = element.find('.document-preview');
 			var docElem = element.find('.document');
+			var start;
+
+			$rootScope.$on('jax-typeset-done', function(e, args){
+				docElem.html(pdocElem.html());
+				$rootScope.$apply();
+
+				console.log('completed in ' + ((performance.now() - start)/1000).toFixed(2) + ' seconds');
+			});
 
 			scope.$watch('texMarkdown', function(newVal, oldVal) {
 				if(timeout)
@@ -17,17 +25,17 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', fun
 			    //$rootScope.$broadcast('jax-preprocess', pdocElem);
 			    
 				timeout = setTimeout(function(){
+					start = performance.now();
+					console.log('markdowning...');
 					pdocElem.html(mathjaxservice.markdown(newVal));
 			    	$compile(element.contents())(scope);
+			    	console.log('markdowned in ' + ((performance.now() - start)/1000).toFixed(2) + ' seconds');
+			    	console.log('typesetting...');
 					$rootScope.$broadcast('jax-typeset', pdocElem);
 				}, 300);
 
-				$rootScope.$on('jax-typeset-done', function(e, args){
-					docElem.html(pdocElem.html());
-					$rootScope.$apply();
-				});
-				
 			});
+
 	    }
 	};
 }]);
