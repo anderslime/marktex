@@ -15,10 +15,15 @@ module.exports = function(grunt) {
 		copy: {
 			dist: {
 				files: [
+					//kopier index.html - bliver overskrevet af minificeret udgave i dist
 					{ src: 'src/index.html', dest: 'dist/index.html' },
+					//kopier simpel webserver der bruges til heroku
 					{ src: 'src/index.js', dest: 'dist/index.js' },
+					//kopier bootstrap skrifttyper (glyphicons)
 					{ expand: true, flatten: false, cwd: 'bower_components/bootstrap/dist/', src: ['fonts/**'], dest: 'dist' },
+					//kopier component mappe
 					{ expand: true, flatten: false, src: ['components/**'], dest: 'dist' },
+					//kopier skrifttyper
 					{ expand: true, flatten: false, cwd: 'src/', src: ['fonts/**'], dest: 'dist' }
 				]
 			},
@@ -38,7 +43,7 @@ module.exports = function(grunt) {
 				src: 'src/main.js',
 				dest: 'dist/main.min.js',
 				options: {
-					transform: ['uglifyify']
+					transform: ['uglifyify'] // minifyify!
 				}
 			}
 		},
