@@ -13,12 +13,16 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 	var BCSocket = require('../../components/sharejs/channel/bcsocket.js').BCSocket;
 	var sharejs = require('sharejs');
 
-	var docloaded = false;
+	$scope.docloaded = false;
 	var socket = new BCSocket(config.serverurl, { reconnect: true });
 	var sjs = new sharejs.Connection(socket);
 
 	//listen to sharejs socket state changes
-	function socketStateChanged(){ $scope.state = (!docloaded ? 0 : sjs.socket.readyState); $scope.$apply(); }
+	function socketStateChanged(doc){
+		$scope.state = (!$scope.docloaded ? 0 : sjs.socket.readyState);
+		$scope.pendingdata = ((!$scope.docloaded || doc === undefined) ? false : (doc.pendingData.length > 0 && sjs.socket.readyState !== 1)) ? 'You have unsynchronized changes to this document!' : '';
+		$scope.$apply();
+	}
 
 	//occurs when ace editor is loaded. will initialize a document afterwards
 	var aceLoaded = function(_editor) {
@@ -26,21 +30,21 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 		var doc = sjs.get('docs', docname);
 		
 		doc.connection.on('connected', function(){
-			socketStateChanged();
+			socketStateChanged(doc);
 		});
 		doc.connection.on('open', function(){
-			socketStateChanged();
+			socketStateChanged(doc);
 		});
 		doc.connection.on('close', function(){
-			socketStateChanged();
+			socketStateChanged(doc);
 		});
 		doc.connection.on('error', function(){
-			socketStateChanged();
+			socketStateChanged(doc);
 		});
 
 		//note that the connection state will remain 'connecting' at least until this method has fired
 		doc.whenReady(function() {
-			docloaded = true;
+			$scope.docloaded = true;
 			if (!doc.type)
 				doc.create('text');
 
