@@ -84,10 +84,10 @@ body {
 
 .document {
 	padding-left: 0.5em;
-	font-family: 'Source Sans Pro', 'Computer Modern', sans-serif;
+	font-family: 'Source Sans Pro', sans-serif;
 }
 
-.mathjax-wrapper p, .mathjax-wrapper div{
+.math p, .math div{
 	display:inline;
 }
 
