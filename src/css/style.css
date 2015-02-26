@@ -87,6 +87,10 @@ body {
 	font-family: 'Source Sans Pro', sans-serif;
 }
 
+.document-preview {
+	display: none;
+}
+
 .math p, .math div{
 	display:inline;
 }
