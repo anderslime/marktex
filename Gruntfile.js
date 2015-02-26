@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 		clean: {
 			dist: {
 				src: [
-					'dist/*'/*,
+					'dist/'/*,
 					'!dist/components/**',
 					'dist/components/*',
 					'!dist/components/MathJax/**'*/
@@ -117,7 +117,7 @@ module.exports = function(grunt) {
 				files:{ 'dist/css/style.min.css': [
 					'bower_components/bootstrap/dist/css/bootstrap.min.css',
 					'bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
-					'bower_components/angular-ui-layout/ui-layout.css',
+					'components/angular-ui-layout/ui-layout.css',
 					'src/css/style.css']}
 			}
 		},
