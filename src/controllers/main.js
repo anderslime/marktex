@@ -89,6 +89,15 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 		$scope.color = ($scope.color === 'white' ? 'black' : 'white');
 	};
 
+	$scope.$on('jax-preprocess', function(e, args){
+		$scope.processing = true;
+	});
+
+	$scope.$on('jax-typeset-done', function(e, args){
+		$scope.processing = false;
+		$scope.$apply();
+	});
+
 }]);
 
 module.exports = texapp;

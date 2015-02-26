@@ -13,7 +13,6 @@
                 if (leadingSlash === '\\') {
                     return match;
                 } else {
-                    //hacking a guid onto here, as the id attribute is stripped later in the pipeline
                     return '<span class="mj loader">$' + equation + '$</span>';
                 }
             }},

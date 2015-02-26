@@ -3,12 +3,16 @@ var texapp = require('../controllers/main.js');
 texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope', function($sanitize, markdownConverter, $rootScope) {
 	var sTimeout, typesetting = false;
 
-	$rootScope.$on('typeset', function(e, args){
+	$rootScope.$on('jax-preprocess', function(e, args){
+		MathJax.Hub.Queue(['PreProcess', MathJax.Hub, $('.document')[0]]);
+	});
+
+	$rootScope.$on('jax-typeset', function(e, args){
 		typesetting = true;
 		MathJax.Hub.Queue(['Typeset', MathJax.Hub, $('.document')[0]]);
 		MathJax.Hub.Queue(function(){
 			typesetting = false;
-			$rootScope.$broadcast('typeset-done');
+			$rootScope.$broadcast('jax-typeset-done');
 		});
 	});
 
@@ -17,7 +21,7 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 		return value.replace(/\\#/g,'\\\\#');
 	}
 
-	function typeset(d){
+	function markdown(d){
 		if(d === undefined || d.length === 0)
 			return '';
 
@@ -26,8 +30,8 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 	}
 
 	return {
-		typeset: function(d){
-			return typeset(d);
+		markdown: function(d){
+			return markdown(d);
 		}
 	};
 }]);
