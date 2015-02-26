@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width">
 
-    <title>TeX POC</title>
+    <title>MarkTex</title>
 
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/style.min.css">
@@ -18,15 +18,30 @@
 
 <body ng-controller="mainController" ng-class="color">
 	<div ui-layout="{dividerSize: 0}">
-		<div ui-layout-container size="24px" class="topbar">
-			<span class="label" ng-class="state | rstolabel">{{ state | rstotext }}</span>
-			<span>{{ pendingdata }}</span>
+		<div ui-layout-container size="50px" class="topbar">
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="#">
+							MarkTex
+						</a>
+						<ul class="nav navbar-nav navbar-right">
+        					<li style="padding-top: 0.3em;"><span class="label" ng-class="state | rstolabel">{{ state | rstotext }}</span></li>
+        				</ul>
+						<span>{{ pendingdata }}</span>
+					</div>
+				</div>
+			</nav>
 		</div>
 		<div ui-layout-container> 
 			<div ui-layout="{flow : 'column'}" on-resize="onPageResize()">
 				
-				<div ui-layout-container><div ui-ace="aceOptions" ng-model="document" ng-readonly="!docloaded"></div></div>
-				<div ui-layout-container><div tex-markdown="document"></div></div>
+				<div ui-layout-container class="editor-container">
+					<div ui-ace="aceOptions" ng-model="document" ng-readonly="!docloaded"></div>
+				</div>
+				<div ui-layout-container class="document-container">
+					<div tex-markdown="document"></div>
+				</div>
 
 			</div>
 		</div>

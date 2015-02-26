@@ -1,5 +1,5 @@
 require('../bower_components/ace-builds/src-min-noconflict/ace');
-require('../bower_components/ace-builds/src-min-noconflict/theme-twilight.js');
+require('../bower_components/ace-builds/src-min-noconflict/theme-chrome.js');
 require('../bower_components/ace-builds/src-min-noconflict/mode-markdown.js');
 require('jquery');
 require('angular');

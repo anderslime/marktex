@@ -71,8 +71,25 @@ body {
 	height: 100%;
 }
 
-.topbar {
-	background-color: lightgray;
+.navbar-default {
+	background-image: none;
+}
+
+.navbar-brand {
+	float: left;
+	padding: 15px 15px;
+	font-size: 18px;
+	line-height: 20px;
+	height: 40px;
+}
+
+.navbar {
+	min-height: auto;
+	margin-bottom: 0;
+}
+
+.navbar-nav {
+	margin: 8px 0;
 }
 
 .document {
@@ -84,12 +101,21 @@ body {
 	display: none;
 }
 
+.document-container {
+	padding: 1em 2em;
+	background-color: rgb(240, 240, 240);
+}
+
+.editor-container {
+	padding: 1em 2em;
+}
+
 .math p, .math div{
 	display:inline;
 }
 
 .ui-splitbar {
-	background-color: lightgray;
+	background-color: rgb(247, 247, 247);
 }
 
 .white {

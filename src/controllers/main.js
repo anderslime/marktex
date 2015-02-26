@@ -10,7 +10,7 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 							function( $scope,   mathjaxservice,   $sce,   $compile,   $routeParams) {
 
 	$scope.state = 0; //connecting
-	$scope.color = 'black';
+	$scope.color = 'white';
 	$scope.document = '';
 	$scope.docloaded = false;
 
@@ -30,6 +30,7 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 
 	//occurs when ace editor is loaded. will initialize a document afterwards
 	var aceLoaded = function(_editor) {
+		_editor.setOption("highlightActiveLine", false);
 		var docname = document.location.href.substring(document.location.href.indexOf('#/') + 2);
 		var doc = sjs.get('docs', docname);
 		
@@ -65,6 +66,7 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 		showGutter: false,
 		theme:'twilight',
 		mode: 'markdown',
+		highlightActiveLine: false,
   		onLoad: aceLoaded
 	};
 
