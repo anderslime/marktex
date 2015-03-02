@@ -13,6 +13,7 @@ require('bootstrap');
 require('uibootstrap');
 require('raf');
 require('uilayout');
+require('ngFacebook');
 require('../components/sharejs/text');
 require('../components/sharejs/ace');
 require('../components/jaxconfig');
@@ -54,8 +55,6 @@ require('./directives/texList');
 require('./directives/texLoader');
 require('./directives/texStateAsHtml');
 require('./directives/texMarkdown');
-
-require('./filters/readystate');
 
 var config = require('config');
 console.log('MarkTex version: ' + config.gitrev + '\n\n');

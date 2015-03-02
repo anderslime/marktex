@@ -54,7 +54,8 @@
     "uiace": "./bower_components/angular-ui-ace/ui-ace.js",
     "showdownmathjax": "./components/showdown.mathjax.js",
     "showdownlinebreak": "./components/showdown.linebreak.js",
-    "sharejs": "./components/sharejs/share.js"
+    "sharejs": "./components/sharejs/share.js",
+    "ngFacebook": "./bower_components/ng-facebook/ngFacebook.js"
   },
   "browserify-shim": {
     "jquery": "$",

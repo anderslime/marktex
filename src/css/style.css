@@ -157,6 +157,10 @@ body {
 	color: white;
 }
 
+.header-profile {
+  display: inline-block;
+}
+
 svg rect {
     fill: white;
 }

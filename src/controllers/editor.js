@@ -1,13 +1,14 @@
 var texapp = require('../main.js');
 
-texapp.controller('editorController', ['$scope', 'mathjaxservice', '$sce', '$compile', '$routeParams',
-							function( $scope,   mathjaxservice,   $sce,   $compile,   $routeParams) {
-
+texapp.controller('editorController',
+  ['$scope', 'mathjaxservice', '$sce', '$compile', '$routeParams', '$facebook',
+  function( $scope,   mathjaxservice,   $sce,   $compile,   $routeParams, $facebook) {
 	$scope.state = 0; //connecting
 	$scope.color = 'white';
 	$scope.document = '';
 	$scope.docloaded = false;
 	$scope.aceEditor = {};
+  $scope.isLoggedIn = false;
 
 	var scaleTimeout;
 	var config = require('config');
@@ -36,7 +37,7 @@ texapp.controller('editorController', ['$scope', 'mathjaxservice', '$sce', '$com
 		var doc = sjs.get('docs', docname);
 
 		_editor.getSession().on('changeScrollTop', function(s){ mathjaxservice.scrollFromEditor(s, _editor); });
-		
+
 		doc.connection.on('connected', function(){
 			socketStateChanged(doc);
 		});
@@ -95,4 +96,37 @@ texapp.controller('editorController', ['$scope', 'mathjaxservice', '$sce', '$com
 		$scope.color = ($scope.color === 'white' ? 'black' : 'white');
 	};
 
+  // Facebook
+  var fetchUserCredentials = function() {
+    $facebook.api('/me').then(function(res) {
+      $scope.username = res.name;
+    });
+  };
+  $scope.onFacebookLoginClick = function() {
+    $facebook.login().then(function(res) {
+      if (res.authResponse) {
+        console.log("Logged in");
+        window.location = "http://marktexx.dev/auth/facebook/callback";
+      } else {
+        console.log("Something went wrong");
+      }
+    }, function(error) {
+      console.log("Something went wrong trying to login");
+    });
+  };
+  $scope.onFacebookLogout = function() {
+    $facebook.logout().then(function(res) {
+      console.log("You are logged out!");
+    }, function(error) {
+      console.log("Something bad happened here");
+    });
+  };
+  $scope.$on('fb.auth.statusChange', function(event, res, FB) {
+    $scope.isLoggedIn = res.status === 'connected';
+    if (res.status === 'connected') {
+      fetchUserCredentials();
+    }
+  });
 }]);
+
+module.exports = texapp;
