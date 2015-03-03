@@ -30,8 +30,10 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 		if(docContainer === undefined)
 			docContainer = $('.document-container');
 
-		if(elm[0] !== undefined)
-	    	return docContainer.animate({scrollTop: docContainer.scrollTop() + elm.offset().top - 64 }, 'slow');
+		if(elm[0] !== undefined){
+			docContainer.stop();
+	    	docContainer.animate({scrollTop: docContainer.scrollTop() + elm.offset().top - 64 }, 'slow');
+		}
 	}
 
 	function lineStartsWithListToken(line, listmode){
@@ -152,7 +154,7 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 			var cindex = editorLines[visiblerow].index;
 			if(cindex === pindex){
 				var coffset = docContainer.scrollTop();
-				console.log(offset);
+				//console.log(offset);
 				return;
 			}
 			pindex = cindex;
