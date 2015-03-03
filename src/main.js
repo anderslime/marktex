@@ -10,6 +10,7 @@ require('uiace');
 window.Showdown = require('showdown');
 require('markdown');
 require('showdownmathjax');
+//require('showdownlinebreak');
 require('bootstrap');
 require('uibootstrap');
 require('raf');

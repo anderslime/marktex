@@ -106,10 +106,11 @@ body {
 .document-container {
 	padding: 1em 2em;
 	background-color: rgb(240, 240, 240);
+	border-top: 13px rgb(240, 240, 240) solid;
 }
 
 .editor-container {
-	margin: 1em 2em;
+	padding: 1em 2em;
 }
 
 .math p, .math div{

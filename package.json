@@ -50,6 +50,7 @@
     "angularroute": "./bower_components/angular-route/angular-route.js",
     "uiace": "./bower_components/angular-ui-ace/ui-ace.js",
     "showdownmathjax": "./components/showdown.mathjax.js",
+    "showdownlinebreak": "./components/showdown.linebreak.js",
     "sharejs": "./components/sharejs/share.js"
   },
   "browserify-shim": {
@@ -98,6 +99,11 @@
       ]
     },
     "showdownmathjax": {
+      "depends": [
+        "showdown"
+      ]
+    },
+    "showdownlinebreak": {
       "depends": [
         "showdown"
       ]
