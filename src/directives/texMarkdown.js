@@ -4,7 +4,7 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', fun
 	var timeout;
 	return {
 		restrict: "A",
-        scope: { 'texMarkdown': '=' },
+        scope: { 'texMarkdown': '=', 'ace': '=' },
         template: '<div class="document"></div><div class="document-preview"></div>',
         link: function(scope, element, attrs) {
         	var pdocElem = element.find('.document-preview');
@@ -16,6 +16,8 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', fun
 				$rootScope.$apply();
 
 				console.log('completed in ' + ((performance.now() - start)/1000).toFixed(2) + ' seconds');
+
+				mathjaxservice.updateScrollSync(scope.ace, docElem);
 			});
 
 			scope.$watch('texMarkdown', function(newVal, oldVal) {
