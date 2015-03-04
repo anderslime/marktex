@@ -11,11 +11,15 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', fun
 			var docElem = element.find('.document');
 			var start;
 
+			$('.document-container').scroll(function(){
+				mathjaxservice.scrollFromDocument(scope.ace);
+			});
+
 			$rootScope.$on('jax-typeset-done', function(e, args){
 				docElem.html(pdocElem.html());
 				$rootScope.$apply();
 
-				console.log('completed in ' + ((performance.now() - start)/1000).toFixed(2) + ' seconds');
+				console.log('typesat in ' + ((performance.now() - start)/1000).toFixed(2) + ' seconds');
 
 				mathjaxservice.updateScrollSync(scope.ace, docElem);
 			});

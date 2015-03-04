@@ -36,10 +36,12 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 
 		_editor.setOption("showPrintMargin", false);
 		_editor.setOption("highlightActiveLine", false);
+		_editor.setAnimatedScroll(true);
+		
 		var docname = document.location.href.substring(document.location.href.indexOf('#/') + 2);
 		var doc = sjs.get('docs', docname);
 
-		_editor.getSession().on('changeScrollTop', function(s){ mathjaxservice.scroll(s, _editor); });
+		_editor.getSession().on('changeScrollTop', function(s){ mathjaxservice.scrollFromEditor(s, _editor); });
 		
 		doc.connection.on('connected', function(){
 			socketStateChanged(doc);
