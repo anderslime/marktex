@@ -18,12 +18,12 @@
             }},
 
             // @block jax syntax
-            { type: 'lang', regex: '\\B(\\\\)?\n~D~D(.+)~D~D\n', replace: function(match, leadingSlash, equation) {
+            { type: 'lang', regex: '\\B(\\\\)?~D~D((.|\\n)*)~D~D', replace: function(match, leadingSlash, equation) {
                 // Check if we matched the leading \ and return nothing changed if so
                 if (leadingSlash === '\\') {
                     return match;
                 } else {
-                    return '<p class="mj loader">$' + equation + '$</p>';
+                    return '<p class="mj loader center">$' + equation + '$</p>';
                 }
             }},
 

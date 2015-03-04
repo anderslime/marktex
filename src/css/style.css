@@ -121,6 +121,10 @@ body {
 	background-color: rgb(247, 247, 247);
 }
 
+.center{
+	text-align: center;
+}
+
 .white {
 	background-color: white;
 	color: #141414;

@@ -49,13 +49,20 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 		if(line === undefined)
 			return false;
 
-		var r;
 		if(listmode)
-			r = new RegExp(/^\ {0,}(\*\ )/); // allow indents if already in listmode
+			return new RegExp(/^\ {0,}(\*\ )/).test(line); // allow indents if already in listmode
 		else
-			r = new RegExp(/^(\*|-)\ /); // true if list
+			return new RegExp(/^(\*|-)\ /).test(line); // true if list
+	}
 
-		return r.test(line);
+	function lineStartsOrEndsWithJaxToken(line, jaxmode){
+		if(line === undefined)
+			return false;
+
+		if(jaxmode)
+			return new RegExp(/\$\$$/).test(line); // true if jax ending
+		else
+			return new RegExp(/^\$\$/).test(line); // true if jax starting
 	}
 
 	function shouldCombineWithPreviousLine(prev, curr){
@@ -168,7 +175,7 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 			//all meta info will be mapped to the previous line that mapped to an element
 			//all lines are considered, this runs in O(n) time
 			editorLines = editor.getSession().doc.getAllLines();
-			var p, listmode = false, cIsCodeLine = false, li = 0, pli = -1, prevLineBreaks = false, pIsCodeLine = false, stack = [];
+			var p, listmode = false, jaxmode = false, cIsCodeLine = false, li = 0, pli = -1, prevLineBreaks = false, pIsCodeLine = false, stack = [];
 			for(var i = 0; i < editorLines.length; i++){
 				var c = editorLines[i];										//c is current line, p is previous
 				cIsCodeLine = isCodeLine(p, c, listmode);					//check if current line is a code block
@@ -177,6 +184,11 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 					li++;													//beginning a code block maps to an element
 				}else if(cIsCodeLine && pIsCodeLine){ 						//if continuing code block
 																			//continuing a code block does not map to an element
+				}else if(lineStartsOrEndsWithJaxToken(c, jaxmode)){			//check if line is a list
+					if(!jaxmode)
+						li++;
+					jaxmode = !jaxmode;
+				}else if (jaxmode){
 				}else if(lineStartsWithListToken(c, listmode)){				//check if line is a list
 					li++;													//we can map each list item to an element
 					listmode = true;
@@ -190,7 +202,7 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 					}
 				}
 				pIsCodeLine = cIsCodeLine;									//insert object with mapping between editor line and document element
-				editorLines[i] = { index: li, editorIndex: i, element: docElements[li] };
+				editorLines[i] = { index: li, editorIndex: i, element: docElements[li], value: editorLines[i] };
 				if(li > pli){												//if we mapped to a new element, we want to !guess! a scroll position
 					if(stack.length > 0){									//for all lines grouped into the previous element.
 						//get the height of the element that the last group maps to. Divide this height by the group size.
@@ -207,6 +219,9 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 				p = c;
 				pli = li;
 			}
+
+			console.log(editorLines.map(function(e){ return e. index + ' ' + e.value; }).join('\n'));
+
 			//scroll to editor position after an index
 			this.scrollFromEditor(0, editor);
 			console.log('scroll indexed in ' + ((performance.now() - start)/1000).toFixed(2) + ' seconds');
