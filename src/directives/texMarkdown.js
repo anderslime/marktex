@@ -33,11 +33,12 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', fun
 				timeout = setTimeout(function(){
 					start = performance.now();
 					console.log('markdowning...');
-					pdocElem.html(mathjaxservice.markdown(newVal));
+					var mdtext = mathjaxservice.markdown(newVal);
+					pdocElem.html(mdtext);
 			    	$compile(element.contents())(scope);
 			    	console.log('markdowned in ' + ((performance.now() - start)/1000).toFixed(2) + ' seconds');
 			    	console.log('typesetting...');
-					$rootScope.$broadcast('jax-typeset', pdocElem);
+					$rootScope.$broadcast('jax-typeset', { pdoc: pdocElem, mdtext: mdtext });
 				}, 300);
 
 			});

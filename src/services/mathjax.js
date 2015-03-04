@@ -17,7 +17,13 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 
 	$rootScope.$on('jax-typeset', function(e, args){
 		typesetting = true;
-		MathJax.Hub.Queue(['Typeset', MathJax.Hub, args[0]]);
+		if(!(new RegExp(/p class="mj /)).test(args.mdtext)){
+			// do not waste time on typesetting, if there is no mathjax
+			$rootScope.$broadcast('jax-typeset-done');
+			return;
+		}
+
+		MathJax.Hub.Queue(['Typeset', MathJax.Hub, args.pdoc[0]]);
 		MathJax.Hub.Queue(function(x){
 			typesetting = false;
 			$rootScope.$broadcast('jax-typeset-done');
@@ -63,6 +69,12 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 			return new RegExp(/\$\$$/).test(line); // true if jax ending
 		else
 			return new RegExp(/^\$\$/).test(line); // true if jax starting
+	}
+
+	function lineStartsAndEndsWithJaxToken(line){
+		if(line === undefined)
+			return false;
+		return new RegExp(/^\$\$(.*)\$\$$/).test(line); // true if jax starting and ending
 	}
 
 	function shouldCombineWithPreviousLine(prev, curr){
@@ -184,10 +196,11 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 					li++;													//beginning a code block maps to an element
 				}else if(cIsCodeLine && pIsCodeLine){ 						//if continuing code block
 																			//continuing a code block does not map to an element
-				}else if(lineStartsOrEndsWithJaxToken(c, jaxmode)){			//check if line is a list
+				}else if(lineStartsOrEndsWithJaxToken(c, jaxmode)){			//check if line is starting/ending jax block
 					if(!jaxmode)
 						li++;
-					jaxmode = !jaxmode;
+					if(!lineStartsAndEndsWithJaxToken(c))
+						jaxmode = !jaxmode;
 				}else if (jaxmode){
 				}else if(lineStartsWithListToken(c, listmode)){				//check if line is a list
 					li++;													//we can map each list item to an element
@@ -202,7 +215,7 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 					}
 				}
 				pIsCodeLine = cIsCodeLine;									//insert object with mapping between editor line and document element
-				editorLines[i] = { index: li, editorIndex: i, element: docElements[li], value: editorLines[i] };
+				editorLines[i] = { index: li, editorIndex: i, element: docElements[li]/*, value: editorLines[i]*/ };
 				if(li > pli){												//if we mapped to a new element, we want to !guess! a scroll position
 					if(stack.length > 0){									//for all lines grouped into the previous element.
 						//get the height of the element that the last group maps to. Divide this height by the group size.
@@ -220,7 +233,7 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 				pli = li;
 			}
 
-			console.log(editorLines.map(function(e){ return e. index + ' ' + e.value; }).join('\n'));
+			//console.log(editorLines.map(function(e){ return e. index + ' ' + e.value; }).join('\n'));
 
 			//scroll to editor position after an index
 			this.scrollFromEditor(0, editor);
