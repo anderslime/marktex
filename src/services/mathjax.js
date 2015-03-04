@@ -62,17 +62,17 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 		if(prev === undefined)
 			return true; //first line should have index 0
 
-		var r = new RegExp(/^\ {0,3}(\*\ |#)/); // true if header or list
+		var r = new RegExp(/^\ {0,3}(\*\ |#|\$\$)/); // true if header or list or jax
 		var prevIsNotHeaderOrList = !r.test(prev) && !isBlank(prev);
 		var prevIsNotBlank = !isBlank(prev);
-		var currIsNotHeaderOrList = !r.test(curr) && !isBlank(curr);
+		var currIsNotHeaderOrListOrJax = !r.test(curr) && !isBlank(curr);
 
 		var currIsLink = new RegExp(/^\ {1,3}(\[.+\]):\s/).test(curr);
 
 		if(currIsLink)
 			return true;
 
-		if(prevIsNotBlank && currIsNotHeaderOrList)
+		if(prevIsNotBlank && currIsNotHeaderOrListOrJax)
 			return true;
 		
 		return false;
@@ -136,12 +136,28 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 			//scroll experience, other elements could be unwrapped if desired, otherwise
 			//it will fall back to the outermost element.
 			docElements = [];
+			var skipNextP = false;
 			for(var e = 0; e < doc.children().length; e++){
 				var tagname = doc.children()[e].tagName;
+				var classnames = doc.children()[e].className;
+
+				if(skipNextP && tagname === 'P'){
+					skipNextP = false;
+					continue;
+				}
+
 				if(tagname === 'UL' || tagname === 'OL')
 					docElements.push.apply(docElements, $(doc.children()[e]).find('li'));
 				else if(tagname === 'PRE')
 					docElements.push.apply(docElements, $(doc.children()[e]).find('code'));
+				else if(tagname === 'SCRIPT'){
+					skipNextP = true; 	// mathjax inserts nasty paragraphs after equations
+				}else if(tagname === 'DIV' && classnames.indexOf('MathJax_Display') > -1){
+					docElements.pop();  // mathjax inserts nasty paragraphs before equations
+					docElements.push(doc.children()[e]);
+				}else if(tagname === 'SPAN' && classnames.indexOf('mj loader') > -1){
+					skipNextP = true; 	//skip more nasty mathjax elements
+				}
 				else
 					docElements.push(doc.children()[e]);
 			}

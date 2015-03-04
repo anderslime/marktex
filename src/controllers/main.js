@@ -37,7 +37,7 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 		_editor.setOption("showPrintMargin", false);
 		_editor.setOption("highlightActiveLine", false);
 		_editor.setAnimatedScroll(true);
-		
+
 		var docname = document.location.href.substring(document.location.href.indexOf('#/') + 2);
 		var doc = sjs.get('docs', docname);
 
@@ -64,6 +64,7 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 
 			doc.attach_ace(_editor);
 			socketStateChanged();
+			_editor.scrollToLine(0, false, false, function(){});
 		});
 
 		doc.subscribe();

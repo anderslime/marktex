@@ -7,13 +7,23 @@
     var mathjax = function(converter) {
         return [
 
-            // @username syntax
-            { type: 'lang', regex: '\\B(\\\\)?~D(.+)~D', replace: function(match, leadingSlash, equation) {
+            // @inline jax syntax
+            { type: 'lang', regex: '\\B(\\\\)?\ ~D(.+)~D', replace: function(match, leadingSlash, equation) {
                 // Check if we matched the leading \ and return nothing changed if so
                 if (leadingSlash === '\\') {
                     return match;
                 } else {
                     return '<span class="mj loader">$' + equation + '$</span>';
+                }
+            }},
+
+            // @block jax syntax
+            { type: 'lang', regex: '\\B(\\\\)?\n~D~D(.+)~D~D\n', replace: function(match, leadingSlash, equation) {
+                // Check if we matched the leading \ and return nothing changed if so
+                if (leadingSlash === '\\') {
+                    return match;
+                } else {
+                    return '<p class="mj loader">$' + equation + '$</p>';
                 }
             }},
 
