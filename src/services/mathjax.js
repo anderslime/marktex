@@ -233,11 +233,11 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 				pli = li;
 			}
 
-			console.log(editorLines.map(function(e){ return e. index + ' ' + e.value; }).join('\n'));
+			//console.log(editorLines.map(function(e){ return e. index + ' ' + e.value; }).join('\n'));
 
 			//scroll to editor position after an index
 			this.scrollFromEditor(0, editor);
-			//console.log('scroll indexed in ' + ((performance.now() - start)/1000).toFixed(2) + ' seconds');
+			console.log('scroll indexed in ' + ((performance.now() - start)/1000).toFixed(2) + ' seconds');
 		},
 		scrollFromEditor: function(offset, aceEditor){
 			if((performance.now() - docScrolling) < 1000)
