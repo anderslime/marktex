@@ -215,7 +215,7 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 					}
 				}
 				pIsCodeLine = cIsCodeLine;									//insert object with mapping between editor line and document element
-				editorLines[i] = { index: li, editorIndex: i, element: docElements[li]/*, value: editorLines[i]*/ };
+				editorLines[i] = { index: li, editorIndex: i, element: docElements[li], value: editorLines[i] };
 				if(li > pli){												//if we mapped to a new element, we want to !guess! a scroll position
 					if(stack.length > 0){									//for all lines grouped into the previous element.
 						//get the height of the element that the last group maps to. Divide this height by the group size.
@@ -233,11 +233,11 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 				pli = li;
 			}
 
-			//console.log(editorLines.map(function(e){ return e. index + ' ' + e.value; }).join('\n'));
+			console.log(editorLines.map(function(e){ return e. index + ' ' + e.value; }).join('\n'));
 
 			//scroll to editor position after an index
 			this.scrollFromEditor(0, editor);
-			console.log('scroll indexed in ' + ((performance.now() - start)/1000).toFixed(2) + ' seconds');
+			//console.log('scroll indexed in ' + ((performance.now() - start)/1000).toFixed(2) + ' seconds');
 		},
 		scrollFromEditor: function(offset, aceEditor){
 			if((performance.now() - docScrolling) < 1000)
