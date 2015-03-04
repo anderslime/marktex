@@ -17,7 +17,7 @@
 </head>
 
 <body ng-controller="mainController" ng-class="color">
-	<div ui-layout="{dividerSize: 0}">
+	<div ui-layout="{ dividerSize: 0 }">
 		<div ui-layout-container size="50px" class="topbar">
 			<nav class="navbar navbar-default">
 				<div class="container-fluid">
@@ -34,7 +34,7 @@
 			</nav>
 		</div>
 		<div ui-layout-container> 
-			<div ui-layout="{flow : 'column'}" on-resize="onPageResize()">
+			<div ui-layout="{flow : 'column', onresize: onPageResize }">
 				
 				<div ui-layout-container class="editor-container">
 					<div ui-ace="aceOptions" ng-model="document" ng-readonly="!docloaded"></div>

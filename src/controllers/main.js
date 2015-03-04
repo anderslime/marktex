@@ -87,10 +87,13 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 	};
 
 	//fired on page resize, both window and columns
-	//updates zoom ratio and typesets afterwards
 	$scope.onPageResize = function(){
-		mathjaxservice.updateZoom();
-		mathjaxservice.typeset($scope.expression, 300);
+		if(scaleTimeout)
+			clearTimeout(scaleTimeout);
+
+		scaleTimeout = setTimeout(function(){
+			mathjaxservice.updateScrollSync($scope.aceEditor, $('.document'));
+		}, 100);
 	};
 
 	//controls black/white theme by inverting colors

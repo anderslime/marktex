@@ -134,6 +134,9 @@ angular.module('ui.layout', [])
 
       //Animate the page outside the event
       animationFrameRequested = window.requestAnimationFrame(draw);
+      
+      //run event handler
+      ctrl.opts.onresize();
     };
 
     /**
