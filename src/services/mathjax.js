@@ -26,13 +26,14 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 		return value.replace(/\\#/g,'\\\\#');
 	}
 
-	function goToByScroll(elm){
+	function goToByScroll(e){
 		if(docContainer === undefined)
 			docContainer = $('.document-container');
 
+		var elm = $(docElements[e.index]);
 		if(elm[0] !== undefined){
 			docContainer.stop();
-	    	docContainer.animate({scrollTop: docContainer.scrollTop() + elm.offset().top - 64 }, 'slow');
+	    	docContainer.animate({scrollTop: docContainer.scrollTop() + elm.offset().top + e.scrollOffset - 64 }, 'slow');
 		}
 	}
 
@@ -95,42 +96,7 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 			if(editor === undefined)
 				return;
 
-			editorLines = editor.getSession().doc.getAllLines();
-
-			var listmode = false;
-			var cIsCodeLine = false;
-			var lastLineWithElement = 0;
-			var prevLineBreaks = false;
-			var pIsCodeLine = false;
-			var p;
-			for(var i = 0; i < editorLines.length; i++){
-				var c = editorLines[i];
-				cIsCodeLine = isCodeLine(p, c, listmode);
-
-				if(cIsCodeLine && !pIsCodeLine && !isBlank(c)){				//if beginning code
-					lastLineWithElement++;
-				}else if(cIsCodeLine && pIsCodeLine){ 						//if continuing code
-					
-				}else if(lineStartsWithListToken(c, listmode)){
-					lastLineWithElement++;
-					listmode = true;
-				}else{
-					if(isBlank(c)){
-						listmode = false; 									//if blank line
-						cIsCodeLine = false;
-					}else{
-						if(!shouldCombineWithPreviousLine(p, c))
-							lastLineWithElement++; //if 
-					}
-				}
-				pIsCodeLine = cIsCodeLine;
-				//add distance from increased index to the next (height of lines that all map to the same element)
-				//add height of this element
-				//the aspect between these, will be multiplied onto the actual scrolled distance
-				//yeah!
-				editorLines[i] = { value: c.trim(), index: lastLineWithElement };
-				p = c;
-			}
+			//index the document elements
 			docElements = [];
 			for(var e = 0; e < doc.children().length; e++){
 				var tagname = doc.children()[e].tagName;
@@ -142,28 +108,72 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 					docElements.push(doc.children()[e]);
 			}
 
-			this.scroll(0, editor);
+			//index ace editorlines
+			editorLines = editor.getSession().doc.getAllLines();
 
-			//console.log(editorLines.map(function(o){return o.index + ' ' + o.value; }).join('\n'));
+			var listmode = false;
+			var cIsCodeLine = false;
+			var li = 0, pli = -1;
+			var prevLineBreaks = false;
+			var pIsCodeLine = false;
+			var p;
+			var stack = [];
+			for(var i = 0; i < editorLines.length; i++){
+				var c = editorLines[i];
+				cIsCodeLine = isCodeLine(p, c, listmode);
+
+				if(cIsCodeLine && !pIsCodeLine && !isBlank(c)){				//if beginning code
+					li++;
+				}else if(cIsCodeLine && pIsCodeLine){ 						//if continuing code
+					
+				}else if(lineStartsWithListToken(c, listmode)){
+					li++;
+					listmode = true;
+				}else{
+					if(isBlank(c)){
+						listmode = false; 									//if blank line
+						cIsCodeLine = false;
+					}else{
+						if(!shouldCombineWithPreviousLine(p, c))
+							li++; //if 
+					}
+				}
+				pIsCodeLine = cIsCodeLine;
+				var lheight = $('.ace_line').first().height();
+				editorLines[i] = { value: c.trim(), index: li };
+				if(li > pli){
+					if(stack.length > 0){
+						//calculate height of stack
+						var elementHeight = $(docElements[stack[0].index]).outerHeight() / (stack.length);
+						for(var s = 0; s < stack.length; s++){
+							stack[s].scrollOffset = s * elementHeight;
+						}
+					}
+					stack = [];
+					stack.push(editorLines[i]);
+				}else
+					stack.push(editorLines[i]);
+
+				p = c;
+				pli = li;
+			}
+			this.scroll(0, editor);
 		},
 		scroll: function(offset, aceEditor){
 			var visiblerow = aceEditor.getFirstVisibleRow();
+			
 			if(editorLines.length <= visiblerow)
 				return;
 
-			var cindex = editorLines[visiblerow].index;
-			if(cindex === pindex){
-				var coffset = docContainer.scrollTop();
-				//console.log(offset);
-				return;
-			}
+			var e = editorLines[visiblerow];
+			var cindex = e.index;
 			pindex = cindex;
 
 			if(scrollTimer)
 				clearTimeout(scrollTimer);
 
 			scrollTimer = setTimeout(function(){
-				goToByScroll($(docElements[cindex]));
+				goToByScroll(e);
 			}, 100);
 		}
 	};
