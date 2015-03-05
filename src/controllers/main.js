@@ -23,6 +23,8 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 	var sjs = new sharejs.Connection(socket);
 	var doc = $('.document');
 
+	console.log('MarkTex version: ' + config.gitrev + '\n\n');
+
 	//listen to sharejs socket state changes
 	function socketStateChanged(doc){
 		$scope.state = (!$scope.docloaded ? 0 : sjs.socket.readyState);

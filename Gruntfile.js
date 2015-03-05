@@ -1,16 +1,16 @@
 module.exports = function(grunt) {
 
-	var config = {
-		dev: {
-			serverurl: 'http://localhost:7000/channel'
-		},
-		dist: {
-			serverurl: 'http://enigmatic-citadel-9501.herokuapp.com/channel'
-		}
-	};
-
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
+
+		config: {
+			dev: {
+				serverurl: 'http://localhost:7000/channel'
+			},
+			dist: {
+				serverurl: 'http://enigmatic-citadel-9501.herokuapp.com/channel'
+			}
+		},
 		
 		copy: {
 			dist: {
@@ -97,7 +97,7 @@ module.exports = function(grunt) {
 				replacements: [{
 					from: '\'@@config\'',
 					to: function (match) {
-						return JSON.stringify(config.dev);
+						return JSON.stringify(grunt.config('config.dev'));
 					}
 				}]
 			},
@@ -107,7 +107,7 @@ module.exports = function(grunt) {
 				replacements: [{
 					from: '\'@@config\'',
 					to: function (match) {
-						return JSON.stringify(config.dist);
+						return JSON.stringify(grunt.config('config.dist'));
 					}
 				}]
 			}
@@ -141,7 +141,16 @@ module.exports = function(grunt) {
 		},
 
 		jshint: {
-		    all: [ 'Gruntfile.js', 'src/**/*.js' ]
+				all: [ 'Gruntfile.js', 'src/**/*.js' ]
+		},
+
+		'git-describe': {
+				options: {
+					// Task-specific options go here.
+				},
+				all: {
+
+				}
 		}
 
 	});
@@ -155,9 +164,17 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-htmlmin');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-git-describe');
 
-	grunt.registerTask('default', [ 'jshint', 'clean:dist', 'copy:dist', 'replace:dev', 'browserify:dev', 'cssmin', 'connect:server', 'watch' ]);
-	grunt.registerTask('watchbase', [ 'jshint', 'copy:dist', 'replace:dev', 'cssmin', 'browserify:dev' ]);
-	grunt.registerTask('heroku', [ 'jshint', 'clean:dist', 'copy:dist', 'replace:dist', 'browserify:dist', 'cssmin', 'htmlmin' ]);
+	grunt.event.once('git-describe', function (rev) {
+		grunt.log.writeln("Git Revision: " + rev);
+		grunt.option('gitRevision', rev);
+		grunt.config('config.dev.gitrev', rev[0]);
+		grunt.config('config.dist.gitrev', rev[0]);
+	});
+
+	grunt.registerTask('default', [ 'jshint', 'git-describe', 'clean:dist', 'copy:dist', 'replace:dev', 'browserify:dev', 'cssmin', 'connect:server', 'watch' ]);
+	grunt.registerTask('watchbase', [ 'jshint', 'git-describe', 'copy:dist', 'replace:dev', 'cssmin', 'browserify:dev' ]);
+	grunt.registerTask('heroku', [ 'jshint', 'git-describe', 'clean:dist', 'copy:dist', 'replace:dist', 'browserify:dist', 'cssmin', 'htmlmin' ]);
 
 };
