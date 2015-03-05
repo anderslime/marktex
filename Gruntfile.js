@@ -175,6 +175,6 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('default', [ 'jshint', 'git-describe', 'clean:dist', 'copy:dist', 'replace:dev', 'browserify:dev', 'cssmin', 'connect:server', 'watch' ]);
 	grunt.registerTask('watchbase', [ 'jshint', 'git-describe', 'copy:dist', 'replace:dev', 'cssmin', 'browserify:dev' ]);
-	grunt.registerTask('heroku', [ 'jshint', 'git-describe', 'clean:dist', 'copy:dist', 'replace:dist', 'browserify:dist', 'cssmin', 'htmlmin' ]);
+	grunt.registerTask('heroku', [ 'jshint', 'clean:dist', 'copy:dist', 'replace:dist', 'browserify:dist', 'cssmin', 'htmlmin' ]);
 
 };
