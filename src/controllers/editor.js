@@ -1,5 +1,6 @@
 var texapp = require('../main.js');
 
+
 texapp.controller('editorController',
   ['$scope', 'mathjaxservice', '$sce', '$compile', '$routeParams', '$facebook', '$http',
   function( $scope,   mathjaxservice,   $sce,   $compile,   $routeParams, $facebook, $http) {

@@ -18,7 +18,7 @@ require('../components/sharejs/text');
 require('../components/sharejs/ace');
 require('../components/jaxconfig');
 
-var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.layout', 'ui.ace', 'ngRoute']);
+var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.layout', 'ui.ace', 'ngRoute', 'ngFacebook']);
 module.exports = texapp;
 
 require('../tmp/templates');
@@ -28,6 +28,24 @@ texapp.config(['markdownConverterProvider', function (markdownConverterProvider)
 		extensions: ['mathjax']
 	});
 }]);
+
+texapp.config(['$facebookProvider', function (facebookProvider) {
+  var config = require('config');
+  facebookProvider.setAppId(config.facebook.appID);
+  facebookProvider.setAppId('878282388901735');
+  facebookProvider.setVersion('v2.2');
+  facebookProvider.setPermissions("email");
+}]).run(function() {
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+});
+
+
 
 texapp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.
