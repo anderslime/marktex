@@ -14,10 +14,10 @@ texapp.filter('rstotext', [function() {
 texapp.filter('rstolabel', [function() {
 	return function(input){
 		switch(input){
-			case 0: return 'label-info';
-			case 1: return 'label-success';
-			case 2: return 'label-warning';
-			case 3: return 'label-danger';
+			case 0: return 'label label-info';
+			case 1: return '';
+			case 2: return 'label label-warning';
+			case 3: return 'label label-danger';
 		}
 	};
 }]);
