@@ -12,7 +12,7 @@ module.exports = function(grunt) {
 				serverurl: 'http://enigmatic-citadel-9501.herokuapp.com/channel'
 			}
 		},
-		
+
 		copy: {
 			dist: {
 				files: [
@@ -76,7 +76,10 @@ module.exports = function(grunt) {
 		connect: {
 			options: {
 				port: 9000,
-				hostname: '0.0.0.0'
+				hostname: '0.0.0.0',
+        onCreateServer: function() {
+          require('node-pow')('www.marktexx', 9000);
+        }
 			},
 			rules: [
 				{ from: '^(?!.*\\.js|.*\\.css|.*\\.woff2).*', to: '/index.html' },
