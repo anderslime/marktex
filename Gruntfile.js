@@ -85,10 +85,7 @@ module.exports = function(grunt) {
 		connect: {
 			options: {
 				port: 9000,
-				hostname: '0.0.0.0',
-				onCreateServer: function() {
-					require('node-pow')('www.marktexx', 9000);
-				}
+				hostname: '0.0.0.0'
 			},
 			rules: [
 				{ from: '^(?!.*\\.js|.*\\.css|.*\\.woff2).*', to: '/index.html' },
