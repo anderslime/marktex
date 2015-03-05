@@ -203,6 +203,6 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('default', [ 'jshint', 'git-describe', 'clean:dist', 'copy:dist', 'file-creator:dev', 'ngtemplates', 'browserify:dev', 'cssmin', 'clean:tmp', 'connect:server', 'watch' ]);
 	grunt.registerTask('watchbase', [ 'jshint', 'git-describe', 'copy:dist', 'file-creator:dev', 'cssmin', 'ngtemplates', 'browserify:dev', 'clean:tmp' ]);
-	grunt.registerTask('heroku', [ 'jshint', 'clean:dist', 'copy:dist', 'file-creator:dist', 'browserify:dist', 'cssmin', 'htmlmin', 'clean:tmp' ]);
+	grunt.registerTask('heroku', [ 'jshint', 'clean:dist', 'copy:dist', 'file-creator:dist', 'ngtemplates', 'browserify:dist', 'cssmin', 'htmlmin', 'clean:tmp' ]);
 
 };
