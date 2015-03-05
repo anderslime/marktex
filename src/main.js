@@ -28,9 +28,9 @@ texapp.config(['markdownConverterProvider', function (markdownConverterProvider)
 	});
 }]);
 
-texapp.config(['$routeProvider', function($routeProvider) {
+texapp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.
-    	when('/editor', {
+    	when('/editor/:docId?', {
 	        templateUrl: 'templates/controllers/editor.html',
 	        controller: 'editorController'
     	}).
@@ -41,6 +41,8 @@ texapp.config(['$routeProvider', function($routeProvider) {
     	otherwise({
         	redirectTo: '/documents'
     	});
+
+    $locationProvider.html5Mode(true);
 }]);
 
 require('./controllers/editor');

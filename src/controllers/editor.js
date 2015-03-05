@@ -32,7 +32,7 @@ texapp.controller('editorController', ['$scope', 'mathjaxservice', '$sce', '$com
 		_editor.setOption("highlightActiveLine", false);
 		_editor.setAnimatedScroll(true);
 
-		var docname = document.location.href.substring(document.location.href.indexOf('#/') + 2);
+		var docname = $routeParams.docId || 'dojo';
 		var doc = sjs.get('docs', docname);
 
 		_editor.getSession().on('changeScrollTop', function(s){ mathjaxservice.scrollFromEditor(s, _editor); });

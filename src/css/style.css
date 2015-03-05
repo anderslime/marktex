@@ -71,7 +71,7 @@ body {
 	height: 100%;
 }
 
-@media (min-width: 768px)
+/*@media (min-width: 768px)*/
 .navbar-collapse {
 	width: auto;
 	border-top: 0;
@@ -82,6 +82,11 @@ body {
 .navbar-text {
 	margin-top: 10px;
 	margin-bottom: 0;
+}
+
+.navbar-nav > li > a {
+	padding-top: 0;
+	padding-bottom: 0;
 }
 
 .navbar-default {

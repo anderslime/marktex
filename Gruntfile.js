@@ -43,6 +43,7 @@ module.exports = function(grunt) {
 				src: 'src/main.js',
 				dest: 'dist/main.min.js',
 				options: {
+					sourcemap: false,
 					transform: ['uglifyify'] // minifyify!
 				}
 			}
@@ -201,7 +202,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('default', [ 'jshint', 'git-describe', 'clean:dist', 'copy:dist', 'file-creator:dev', 'ngtemplates', 'browserify:dev', 'cssmin', 'clean:tmp', 'connect:server', 'watch' ]);
-	grunt.registerTask('watchbase', [ 'jshint', 'git-describe', 'copy:dist', 'file-creator:dev', 'cssmin', 'ngtemplates', 'browserify:dev'/*, 'clean:tmp'*/ ]);
+	grunt.registerTask('watchbase', [ 'jshint', 'git-describe', 'copy:dist', 'file-creator:dev', 'cssmin', 'ngtemplates', 'browserify:dev', 'clean:tmp' ]);
 	grunt.registerTask('heroku', [ 'jshint', 'clean:dist', 'copy:dist', 'file-creator:dist', 'browserify:dist', 'cssmin', 'htmlmin', 'clean:tmp' ]);
 
 };

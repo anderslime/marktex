@@ -24,7 +24,8 @@
     "browserify": "^9.0.3",
     "browserify-shim": "^3.8.3",
     "grunt-text-replace": "^0.4.0",
-    "uglifyify": "^3.0.1"
+    "uglifyify": "^3.0.1",
+    "compression": "^1.4.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -41,7 +42,7 @@
     "jquery": "./bower_components/jquery/dist/jquery.js",
     "angular": "./bower_components/angular/angular.js",
     "angularsanitize": "./bower_components/angular-sanitize/angular-sanitize.js",
-    "showdown": "./bower_components/showdown/compressed/Showdown.js",
+    "showdown": "./bower_components/showdown/src/showdown.js",
     "markdown": "./bower_components/angular-markdown-directive/markdown.js",
     "bootstrap": "./bower_components/bootstrap/dist/js/bootstrap.js",
     "uibootstrap": "./bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
@@ -117,7 +118,6 @@
     ]
   },
   "devDependencies": {
-    "compression": "^1.4.1",
     "grunt-angular-templates": "^0.5.7",
     "grunt-contrib-cssmin": "^0.12.2",
     "grunt-contrib-htmlmin": "^0.4.0",
