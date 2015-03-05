@@ -32,7 +32,7 @@
                 if (leadingSlash === '\\') {
                     return match;
                 } else {
-                    return '<span class="mj loader">$%' + equation + '$%</span>';
+                    return '<span class="mj loader">$' + equation + '$</span>';
                 }
             }},
 

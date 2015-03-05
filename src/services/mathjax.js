@@ -17,7 +17,7 @@ texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope'
 
 	$rootScope.$on('jax-typeset', function(e, args){
 		typesetting = true;
-		if(!(new RegExp(/p class="mj /)).test(args.mdtext)){
+		if(!(new RegExp(/ class="mj /)).test(args.mdtext)){
 			// do not waste time on typesetting, if there is no mathjax
 			$rootScope.$broadcast('jax-typeset-done');
 			return;
