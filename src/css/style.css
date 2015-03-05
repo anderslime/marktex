@@ -89,6 +89,15 @@ body {
 	padding-bottom: 0;
 }
 
+.navbar, .navbar .container-fluid {
+  height: 50px;
+}
+
+.navbar-nav > li > a {
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
 .navbar-default {
 	background-image: none;
 	padding-bottom: 7px !important;
@@ -111,6 +120,24 @@ body {
 
 .navbar-nav {
 	margin: 8px 0;
+}
+
+.navbar-nav > li > a.facebook-login,
+.navbar-nav > li > a.facebook-login:hover {
+  background-color: #3a5795;
+  text-shadow: none;
+  cursor: pointer;
+}
+
+.navbar-nav > li > a.facebook-logout,
+.navbar-nav > li > a.facebook-logout:hover {
+  background-color: #cccccc;
+  cursor: pointer;
+}
+
+.navbar-text {
+  margin-top: 7px;
+  margin-bottom: 7px;
 }
 
 .document {

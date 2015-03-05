@@ -1,14 +1,16 @@
 var texapp = require('../main.js');
 
 texapp.controller('editorController',
-  ['$scope', 'mathjaxservice', '$sce', '$compile', '$routeParams', '$facebook',
-  function( $scope,   mathjaxservice,   $sce,   $compile,   $routeParams, $facebook) {
+  ['$scope', 'mathjaxservice', '$sce', '$compile', '$routeParams', '$facebook', '$http',
+  function( $scope,   mathjaxservice,   $sce,   $compile,   $routeParams, $facebook, $http) {
+
 	$scope.state = 0; //connecting
 	$scope.color = 'white';
 	$scope.document = '';
 	$scope.docloaded = false;
 	$scope.aceEditor = {};
   $scope.isLoggedIn = false;
+  $scope.isLoginStatusReady = false;
 
 	var scaleTimeout;
 	var config = require('config');
@@ -98,14 +100,14 @@ texapp.controller('editorController',
 
   // Facebook
   var fetchUserCredentials = function() {
-    $facebook.api('/me').then(function(res) {
-      $scope.username = res.name;
-    });
+    $http.get("http://marktexx.dev/me", { withCredentials: true })
+         .success(function(user) {
+           $scope.username = user.name;
+         });
   };
   $scope.onFacebookLoginClick = function() {
     $facebook.login().then(function(res) {
       if (res.authResponse) {
-        console.log("Logged in");
         window.location = "http://marktexx.dev/auth/facebook/callback";
       } else {
         console.log("Something went wrong");
@@ -123,6 +125,8 @@ texapp.controller('editorController',
   };
   $scope.$on('fb.auth.statusChange', function(event, res, FB) {
     $scope.isLoggedIn = res.status === 'connected';
+    $scope.isLoginStatusReady = true;
+
     if (res.status === 'connected') {
       fetchUserCredentials();
     }
