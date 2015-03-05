@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+	var rewriteUtils = require('./components/rewrite-utils');
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -78,41 +79,20 @@ module.exports = function(grunt) {
 				hostname: '0.0.0.0'
 			},
 			rules: [
-				{ from: '/d/([0-9]+)/?$', to: '/index.html' }
+				{ from: '^(?!.*\\.js|.*\\.css|.*\\.woff2).*', to: '/index.html' },
+				{ from: '(^.*(\.js|\.css|\.woff2).*$)', to: '/$1' }
 			],
 			server: {
 				options: {
 					middleware: function (connect) {
 						return [
 							require('connect-livereload')(),
+							rewriteUtils.rewriteRequest,
 							connect.static('dist')
 						];
 					}
 
 				}
-			}
-		},
-
-		replace: {
-			dev: {
-				src: [ './src/config.js' ],
-				dest: './src/config.dev.js',
-				replacements: [{
-					from: '\'@@config\'',
-					to: function (match) {
-						return JSON.stringify(grunt.config('config.dev'));
-					}
-				}]
-			},
-			dist: {
-				src: [ './src/config.js' ],
-				dest: './src/config.dev.js',
-				replacements: [{
-					from: '\'@@config\'',
-					to: function (match) {
-						return JSON.stringify(grunt.config('config.dist'));
-					}
-				}]
 			}
 		},
 
@@ -193,6 +173,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-git-describe');
 	grunt.loadNpmTasks('grunt-angular-templates');
 	grunt.loadNpmTasks('grunt-file-creator');
+	grunt.loadNpmTasks('grunt-connect-rewrite');
 
 	grunt.event.once('git-describe', function (rev) {
 		grunt.log.writeln("Git Revision: " + rev);
@@ -201,8 +182,24 @@ module.exports = function(grunt) {
 		grunt.config('config.dist.gitrev', rev[0]);
 	});
 
-	grunt.registerTask('default', [ 'jshint', 'git-describe', 'clean:dist', 'copy:dist', 'file-creator:dev', 'ngtemplates', 'browserify:dev', 'cssmin', 'clean:tmp', 'connect:server', 'watch' ]);
-	grunt.registerTask('watchbase', [ 'jshint', 'git-describe', 'copy:dist', 'file-creator:dev', 'cssmin', 'ngtemplates', 'browserify:dev', 'clean:tmp' ]);
+	grunt.registerTask('configureRewriteCustomRules', 'Configure connect rewriting rules.', function () {
+        var options = this.options({
+            rulesProvider: 'connect.rules'
+        });
+        rewriteUtils.log = grunt.log;
+        (grunt.config(options.rulesProvider) || []).forEach(function (rule) {
+            rule = rule || {};
+            var registeredRule = rewriteUtils.registerRule({from: rule.from, to: rule.to, redirect: rule.redirect});
+            if (registeredRule) {
+                grunt.log.ok('Rewrite rule created for: [' + registeredRule + '].');
+            } else {
+                grunt.log.error('Wrong rule given.');
+            }
+        });
+    });
+
+	grunt.registerTask('default', [ 'jshint', 'git-describe', 'configureRewriteCustomRules', 'clean:dist', 'copy:dist', 'file-creator:dev', 'ngtemplates', 'browserify:dev', 'cssmin', 'clean:tmp', 'connect:server', 'watch' ]);
+	grunt.registerTask('watchbase', [ 'jshint', 'git-describe', 'configureRewriteCustomRules', 'copy:dist', 'file-creator:dev', 'cssmin', 'ngtemplates', 'browserify:dev', 'clean:tmp' ]);
 	grunt.registerTask('heroku', [ 'jshint', 'clean:dist', 'copy:dist', 'file-creator:dist', 'ngtemplates', 'browserify:dist', 'cssmin', 'htmlmin', 'clean:tmp' ]);
 
 };

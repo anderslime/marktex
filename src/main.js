@@ -39,7 +39,7 @@ texapp.config(['$routeProvider', '$locationProvider', function($routeProvider, $
 	        controller: 'documentListController'
     	}).
     	otherwise({
-        	redirectTo: '/documents'
+        	redirectTo: '/editor'
     	});
 
     $locationProvider.html5Mode(true);
