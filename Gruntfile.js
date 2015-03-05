@@ -6,13 +6,22 @@ module.exports = function(grunt) {
 
 		config: {
 			dev: {
-				serverurl: 'http://localhost:7000/channel'
+				serverurl: 'http://localhost:7000/channel',
+				authServerUrl: 'http://localhost:3000',
+				facebook: {
+					appID: '878282388901735',
+					callbackURL: 'http://localhost:3000/auth/facebook/callback'
+				}
 			},
 			dist: {
-				serverurl: 'http://enigmatic-citadel-9501.herokuapp.com/channel'
+				serverurl: 'http://enigmatic-citadel-9501.herokuapp.com/channel',
+				authServerUrl: 'http://marktex-server.herokuapp.com',
+				facebook: {
+					appID: '878282012235106',
+					callbackURL: 'http://marktex-server.herokuapp.com/auth/facebook/callback'
+				}
 			}
 		},
-
 		copy: {
 			dist: {
 				files: [
@@ -77,9 +86,9 @@ module.exports = function(grunt) {
 			options: {
 				port: 9000,
 				hostname: '0.0.0.0',
-        onCreateServer: function() {
-          require('node-pow')('www.marktexx', 9000);
-        }
+				onCreateServer: function() {
+					require('node-pow')('www.marktexx', 9000);
+				}
 			},
 			rules: [
 				{ from: '^(?!.*\\.js|.*\\.css|.*\\.woff2).*', to: '/index.html' },

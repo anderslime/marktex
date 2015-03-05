@@ -100,7 +100,7 @@ texapp.controller('editorController',
 
   // Facebook
   var fetchUserCredentials = function() {
-    $http.get("http://marktexx.dev/me", { withCredentials: true })
+    $http.get(config.authServerUrl + "/me", { withCredentials: true })
          .success(function(user) {
            $scope.username = user.name;
          });
@@ -108,7 +108,7 @@ texapp.controller('editorController',
   $scope.onFacebookLoginClick = function() {
     $facebook.login().then(function(res) {
       if (res.authResponse) {
-        window.location = "http://marktexx.dev/auth/facebook/callback";
+        window.location = config.facebook.callbackURL;
       } else {
         console.log("Something went wrong");
       }
