@@ -1,0 +1,31 @@
+<div ng-controller="editorController" ng-class="color" ui-layout="{ dividerSize: 0 }">
+	<div ui-layout-container size="50px" class="topbar">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">
+						MarkTex
+					</a>
+				</div>
+				<div class="collapse navbar-collapse navbar-right">
+					<p class="navbar-text">
+						<span ng-class="state | rstolabel">{{ state | rstotext }}</span>
+						<span>{{ pendingdata }}</span>
+					</p>
+				</div>
+			</div>
+		</nav>
+	</div>
+	<div ui-layout-container> 
+		<div ui-layout="{flow : 'column', onresize: onPageResize }">
+			
+			<div ui-layout-container class="editor-container">
+				<div ui-ace="aceOptions" ng-model="document" ng-readonly="!docloaded"></div>
+			</div>
+			<div ui-layout-container class="document-container">
+				<div tex-markdown="document" ace="aceEditor" class="tex-document"></div>
+			</div>
+
+		</div>
+	</div>
+</div>

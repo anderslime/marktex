@@ -1,12 +1,6 @@
-var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.layout', 'ui.ace', 'ngRoute']);
+var texapp = require('../main.js');
 
-texapp.config(['markdownConverterProvider', function (markdownConverterProvider) {
-	markdownConverterProvider.config({
-		extensions: ['mathjax']
-	});
-}]);
-
-texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compile', '$routeParams',
+texapp.controller('editorController', ['$scope', 'mathjaxservice', '$sce', '$compile', '$routeParams',
 							function( $scope,   mathjaxservice,   $sce,   $compile,   $routeParams) {
 
 	$scope.state = 0; //connecting
@@ -16,14 +10,12 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 	$scope.aceEditor = {};
 
 	var scaleTimeout;
-	var config = require('../config.dev.js');
+	var config = require('config');
 	var BCSocket = require('../../components/sharejs/channel/bcsocket.js').BCSocket;
 	var sharejs = require('sharejs');
 	var socket = new BCSocket(config.serverurl, { reconnect: true });
 	var sjs = new sharejs.Connection(socket);
 	var doc = $('.document');
-
-	console.log('MarkTex version: ' + config.gitrev + '\n\n');
 
 	//listen to sharejs socket state changes
 	function socketStateChanged(doc){
@@ -104,5 +96,3 @@ texapp.controller('mainController', ['$scope', 'mathjaxservice', '$sce', '$compi
 	};
 
 }]);
-
-module.exports = texapp;

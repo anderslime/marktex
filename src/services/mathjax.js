@@ -1,4 +1,4 @@
-var texapp = require('../controllers/main.js');
+var texapp = require('../main.js');
 
 texapp.factory('mathjaxservice', ['$sanitize', 'markdownConverter', '$rootScope', function($sanitize, markdownConverter, $rootScope) {
 	var sTimeout, typesetting = false;

@@ -1,1 +1,0 @@
-module.exports = {"serverurl":"http://localhost:7000/channel","gitrev":"alpha-0-g2ab2596-dirty"};

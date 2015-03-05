@@ -51,10 +51,12 @@ module.exports = function(grunt) {
 		clean: {
 			dist: {
 				src: [
-					'dist/'/*,
-					'!dist/components/**',
-					'dist/components/*',
-					'!dist/components/MathJax/**'*/
+					'dist/'
+				]
+			},
+			tmp: {
+				src: [
+					'tmp/'
 				]
 			}
 		},
@@ -141,16 +143,39 @@ module.exports = function(grunt) {
 		},
 
 		jshint: {
-				all: [ 'Gruntfile.js', 'src/**/*.js' ]
+			all: [ 'Gruntfile.js', 'src/**/*.js' ]
 		},
 
 		'git-describe': {
-				options: {
-					// Task-specific options go here.
-				},
-				all: {
+			options: {
+				// nothing to see here. move along...
+			},
+			all: {
 
+			}
+		},
+
+		ngtemplates:  {
+			texapp: {
+				cwd: './src/',
+				src: 'templates/**/*.html',
+				dest: './tmp/templates.js'
+			}
+		},
+
+		'file-creator': {
+			dev: {
+				'tmp/config.js': function(fs, fd, done) {
+					fs.writeSync(fd, 'module.exports = ' + JSON.stringify(grunt.config('config.dev')) + ';');
+					done();
 				}
+			},
+			dist: {
+				'tmp/config.js': function(fs, fd, done) {
+					fs.writeSync(fd, 'module.exports = ' + JSON.stringify(grunt.config('config.dist')) + ';');
+					done();
+				}
+			}
 		}
 
 	});
@@ -165,6 +190,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-htmlmin');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-git-describe');
+	grunt.loadNpmTasks('grunt-angular-templates');
+	grunt.loadNpmTasks('grunt-file-creator');
 
 	grunt.event.once('git-describe', function (rev) {
 		grunt.log.writeln("Git Revision: " + rev);
@@ -173,8 +200,8 @@ module.exports = function(grunt) {
 		grunt.config('config.dist.gitrev', rev[0]);
 	});
 
-	grunt.registerTask('default', [ 'jshint', 'git-describe', 'clean:dist', 'copy:dist', 'replace:dev', 'browserify:dev', 'cssmin', 'connect:server', 'watch' ]);
-	grunt.registerTask('watchbase', [ 'jshint', 'git-describe', 'copy:dist', 'replace:dev', 'cssmin', 'browserify:dev' ]);
-	grunt.registerTask('heroku', [ 'jshint', 'clean:dist', 'copy:dist', 'replace:dist', 'browserify:dist', 'cssmin', 'htmlmin' ]);
+	grunt.registerTask('default', [ 'jshint', 'git-describe', 'clean:dist', 'copy:dist', 'file-creator:dev', 'ngtemplates', 'browserify:dev', 'cssmin', 'clean:tmp', 'connect:server', 'watch' ]);
+	grunt.registerTask('watchbase', [ 'jshint', 'git-describe', 'copy:dist', 'file-creator:dev', 'cssmin', 'ngtemplates', 'browserify:dev'/*, 'clean:tmp'*/ ]);
+	grunt.registerTask('heroku', [ 'jshint', 'clean:dist', 'copy:dist', 'file-creator:dist', 'browserify:dist', 'cssmin', 'htmlmin', 'clean:tmp' ]);
 
 };

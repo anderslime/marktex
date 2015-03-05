@@ -46,6 +46,7 @@
     "bootstrap": "./bower_components/bootstrap/dist/js/bootstrap.js",
     "uibootstrap": "./bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
     "raf": "./components/raf/index.js",
+    "config": "./tmp/config.js",
     "uilayout": "./components/angular-ui-layout/ui-layout.js",
     "angularroute": "./bower_components/angular-route/angular-route.js",
     "uiace": "./bower_components/angular-ui-ace/ui-ace.js",
@@ -117,9 +118,11 @@
   },
   "devDependencies": {
     "compression": "^1.4.1",
+    "grunt-angular-templates": "^0.5.7",
     "grunt-contrib-cssmin": "^0.12.2",
     "grunt-contrib-htmlmin": "^0.4.0",
     "grunt-contrib-jshint": "^0.11.0",
+    "grunt-file-creator": "^0.1.2",
     "grunt-git-describe": "^2.3.2"
   }
 }

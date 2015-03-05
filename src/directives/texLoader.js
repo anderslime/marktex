@@ -1,4 +1,4 @@
-var texapp = require('../controllers/main.js');
+var texapp = require('../main.js');
 
 texapp.directive('texLoader', ['$compile', '$templateCache', '$http', function($compile, $templateCache, $http) {
 	return {
