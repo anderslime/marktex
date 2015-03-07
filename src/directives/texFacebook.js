@@ -23,7 +23,7 @@ texapp.directive('texFacebook', ['$http', '$facebook', function($http, $facebook
 			$scope.onFacebookLoginClick = function() {
 				$facebook.login().then(function(res) {
 					if (res.authResponse)
-						window.location = config.facebook.callbackURL;
+						window.location = config.facebook.callbackUrl;
 					else
 						console.log('Something went wrong');
 					
@@ -32,7 +32,7 @@ texapp.directive('texFacebook', ['$http', '$facebook', function($http, $facebook
 				});
 			};
 
-			$scope.onFacebookLogout = function() {
+			$scope.onFacebookLogoutClick = function() {
 				$facebook.logout().then(function(res) {
 					console.log('You are logged out!');
 				}, function(error) {

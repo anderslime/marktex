@@ -1,0 +1,1 @@
+module.exports = {"serverurl":"http://localhost:7000/channel","logging":true,"authServerUrl":"http://localhost:3000","facebook":{"appID":"878282388901735","callbackUrl":"http://localhost:3000/auth/facebook/callback"},"gitrev":"alpha-24-ge8ffacb-dirty"};

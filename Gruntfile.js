@@ -11,7 +11,7 @@ module.exports = function(grunt) {
 				authServerUrl: 'http://localhost:3000',
 				facebook: {
 					appID: '878282388901735',
-					callbackURL: 'http://localhost:3000/auth/facebook/callback'
+					callbackUrl: 'http://localhost:3000/auth/facebook/callback'
 				}
 			},
 			dist: {
@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 				authServerUrl: 'http://marktex-server.herokuapp.com',
 				facebook: {
 					appID: '878282012235106',
-					callbackURL: 'http://marktex-server.herokuapp.com/auth/facebook/callback'
+					callbackUrl: 'http://marktex-server.herokuapp.com/auth/facebook/callback'
 				}
 			}
 		},
