@@ -7,6 +7,7 @@ module.exports = function(grunt) {
 		config: {
 			dev: {
 				serverurl: 'http://localhost:7000/channel',
+				logging: true,
 				authServerUrl: 'http://localhost:3000',
 				facebook: {
 					appID: '878282388901735',
@@ -15,6 +16,7 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				serverurl: 'http://enigmatic-citadel-9501.herokuapp.com/channel',
+				logging: false,
 				authServerUrl: 'http://marktex-server.herokuapp.com',
 				facebook: {
 					appID: '878282012235106',
@@ -116,7 +118,9 @@ module.exports = function(grunt) {
 					'bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
 					'components/angular-ui-layout/ui-layout.css',
 					'src/css/bootstrap-sandstone.css',
-					'src/css/style.css']}
+					'src/css/style.css',
+					'tmp/css/main.css'
+				]}
 			}
 		},
 
@@ -166,6 +170,15 @@ module.exports = function(grunt) {
 					done();
 				}
 			}
+		},
+
+		compass: {
+			all: {
+				options: {
+					sassDir: './src/sass',
+					cssDir: './tmp/css'
+				}
+			}
 		}
 
 	});
@@ -183,6 +196,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-angular-templates');
 	grunt.loadNpmTasks('grunt-file-creator');
 	grunt.loadNpmTasks('grunt-connect-rewrite');
+	grunt.loadNpmTasks('grunt-contrib-compass');
 
 	grunt.event.once('git-describe', function (rev) {
 		grunt.log.writeln("Git Revision: " + rev);
@@ -207,8 +221,8 @@ module.exports = function(grunt) {
         });
     });
 
-	grunt.registerTask('default', [ 'jshint', 'git-describe', 'configureRewriteCustomRules', 'clean:dist', 'copy:dist', 'file-creator:dev', 'ngtemplates', 'browserify:dev', 'cssmin', 'clean:tmp', 'connect:server', 'watch' ]);
-	grunt.registerTask('watchbase', [ 'jshint', 'git-describe', 'configureRewriteCustomRules', 'copy:dist', 'file-creator:dev', 'cssmin', 'ngtemplates', 'browserify:dev', 'clean:tmp' ]);
-	grunt.registerTask('heroku', [ 'jshint', 'clean:dist', 'copy:dist', 'file-creator:dist', 'ngtemplates', 'browserify:dist', 'cssmin', 'htmlmin', 'clean:tmp' ]);
+	grunt.registerTask('default', [ 'jshint', 'git-describe', 'configureRewriteCustomRules', 'clean:dist', 'copy:dist', 'file-creator:dev', 'ngtemplates', 'browserify:dev', 'compass', 'cssmin', 'clean:tmp', 'connect:server', 'watch' ]);
+	grunt.registerTask('watchbase', [ 'jshint', 'git-describe', 'configureRewriteCustomRules', 'copy:dist', 'file-creator:dev', 'compass', 'cssmin', 'ngtemplates', 'browserify:dev', 'clean:tmp' ]);
+	grunt.registerTask('heroku', [ 'jshint', 'clean:dist', 'copy:dist', 'file-creator:dist', 'ngtemplates', 'browserify:dist', 'compass', 'cssmin', 'htmlmin', 'clean:tmp' ]);
 
 };

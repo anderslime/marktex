@@ -1,0 +1,38 @@
+/* ANIMATIONS
+============================================================================= */
+
+.page.ng-leave 	{ z-index:9999; }
+.page.ng-enter 	{ z-index:8888; }
+
+/* page specific animations ------------------------ */
+
+.viewport.ng-enter{
+	-webkit-animation: scaleUpDown 0.5s both ease-in;
+	-moz-animation: scaleUpDown 0.5s both ease-in;
+	animation: scaleUpDown 0.5s both ease-in;
+	-webkit-animation-delay: .3s;
+	animation-delay: .3s;
+}
+
+.viewport.ng-leave {
+    -webkit-animation: scaleDown .7s ease both;
+	animation: scaleDown .7s ease both;
+}
+
+@-webkit-keyframes scaleUpDown {
+	from { opacity: 0; -webkit-transform: scale(1.2); }
+}
+
+@keyframes scaleUpDown {
+	from { opacity: 0; -webkit-transform: scale(1.2); transform: scale(1.2); }
+}
+
+@-webkit-keyframes scaleDown {
+	from { }
+	to { opacity: 0; -webkit-transform: scale(.8); }
+}
+
+@keyframes scaleDown {
+	from { }
+	to { opacity: 0; -webkit-transform: scale(.8); transform: scale(.8); }
+}

@@ -52,6 +52,11 @@ html, body {
 body {
 	box-sizing: border-box;
 	font-family: 'Source Sans Pro', 'Computer Modern', sans-serif;
+	height: 100%;
+}
+
+.viewport, .editor {
+	height: 100%;
 }
 
 .texinput {
@@ -68,6 +73,15 @@ body {
 	position:absolute;
 	top:0;
 	bottom:0;
+	height: 100%;
+}
+
+.tex-markdown-container {
+	position: relative;
+	height: 100%;
+}
+
+.tex-markdown {
 	height: 100%;
 }
 

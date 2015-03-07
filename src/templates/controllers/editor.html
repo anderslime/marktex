@@ -1,43 +1,4 @@
-<div ng-controller="editorController" ng-class="color" ui-layout="{ dividerSize: 0 }">
-	<div ui-layout-container size="50px" class="topbar">
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="#">
-						MarkTex
-					</a>
-				</div>
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="/editor">Dojo <span class="sr-only">(dojo)</span></a></li>
-					<li><a href="/documents">Documents <span class="sr-only">(documents)</span></a></li>
-				</ul>
-				<div class="collapse navbar-collapse navbar-right">
-					<p class="navbar-text">
-						<span ng-class="state | rstolabel">{{ state | rstotext }}</span>
-						<span>{{ pendingdata }}</span>
-					</p>
-					<ul class="nav navbar-nav">
-						<li>
-							<a ng-click="onFacebookLoginClick()" ng-hide="isLoggedIn" class="ng-hide">Facebook</a>
-						</li>
-						<li>
-							<a ng-click="onFacebookLogout()" ng-show="isLoggedIn" class="ng-hide">Log Out</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</div>
-	<div ui-layout-container>
-		<div ui-layout="{flow : 'column', onresize: onPageResize }">
-
-			<div ui-layout-container class="editor-container">
-				<div ui-ace="aceOptions" ng-model="document" ng-readonly="!docloaded"></div>
-			</div>
-			<div ui-layout-container class="document-container">
-				<div tex-markdown="document" ace="aceEditor" class="tex-document"></div>
-			</div>
-
-		</div>
-	</div>
+<div class="editor">
+	<div tex-markdown="{ onAceLoaded: onAceLoaded }" ng-if="docloaded" class="tex-markdown"></div>
+	<div ng-if="!docloaded">Loading {{ docname }}...</div>
 </div>

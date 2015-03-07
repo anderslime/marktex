@@ -1,8 +1,5 @@
 var texapp = require('../main.js');
 
-texapp.controller('documentListController', ['$scope', 'mathjaxservice', '$compile', '$routeParams',
-									function( $scope,   mathjaxservice,   $compile,   $routeParams) {
+texapp.controller('documentListController', ['$scope', function($scope) {
 
 }]);
-
-module.exports = texapp;
