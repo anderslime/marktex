@@ -1,0 +1,18 @@
+<div class="topbar">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">MarkTex</a>
+			</div>
+			<ul class="nav navbar-nav" ng-repeat="item in items">
+				<li ng-class="item.active ? 'active' : ''"><a href="{{ item.url }}">{{ item.title }}</a></li>
+			</ul>
+			<div class="collapse navbar-collapse navbar-right">
+				<p class="navbar-text">
+					<span ng-class="state | rstolabel">{{ state | rstotext }}</span>
+					<span>{{ pendingdata }}</span>
+				</p>
+			</div>
+		</div>
+	</nav>
+</div>

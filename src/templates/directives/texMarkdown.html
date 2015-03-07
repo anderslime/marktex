@@ -1,0 +1,15 @@
+<div ui-layout="{flow : 'column', onresize: onPageResize }" class="tex-markdown-container" >
+	
+	<div ui-layout-container class="editor-container">
+		<div ui-ace="{ useWrapMode : true, showGutter: false, theme:'chrome',mode: 'markdown', highlightActiveLine: false, onLoad: aceLoaded }"
+			ng-model="document" ng-readonly="!docloaded"></div>
+	</div>
+
+	<div ui-layout-container class="document-container">
+		<div class="tex-document">
+			<div class="document"></div>
+			<div class="document-preview"></div>
+		</div>
+	</div>
+
+</div>

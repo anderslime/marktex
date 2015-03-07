@@ -1,6 +1,6 @@
 var texapp = require('../main.js');
 
-texapp.directive('texLoader', ['$compile', '$templateCache', '$http', function($compile, $templateCache, $http) {
+texapp.directive('texLoader', [function() {
 	return {
 		restrict: "A",
 		transclude: true,

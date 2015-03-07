@@ -5,6 +5,7 @@ require('jquery');
 require('angular');
 require('angularsanitize');
 require('angularroute');
+require('angularanimate');
 require('uiace');
 window.Showdown = require('showdown');
 require('markdown');
@@ -17,7 +18,7 @@ require('../components/sharejs/text');
 require('../components/sharejs/ace');
 require('../components/jaxconfig');
 
-var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.layout', 'ui.ace', 'ngRoute']);
+var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.layout', 'ui.ace', 'ngRoute', 'ngAnimate']);
 module.exports = texapp;
 
 require('../tmp/templates');
@@ -31,12 +32,16 @@ texapp.config(['markdownConverterProvider', function (markdownConverterProvider)
 texapp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.
     	when('/editor/:docId?', {
-	        templateUrl: 'templates/controllers/editor.html',
-	        controller: 'editorController'
-    	}).
+            templateUrl: 'templates/controllers/editor.html',
+            controller: 'editorController',
+            title: 'Write',
+            url: '/editor'
+        }).
     	when('/documents', {
 	        templateUrl: 'templates/controllers/documentlist.html',
-	        controller: 'documentListController'
+	        controller: 'documentListController',
+            title: 'Documents',
+            url: '/documents'
     	}).
     	otherwise({
         	redirectTo: '/editor'
@@ -48,14 +53,25 @@ texapp.config(['$routeProvider', '$locationProvider', function($routeProvider, $
 require('./controllers/editor');
 require('./controllers/documentlist');
 
+require('./services/debounce');
 require('./services/mathjax');
+require('./services/scrollsync');
 
-require('./directives/texList');
+require('./directives/texMenu');
 require('./directives/texLoader');
-require('./directives/texStateAsHtml');
 require('./directives/texMarkdown');
 
 require('./filters/readystate');
 
 var config = require('config');
 console.log('MarkTex version: ' + config.gitrev + '\n\n');
+
+//disable logging if desired
+if(!config.logging){
+    (function () {
+        var log = console.log;
+        console.log = function () {
+            //void
+        };
+    }());
+}
