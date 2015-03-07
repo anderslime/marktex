@@ -78,6 +78,9 @@ require('./services/scrollsync');
 require('./directives/texMenu');
 require('./directives/texLoader');
 require('./directives/texMarkdown');
+require('./directives/texFacebook');
+
+require('./filters/readystate');
 
 console.log('MarkTex version: ' + config.gitrev + '\n\n');
 

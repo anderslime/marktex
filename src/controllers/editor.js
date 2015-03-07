@@ -1,11 +1,9 @@
 var texapp = require('../main.js');
 
-texapp.controller('editorController', ['$scope', '$routeParams', '$facebook', '$http', function($scope, $routeParams, $facebook, $http) {
+texapp.controller('editorController', ['$scope', '$routeParams', '$http', '$q', '$timeout',
+							   function($scope,   $routeParams,   $http,   $q,	  $timeout) {
 
 	$scope.docloaded = false;
-	$scope.isLoggedIn = false;
-	$scope.isLoginStatusReady = false;
-
 	var config = require('config');
 	var BCSocket = require('../../components/sharejs/channel/bcsocket.js').BCSocket;
 	var sharejs = require('sharejs');
@@ -62,42 +60,6 @@ texapp.controller('editorController', ['$scope', '$routeParams', '$facebook', '$
 			$scope.docloaded = true;
 			$scope.tmOptions.readonly = false;
 		}, 0);
-	});
-
-  // Facebook
-	var fetchUserCredentials = function() {
-		$http.get(config.authServerUrl + "/me", { withCredentials: true })
-		.success(function(user) {
-			$scope.username = user.name;
-		});
-	};
-
-	$scope.onFacebookLoginClick = function() {
-		$facebook.login().then(function(res) {
-			if (res.authResponse)
-				window.location = config.facebook.callbackURL;
-			else
-				console.log("Something went wrong");
-			
-		}, function(error) {
-			console.log("Something went wrong trying to login");
-		});
-	};
-
-	$scope.onFacebookLogout = function() {
-		$facebook.logout().then(function(res) {
-			console.log("You are logged out!");
-		}, function(error) {
-			console.log("Something bad happened here");
-		});
-	};
-
-	$scope.$on('fb.auth.statusChange', function(event, res, FB) {
-		$scope.isLoggedIn = res.status === 'connected';
-		$scope.isLoginStatusReady = true;
-
-		if (res.status === 'connected')
-		  fetchUserCredentials();
 	});
 
 }]);
