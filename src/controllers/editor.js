@@ -12,7 +12,6 @@ texapp.controller('editorController', ['$scope', '$routeParams', '$facebook', '$
 	var socket = new BCSocket(config.serverurl, { reconnect: true });
 	var sjs = new sharejs.Connection(socket);
 	var defAceLoaded = $q.defer();
-	var defAceLoaded = $q.defer();
 	var defDocLoaded = $q.defer();
 
 	//listen to sharejs socket state changes

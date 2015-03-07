@@ -2,10 +2,8 @@ var texapp = require('../main.js');
 
 texapp.directive('texLoader', [function() {
 	return {
-		restrict: "A",
-		transclude: true,
-   		replace: true,
+		restrict: 'A',
         scope: { 'texLoader': '=' },
-        templateUrl: '/templates/texLoader.html'
+        templateUrl: 'templates/directives/texLoader.html'
 	};
 }]);

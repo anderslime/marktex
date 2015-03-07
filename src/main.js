@@ -72,7 +72,6 @@ texapp.config(['$routeProvider', '$locationProvider', function($routeProvider, $
 require('./controllers/editor');
 require('./controllers/documentlist');
 
-require('./services/debounce');
 require('./services/mathjax');
 require('./services/scrollsync');
 

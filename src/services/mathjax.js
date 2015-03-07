@@ -1,29 +1,43 @@
 var texapp = require('../main.js');
 
-texapp.factory('mathjaxservice', ['debounce', '$q', '$sanitize', 'markdownConverter', '$rootScope',
-						function(  debounce,   $q,   $sanitize,   markdownConverter,   $rootScope) {
+texapp.factory('mathjaxservice', ['$q', '$sanitize', 'markdownConverter', '$rootScope', '$timeout',
+						function(  $q,   $sanitize,   markdownConverter,   $rootScope,   $timeout) {
 
 	function replaceSlashes(value){
+		if(value === undefined)
+			return '';
 		//adds slash before \#, so we can use hashes in latex syntax
 		return value.replace(/\\#/g,'\\\\#');
 	}
 
+	function markdown(text){				
+		var mdstart = performance.now();
+		console.log('markdowning...');
+
+		var mdtext = $sanitize(markdownConverter.makeHtml(replaceSlashes(text)));
+
+		console.log('markdowned in ' + ((performance.now() - mdstart)/1000).toFixed(2) + ' seconds');
+		
+		return mdtext;
+	}
+
+	var mdDef;
 	return {
 		markdown: function(text, imm){
+			var deferred = $q.defer();
+
 			var immediate = imm || false;
 			if(text === undefined || text.length === 0)
 				immediate = true;
 
-			return debounce(function(){				
-				var mdstart = performance.now();
-				console.log('markdowning...');
+			if(mdDef)
+				clearTimeout(mdDef);
 
-				var mdtext = $sanitize(markdownConverter.makeHtml(replaceSlashes(text)));
+			mdDef = setTimeout(function(){
+				deferred.resolve(markdown(text));
+			}, immediate ? 0 : 300);
 
-				console.log('markdowned in ' + ((performance.now() - mdstart)/1000).toFixed(2) + ' seconds');
-				
-				return mdtext;
-			}, 300, immediate)();
+			return deferred.promise;
 		},
 		typeset: function(element, mdtext){
 			return $q(function(resolve, reject) {
