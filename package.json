@@ -26,7 +26,8 @@
     "grunt-text-replace": "^0.4.0",
     "uglifyify": "^3.0.1",
     "compression": "^1.4.1",
-    "grunt-connect-rewrite": "^0.2.1"
+    "grunt-connect-rewrite": "^0.2.1",
+    "grunt-contrib-compass": "^1.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -128,7 +129,6 @@
   "devDependencies": {
     "grunt-angular-templates": "^0.5.7",
     "grunt-connect-route": "^0.2.7",
-    "grunt-contrib-compass": "^1.0.1",
     "grunt-contrib-cssmin": "^0.12.2",
     "grunt-contrib-htmlmin": "^0.4.0",
     "grunt-contrib-jshint": "^0.11.0",
