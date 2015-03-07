@@ -15,7 +15,6 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', 'sc
 			scope.$document = element.find('.document');
 
         	scope.state = 0; //connecting
-			scope.document = '';
 
 			//listen for scroll events
 			scope.$container.scroll(function(){
@@ -24,6 +23,9 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', 'sc
 
 			//watch for editor changes
 			scope.$watch('document', function(newVal, oldVal) {
+				if(newVal === undefined)
+					return;
+				
 				var mdtextPromise = mathjaxservice.markdown(newVal);
 
 				mdtextPromise.then(function(mdtext) {
@@ -39,6 +41,14 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', 'sc
 			});
 	    },
 	    controller: ['$scope', function($scope){
+	    	var $container = $('.document-container');
+			var $document = $('.document');
+
+			//fired on page resize, both window and columns
+			$scope.onPageResize = function(){
+				scrollsyncservice.updateScrollSync($scope.ace, $document, $container, 100);
+			};
+
 	    	$scope.aceLoaded = function aceLoaded(editor) {
 	    		if($scope.texMarkdown.onAceLoaded)
 	    			$scope.texMarkdown.onAceLoaded(editor);
@@ -47,18 +57,9 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', 'sc
 				editor.setOption('showPrintMargin', false);
 				editor.setOption('highlightActiveLine', false);
 				editor.setAnimatedScroll(true);
-
-				var $container = $('.document-container');
-				var $document = $('.document');
-
 				editor.getSession().on('changeScrollTop', function(s){
 					scrollsyncservice.scrollFromEditor(s, editor, $container);
 				});
-
-				//fired on page resize, both window and columns
-				$scope.onPageResize = function(){
-					scrollsyncservice.updateScrollSync(scope.aceEditor, $document, $container, 100);
-				};
 			};
 	    }]
 	};
