@@ -5,7 +5,7 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', 'sc
 
 	return {
 		restrict: 'A',
-        scope: { 'texMarkdown': '=' },
+        scope: { 'texMarkdown': '='},
         templateUrl: 'templates/directives/texMarkdown.html',
         link: function(scope, element, attrs) {
 
@@ -16,7 +16,6 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', 'sc
 
         	scope.state = 0; //connecting
 			scope.document = '';
-			scope.docloaded = false;
 
 			//listen for scroll events
 			scope.$container.scroll(function(){
