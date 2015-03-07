@@ -2,7 +2,6 @@ var texapp = require('../main.js');
 
 texapp.controller('editorController', ['$scope', '$routeParams', function($scope, $routeParams) {
 
-	//put all this sharejs thingy in a service
 	$scope.docloaded = false;
 	var config = require('config');
 	var BCSocket = require('../../components/sharejs/channel/bcsocket.js').BCSocket;
@@ -22,6 +21,7 @@ texapp.controller('editorController', ['$scope', '$routeParams', function($scope
 		aceEditor.scrollToLine(0, false, false, function(){});
 	};
 
+	$scope.tmOptions = { onAceLoaded: $scope.onAceLoaded, readonly: true };
 	$scope.docname = docname = $routeParams.docId || 'dojo';
 	var doc = sjs.get('docs', docname);
 	
@@ -41,6 +41,7 @@ texapp.controller('editorController', ['$scope', '$routeParams', function($scope
 	//note that the connection state will remain 'connecting' at least until this method has fired
 	doc.whenReady(function() {
 		$scope.docloaded = true;
+		$scope.tmOptions.readonly = false;
 		if (!doc.type)
 			doc.create('text');
 		
