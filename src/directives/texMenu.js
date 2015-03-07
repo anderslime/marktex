@@ -6,17 +6,24 @@ texapp.directive('texMenu', [function() {
 		scope: { 'texMenu': '=' },
         templateUrl: 'templates/directives/texMenu.html',
         controller: ['$scope', '$route', '$location', function($scope, $route, $location){
-        	$scope.items = [];
+        	function updateMenu(){
+	        	$scope.items = [];
+	        	var path = $location.path();
+	        	angular.forEach($route.routes,function (route) {
+	        		if(route.title !== undefined)
+				    	$scope.items.push({
+				    		title: route.title,
+				    		url: route.url,
+				    		active: path.indexOf(route.url) === 0
+				    	});
+			    });
+	        }
 
-        	var path = $location.path();
-        	angular.forEach($route.routes,function (route) {
-        		if(route.title !== undefined)
-			    	$scope.items.push({
-			    		title: route.title,
-			    		url: route.url,
-			    		active: path.indexOf(route.url) === 0
-			    	});
-		    });
+	        $scope.$on('$locationChangeStart', function(event) {
+			    updateMenu();
+			});
+
+			updateMenu();
         }]
 	};
 }]);
