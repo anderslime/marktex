@@ -10,11 +10,15 @@
             // @block jax syntax
 
             { type: 'lang', filter: function(text){
+                //this will use mathjax
                 var jax = function(e){ return '<p class="mj loader center">$' + e + '$</p>';};
+
+                //this will use KaTeX
+                //var jax = function(e){ return '<div>' + katex.renderToString(e) + '</div>';};
 
                 text = text.replace(/(?:^)~D~D(.*)~D~D(?:\n\s)/g, function(m, e){ return jax(e) + '\n\n'; } ); // jax as first thing in the text
                 text = text.replace(/(?:\n\n)~D~D(.*)~D~D(?:$)/g, function(m, e){ return '\n\n' + jax(e); } ); // jax as last thing in the text
-                text = text.replace(/((?:\n\n|~D\n\n)~D~D(.*)~D~D(?=\n\n))/g, function(m, f, e){               // jax in the middle
+                text = text.replace(/((?:\n\n.*|~D\n\n|^\n.*)~D~D(.*)~D~D(?=\n\n))/g, function(m, f, e){               // jax in the middle
                     return '\n\n' + jax(e);
                 });
                 // Check if we matched the leading \ and return nothing changed if so
@@ -28,6 +32,8 @@
                     return match;
                 } else {
                     return '<span class="mj loader">$' + equation + '$</span>';
+                    //this will use KaTeX
+                    //return '<span>' + katex.renderToString(equation) + '</span>';
                 }
             }},
 

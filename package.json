@@ -56,7 +56,8 @@
     "showdownmathjax": "./components/showdown.mathjax.js",
     "showdownlinebreak": "./components/showdown.linebreak.js",
     "sharejs": "./components/sharejs/share.js",
-    "ngFacebook": "./bower_components/ng-facebook/ngFacebook.js"
+    "ngFacebook": "./bower_components/ng-facebook/ngFacebook.js",
+    "katex": "./components/katex/katex.min.js"
   },
   "browserify-shim": {
     "jquery": "$",
@@ -88,6 +89,7 @@
       ]
     },
     "raf": "raf",
+    "katex": "katex",
     "uilayout": {
       "depends": [
         "raf"

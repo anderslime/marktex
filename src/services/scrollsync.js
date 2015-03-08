@@ -114,7 +114,7 @@ texapp.factory('scrollsyncservice', [function() {
 		docHeight = dh;
 
 		//performance logging
-		var start = performance.now();
+		var start = (new Date()).getTime();
 		console.log('indexing scroll...');
 		
 		//index document elements
@@ -202,7 +202,7 @@ texapp.factory('scrollsyncservice', [function() {
 		}
 
 		//console.log(editorLines.map(function(e){ return e. index + ' ' + e.value; }).join('\n'));
-		console.log('scroll indexed in ' + ((performance.now() - start)/1000).toFixed(2) + ' seconds');
+		console.log('scroll indexed in ' + (((new Date()).getTime() - start)/1000).toFixed(2) + ' seconds');
 	}
 	
 	function scrollFromDocument(aceEditor, document){
@@ -239,9 +239,9 @@ texapp.factory('scrollsyncservice', [function() {
 			}, timeout);
 		},
 		scrollFromEditor: function(offset, aceEditor, docContainerElement){
-			if((performance.now() - docScrolling) < 1000)
+			if(((new Date()).getTime() - docScrolling) < 1000)
 				return;
-			editorScrolling = performance.now();
+			editorScrolling = (new Date()).getTime();
 
 			var visiblerow = aceEditor.getFirstVisibleRow();
 			if(editorLines.length <= visiblerow)
@@ -255,9 +255,9 @@ texapp.factory('scrollsyncservice', [function() {
 			}, 10);
 		},
 		scrollFromDocument: function(aceEditor, document){
-			if((performance.now() - editorScrolling) < 1000)
+			if(((new Date()).getTime() - editorScrolling) < 1000)
 				return;
-			docScrolling = performance.now();
+			docScrolling = (new Date()).getTime();
 
 			if(scrollFDoc)
 				clearTimeout(scrollFDoc);

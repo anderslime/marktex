@@ -7,6 +7,7 @@ require('angularsanitize');
 require('angularroute');
 require('angularanimate');
 require('uiace');
+//require('katex');
 window.Showdown = require('showdown');
 require('markdown');
 require('showdownmathjax');

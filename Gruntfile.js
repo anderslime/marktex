@@ -33,6 +33,8 @@ module.exports = function(grunt) {
 					{ src: 'src/index.js', dest: 'dist/index.js' },
 					//kopier bootstrap skrifttyper (glyphicons)
 					{ expand: true, flatten: false, cwd: 'bower_components/bootstrap/dist/', src: ['fonts/**'], dest: 'dist' },
+
+					{ expand: true, flatten: false, cwd: 'components/katex/', src: ['fonts/**'], dest: 'dist/css' },
 					//kopier component mappe
 					{ expand: true, flatten: false, src: ['components/**'], dest: 'dist' },
 					//kopier skrifttyper
@@ -117,6 +119,7 @@ module.exports = function(grunt) {
 					'bower_components/bootstrap/dist/css/bootstrap.min.css',
 					'bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
 					'components/angular-ui-layout/ui-layout.css',
+					//'components/katex/katex.min.css',
 					'src/css/bootstrap-sandstone.css',
 					'src/css/style.css',
 					'tmp/css/main.css'

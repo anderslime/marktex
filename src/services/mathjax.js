@@ -11,12 +11,12 @@ texapp.factory('mathjaxservice', ['$q', '$sanitize', 'markdownConverter', '$root
 	}
 
 	function markdown(text){				
-		var mdstart = performance.now();
+		var mdstart = (new Date()).getTime();
 		console.log('markdowning...');
 
 		var mdtext = $sanitize(markdownConverter.makeHtml(replaceSlashes(text)));
 
-		console.log('markdowned in ' + ((performance.now() - mdstart)/1000).toFixed(2) + ' seconds');
+		console.log('markdowned in ' + (((new Date()).getTime() - mdstart)/1000).toFixed(2) + ' seconds');
 		
 		return mdtext;
 	}
@@ -46,12 +46,12 @@ texapp.factory('mathjaxservice', ['$q', '$sanitize', 'markdownConverter', '$root
 					resolve();
 				}
 
-				var tsstart = performance.now();
+				var tsstart = (new Date()).getTime();
 				console.log('typesetting...');
 
 				MathJax.Hub.Queue(['Typeset', MathJax.Hub, element[0]]);
 				MathJax.Hub.Queue(function(x){
-					console.log('typesat in ' + ((performance.now() - tsstart)/1000).toFixed(2) + ' seconds');
+					console.log('typesat in ' + (((new Date()).getTime() - tsstart)/1000).toFixed(2) + ' seconds');
 					resolve();
 				});
 		    });
