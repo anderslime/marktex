@@ -153,8 +153,9 @@ body {
 }
 
 .navbar-nav > li > a {
-	padding-top: 0;
-	padding-bottom: 0;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-shadow: none;
 }
 
 .navbar-default {
@@ -174,11 +175,12 @@ body {
 	min-height: auto;
 	margin-bottom: 0;
 	border-radius: 0px;
+	border: 0;
 	padding: 0 !important;
 }
 
 .navbar-nav {
-	margin: 8px 0;
+	margin: 0;
 }
 
 .document {

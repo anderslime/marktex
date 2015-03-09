@@ -55,6 +55,7 @@ texapp.controller('editorController', ['$scope', '$routeParams', '$http', '$q', 
 			var ae = data[0];
 			doc.attach_ace(ae);
 			ae.scrollToLine(0, false, false, function(){});
+			ae.focus();
 			socketStateChanged();
 			
 			$scope.docloaded = true;
