@@ -22,7 +22,7 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', function($
 			$scope.onFacebookLoginClick = function() {
 				$facebook.login().then(function(res) {
 					if (res.authResponse)
-						window.location = config.facebook.callbackUrl;
+						window.location = config.urls.fbCallbackUrl;
 					else
 						console.log('Something went wrong');
 					

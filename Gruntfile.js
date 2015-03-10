@@ -6,23 +6,25 @@ module.exports = function(grunt) {
 
 		config: {
 			dev: {
-				serverurl: 'http://localhost:7000/channel',
 				logging: true,
 				urls: {
-					me: 'http://localhost:3000/me'
+					sharejscollab: 'http://localhost:7000/channel',
+					me: 'http://localhost:3000/me',
+					fbCallbackUrl: 'http://localhost:3000/auth/facebook/callback'
 				},
 				facebook: {
-					appID: '878282388901735',
-					callbackUrl: 'http://localhost:3000/auth/facebook/callback'
+					appID: '878282388901735'
 				}
 			},
 			dist: {
-				serverurl: 'http://enigmatic-citadel-9501.herokuapp.com/channel',
 				logging: false,
-				authServerUrl: 'http://marktex-server.herokuapp.com',
+				urls: {
+					sharejscollab: 'http://enigmatic-citadel-9501.herokuapp.com/channel',
+					me: 'http://marktex-server.herokuapp.com/me',
+					fbCallbackUrl: 'http://marktex-server.herokuapp.com/auth/facebook/callback'
+				},
 				facebook: {
-					appID: '878282012235106',
-					callbackUrl: 'http://marktex-server.herokuapp.com/auth/facebook/callback'
+					appID: '878282012235106'
 				}
 			}
 		},
