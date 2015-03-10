@@ -1,7 +1,7 @@
 var texapp = require('../main.js');
 var config = require('config');
 
-texapp.directive('texFacebook', ['$http', '$facebook', function($http, $facebook) {
+texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', function($http, $facebook, userservice) {
 	return {
 		restrict: 'A',
 		replace: true,
@@ -14,8 +14,7 @@ texapp.directive('texFacebook', ['$http', '$facebook', function($http, $facebook
 			$scope.isLoginStatusReady = false;
 
         	var fetchUserCredentials = function() {
-				$http.get(config.authServerUrl + '/me', { withCredentials: true })
-				.success(function(user) {
+				userservice.me().success(function(user) {
 					$scope.username = user.name;
 				});
 			};

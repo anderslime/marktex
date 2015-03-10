@@ -8,7 +8,9 @@ module.exports = function(grunt) {
 			dev: {
 				serverurl: 'http://localhost:7000/channel',
 				logging: true,
-				authServerUrl: 'http://localhost:3000',
+				urls: {
+					me: 'http://localhost:3000/me'
+				},
 				facebook: {
 					appID: '878282388901735',
 					callbackUrl: 'http://localhost:3000/auth/facebook/callback'

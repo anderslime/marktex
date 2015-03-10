@@ -1,4 +1,7 @@
-<span>
-	<a ng-click="onFacebookLoginClick()" ng-if="!isLoggedIn">Facebook</a>
-	<a ng-click="onFacebookLogoutClick()" ng-if="isLoggedIn">Log Out</a>
-</span>
+<div>
+	<span class="navbar-username">{{ username }}</span>
+	<span>
+		<a ng-click="onFacebookLoginClick()" ng-if="!isLoggedIn">Facebook</a>
+		<a ng-click="onFacebookLogoutClick()" ng-if="isLoggedIn">Log Out</a>
+	</span>
+</div>

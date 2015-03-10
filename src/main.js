@@ -75,6 +75,7 @@ require('./controllers/documentlist');
 
 require('./services/mathjax');
 require('./services/scrollsync');
+require('./services/user');
 
 require('./directives/texMenu');
 require('./directives/texLoader');
