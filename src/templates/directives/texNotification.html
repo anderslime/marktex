@@ -1,0 +1,3 @@
+<div class="notificationwrapper">
+	<div alert ng-repeat="notif in notifications" type="{{notif.type}}" close="closeNotification($index)">{{ notif.text }}</div>
+</div>

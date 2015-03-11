@@ -241,11 +241,9 @@ body {
 	}
 }
 
-svg rect {
-    fill: white;
-}
-
-svg.loader {
-	zoom: 0.4;
-	padding-left: 2em;
+.notificationwrapper {
+	position: absolute;
+	width: 100%;
+	z-index: 10100;
+	top: 0;
 }

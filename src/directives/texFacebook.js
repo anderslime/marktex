@@ -1,7 +1,8 @@
 var texapp = require('../main.js');
 var config = require('config');
 
-texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', function($http, $facebook, userservice) {
+texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificationservice',
+						 function($http,   $facebook,   userservice,   notificationservice) {
 	return {
 		restrict: 'A',
 		replace: true,
@@ -11,40 +12,47 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', function($
         controller: ['$scope', function($scope){
 
        		$scope.isLoggedIn = false;
-			$scope.isLoginStatusReady = false;
-
-        	var fetchUserCredentials = function() {
-				userservice.me().success(function(user) {
-					$scope.username = user.name;
-				});
-			};
-
+			var unknownError = 'Unknown error encountered when authing with Facebook'; // lets not have this!
+			
 			$scope.onFacebookLoginClick = function() {
 				$facebook.login().then(function(res) {
 					if (res.authResponse)
 						window.location = config.urls.fbCallbackUrl;
 					else
-						console.log('Something went wrong');
-					
+						notificationservice.error(unknownError); // what excactly happens here?
 				}, function(error) {
-					console.log('Something went wrong trying to login');
+					notificationservice.error(unknownError); // what excactly happens here?
 				});
 			};
 
 			$scope.onFacebookLogoutClick = function() {
 				$facebook.logout().then(function(res) {
-					console.log('You are logged out!');
+					//user is logged out
 				}, function(error) {
-					console.log('Something bad happened here');
+					notificationservice.error(unknownError); // what excactly happens here?
 				});
 			};
 
-			$scope.$on('fb.auth.statusChange', function(event, res, FB) {
-				$scope.isLoggedIn = res.status === 'connected';
-				$scope.isLoginStatusReady = true;
+			$scope.$on('fb.auth.statusChange', function(event, res, fb) {
+				if (res.status !== 'connected')
+					return; // i don't know what this status means, but its apparently bad
+				
+				//we are now in a state where Facebook says the user authorized our app, but it
+				//is not guaranteed that we have info about him. if we are running with a clean
+				//database, that will be the case. we will handle this.
 
-				if (res.status === 'connected')
-				  fetchUserCredentials();
+				//see if we have user data
+				userservice.me().success(function(user) {
+					$scope.isLoggedIn = true;
+					$scope.username = user.name;
+
+					//everything is cool
+
+				}).error(function(){
+					//facebook data about the user was not found. we must fetch it
+					notificationservice.error('You are logged in, and we though we had data about you, but we don\'t. This will be fixed!');
+				});
+
 			});
         }]
 	};

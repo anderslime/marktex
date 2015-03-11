@@ -86,7 +86,7 @@ module.exports = function(grunt) {
 				files: [ 'Gruntfile.js', 'package.json', 'src/**', 'components/**', '!src/node_modules/**/*' ],
 				tasks: [ 'watchbase'],
 				options: {
-					livereload: true
+					livereload: 35728
 				}
 			}
 		},
@@ -104,7 +104,7 @@ module.exports = function(grunt) {
 				options: {
 					middleware: function (connect) {
 						return [
-							require('connect-livereload')(),
+							require('connect-livereload')({ port: 35728 }),
 							rewriteUtils.rewriteRequest,
 							connect.static('dist')
 						];
