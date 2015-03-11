@@ -248,3 +248,14 @@ body {
 	z-index: 10100;
 	top: 0;
 }
+
+.documentslist {
+	margin: 2em;
+
+	div {
+		padding: 0.4em;
+	}
+	.fa-file-text-o {
+		font-size: 2em;
+	}
+}

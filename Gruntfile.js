@@ -10,7 +10,10 @@ module.exports = function(grunt) {
 				urls: {
 					sharejscollab: 'http://localhost:7000/channel',
 					me: 'http://localhost:3000/me',
-					fbCallbackUrl: 'http://localhost:3000/auth/facebook/callback'
+					fbCallbackUrl: 'http://localhost:3000/auth/facebook/callback',
+					document: {
+						list: 'http://localhost:3000/docs'
+					}
 				},
 				facebook: {
 					appID: '878282388901735'
@@ -21,7 +24,10 @@ module.exports = function(grunt) {
 				urls: {
 					sharejscollab: 'http://enigmatic-citadel-9501.herokuapp.com/channel',
 					me: 'http://marktex-server.herokuapp.com/me',
-					fbCallbackUrl: 'http://marktex-server.herokuapp.com/auth/facebook/callback'
+					fbCallbackUrl: 'http://marktex-server.herokuapp.com/auth/facebook/callback',
+					document: {
+						list: 'http://marktex-server.herokuapp.com/docs'
+					}
 				},
 				facebook: {
 					appID: '878282012235106'

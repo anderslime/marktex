@@ -1,4 +1,16 @@
 <div>
-	<h1>Show me all the documents!</h1>
-	<img src="https://imgflip.com/readImage?iid=61533"  style="position: absolute; bottom: 0; right: 0;"/>
+	<div ng-show="loading">
+		<span tex-loader></span> <span class="text">Fetching documents</span>
+	</div>
+
+	<div class="documentslist">
+		<div ng-repeat="doc in documents">
+			<a href="/editor/{{doc._id}}/{{doc.name}}">
+				<i class="fa fa-file-text-o"></i>
+				<span>{{ doc.name }}</span>
+				<span>{{ doc.modified }}</span>
+				<span>{{ doc.shared }}</span>
+			</a>
+		</div>
+	</div>
 </div>

@@ -23,8 +23,8 @@ texapp.controller('editorController', ['$scope', '$routeParams', '$http', '$q', 
 	};
 
 	$scope.tmOptions = { onAceLoaded: $scope.onAceLoaded, readonly: true };
-	$scope.docname = docname = $routeParams.docId || 'dojo';
-	var doc = sjs.get('docs', docname);
+	$scope.docname = $routeParams.docName || 'dojo';
+	var doc = sjs.get('docs', $routeParams.docId || 'dojo');
 	doc.subscribe();
 	
 	/*doc.connection.on('connected', function(){

@@ -55,7 +55,7 @@ function bootstrapAngularApp(){
 
 	texapp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 		$routeProvider.
-			when('/editor/:docId?', {
+			when('/editor/:docId?/:docName?', {
 				templateUrl: 'templates/controllers/editor.html',
 				controller: 'editorController',
 				title: 'Write',
@@ -82,6 +82,7 @@ function requireAngularAppDependencies(){
 	require('./services/mathjax');
 	require('./services/scrollsync');
 	require('./services/user');
+	require('./services/document');
 	require('./services/notification');
 
 	require('./directives/texMenu');
