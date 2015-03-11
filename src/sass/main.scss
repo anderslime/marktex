@@ -3,13 +3,13 @@
 /* ANIMATIONS
 ============================================================================= */
 
-.viewport.ng-enter, .viewport .ng-hide-add {
+.docloading.ng-hide-add {
     -webkit-animation: moveFromTopFade .7s ease both;
 	animation: moveFromTopFade .7s ease both;
-}
 
-.viewport .ng-hide-remove {
-	z-index: 2000;
+	.tex-loader, .text {
+		display: none;
+	}
 }
 
 @-webkit-keyframes moveToBottom {
@@ -23,10 +23,10 @@
 }
 
 @-webkit-keyframes moveFromTopFade {
-	from { opacity: 0.3; -webkit-transform: translateY(-100%); }
+	from { /*opacity: 0.3;*/ -webkit-transform: translateY(-100%); }
 }
 @keyframes moveFromTopFade {
-	from { opacity: 0.3; -webkit-transform: translateY(-100%); transform: translateY(-100%); }
+	from { /*opacity: 0.3;*/ -webkit-transform: translateY(-100%); transform: translateY(-100%); }
 }
 
 /* ANIMATIONS END
@@ -215,6 +215,7 @@ body {
 
 .ui-splitbar {
 	background-color: rgb(247, 247, 247);
+	z-index: auto;
 }
 
 .center{
