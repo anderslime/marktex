@@ -22,12 +22,12 @@ module.exports = function(grunt) {
 			dist: {
 				logging: false,
 				urls: {
-					sharejscollab: 'http://enigmatic-citadel-9501.herokuapp.com/channel',
-					me: 'http://marktex-server.herokuapp.com/me',
-					fbCallbackUrl: 'http://marktex-server.herokuapp.com/auth/facebook/callback',
 					document: {
 						list: 'http://marktex-server.herokuapp.com/docs'
-					}
+					},
+					sharejscollab: 'http://livecollab.dtu.ninja/channel',
+					me: 'http://api.dtu.ninja/me',
+					fbCallbackUrl: 'http://api.dtu.ninja/auth/facebook/callback'
 				},
 				facebook: {
 					appID: '878282012235106'
