@@ -1,0 +1,84 @@
+.document {
+	padding-left: 0.5em;
+	font-family: 'Source Sans Pro', sans-serif;
+}
+
+.document-preview {
+	display: none;
+}
+
+.document-container {
+	background-color: rgb(240, 240, 240);
+	border-top: 13px rgb(240, 240, 240) solid;
+}
+
+.tex-document {
+	padding: 1em 2em;
+}
+
+.editor-container {
+	padding: 1em 2em;
+}
+
+.math p, .math div{
+	display:inline;
+}
+
+.ui-splitbar {
+	background-color: rgb(247, 247, 247);
+	z-index: auto;
+}
+
+.center{
+	text-align: center;
+}
+
+.editor {
+	height: 100%;
+}
+
+.texinput {
+	border: 0;
+	width: 100%;
+	height: 100%;
+	font-family: monospace;
+	font-size: 0.8em;
+	padding: 10px;
+	outline: none;
+}
+
+.ace_editor {
+	position:absolute;
+	top:0;
+	bottom:0;
+	height: 100%;
+}
+
+.tex-markdown-container {
+	position: relative;
+	height: 100%;
+}
+
+.tex-markdown {
+	height: 100%;
+}
+
+.docloading {
+	height: 100%;
+	width: 100%;
+	background-color: rgb(73, 74, 69);
+	color: white;
+	text-align: center;
+	display: table;
+
+	.container {
+		display: table-cell;
+  		vertical-align: middle;
+	}
+
+	.text {
+		margin-left: 20px;
+		position: relative;
+		bottom: 8px;
+	}
+}

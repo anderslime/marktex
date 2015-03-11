@@ -1,0 +1,25 @@
+.docloading.ng-hide-add {
+    -webkit-animation: moveFromTopFade .7s ease both;
+	animation: moveFromTopFade .7s ease both;
+
+	.tex-loader, .text {
+		display: none;
+	}
+}
+
+@-webkit-keyframes moveToBottom {
+	from { }
+	to { -webkit-transform: translateY(100%); }
+}
+
+@keyframes moveToBottom {
+	from { }
+	to { -webkit-transform: translateY(100%); transform: translateY(100%); }
+}
+
+@-webkit-keyframes moveFromTopFade {
+	from { -webkit-transform: translateY(-100%); }
+}
+@keyframes moveFromTopFade {
+	from { -webkit-transform: translateY(-100%); transform: translateY(-100%); }
+}

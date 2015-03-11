@@ -1,7 +1,7 @@
 var texapp = require('../main.js');
 
-texapp.controller('documentListController', ['$scope', 'documentservice', 'notificationservice',
-									 function($scope,   documentservice,   notificationservice) {
+texapp.controller('documentListController', ['$scope', '$location', 'documentservice', 'notificationservice',
+									 function($scope,   $location,   documentservice,   notificationservice) {
 	$scope.loading = true;
 	$scope.documents = [];
 
@@ -12,4 +12,9 @@ texapp.controller('documentListController', ['$scope', 'documentservice', 'notif
 		notificationservice.error('Unable to fetch documents');
 		$scope.loading = false;
 	});
+
+	$scope.gotoDoc = function(doc){
+		$location.path('/editor/' + doc._id + '/' + doc.name);
+	};
+
 }]);

@@ -1,0 +1,35 @@
+.documentsview {
+	margin: 0 auto;
+	width: 70%;
+
+	.loader {
+		text-align: center;
+  		margin-top: 2em;
+	}
+
+	.documentslist {
+		margin: 2em;
+
+		.fa-file-text-o {
+			font-size: 2em;
+	  		line-height: 2em;
+	  		margin-right: 0.4em;
+		}
+
+		a {
+			color: rgb(62, 63, 58);
+		}
+	}
+
+	table {
+		width: 100%;
+
+		.icon {
+			width: 1em;
+		}
+
+		tr {
+			cursor: pointer;
+		}
+	}
+}

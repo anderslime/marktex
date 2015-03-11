@@ -1,16 +1,24 @@
-<div>
-	<div ng-show="loading">
-		<span tex-loader></span> <span class="text">Fetching documents</span>
+<div class="documentsview">
+	<div ng-show="loading" class="loader">
+		<span tex-loader="'Fetching documents'"></span>
 	</div>
 
 	<div class="documentslist">
-		<div ng-repeat="doc in documents">
-			<a href="/editor/{{doc._id}}/{{doc.name}}">
-				<i class="fa fa-file-text-o"></i>
-				<span>{{ doc.name }}</span>
-				<span>{{ doc.modified }}</span>
-				<span>{{ doc.shared }}</span>
-			</a>
-		</div>
+		<table>
+			<thead>
+				<th class="icon"></th>
+				<th>Name</th>
+				<th>Last modified</th>
+				<th>Shared</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="doc in documents" ng-click="gotoDoc(doc)">
+					<td><i class="fa fa-file-text-o"></i></td>
+					<td>{{ doc.name }}</td>
+					<td>{{ doc.modified }}</td>
+					<td>{{ doc.shared }}</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </div>
