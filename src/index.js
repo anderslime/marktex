@@ -1,4 +1,4 @@
-var connect, port = 9000, share, webserver, serveStatic, cors, compression;
+var connect, port = 9000, webserver, serveStatic, cors, compression;
 
 // Require
 cors = require('cors');

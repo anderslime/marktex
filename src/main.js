@@ -103,7 +103,6 @@ console.log('MarkTex version: ' + config.gitrev + '\n\n');
 //disable logging if desired
 if(!config.logging){
 	(function () {
-		var log = console.log;
 		console.log = function () {
 			//void
 		};

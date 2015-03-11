@@ -4,8 +4,6 @@ texapp.factory('scrollsyncservice', [function() {
 
 	var editorLines = [];
 	var docElements = [];
-	var docContainer;
-	var pindex = {};
 	var docHeight = 0, editorHeight = 0;
 	var editorScrolling = false, docScrolling = false;
 	var topScrollMargin = 64;
@@ -54,7 +52,6 @@ texapp.factory('scrollsyncservice', [function() {
 			return true; //first line should have index 0
 
 		var r = new RegExp(/^\ {0,3}(\*\ |#|\$\$)/); // true if header or list or jax
-		var prevIsNotHeaderOrList = !r.test(prev) && !isBlank(prev);
 		var prevIsNotBlank = !isBlank(prev);
 		var currIsNotHeaderOrListOrJax = !r.test(curr) && !isBlank(curr);
 
@@ -155,7 +152,7 @@ texapp.factory('scrollsyncservice', [function() {
 		//all meta info will be mapped to the previous line that mapped to an element
 		//all lines are considered, this runs in O(n) time
 		editorLines = editor.getSession().doc.getAllLines();
-		var p, listmode = false, jaxmode = false, cIsCodeLine = false, li = 0, pli = -1, prevLineBreaks = false, pIsCodeLine = false, stack = [];
+		var p, listmode = false, jaxmode = false, cIsCodeLine = false, li = 0, pli = -1, pIsCodeLine = false, stack = [];
 		for(var i = 0; i < editorLines.length; i++){
 			var c = editorLines[i];										//c is current line, p is previous
 			cIsCodeLine = isCodeLine(p, c, listmode);					//check if current line is a code block

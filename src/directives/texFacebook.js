@@ -20,20 +20,20 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
 						window.location = config.urls.fbCallbackUrl;
 					else
 						notificationservice.error(unknownError); // what excactly happens here?
-				}, function(error) {
+				}, function() {
 					notificationservice.error(unknownError); // what excactly happens here?
 				});
 			};
 
 			$scope.onFacebookLogoutClick = function() {
-				$facebook.logout().then(function(res) {
+				$facebook.logout().then(function() {
 					//user is logged out
-				}, function(error) {
+				}, function() {
 					notificationservice.error(unknownError); // what excactly happens here?
 				});
 			};
 
-			$scope.$on('fb.auth.statusChange', function(event, res, fb) {
+			$scope.$on('fb.auth.statusChange', function(event, res) {
 				if (res.status !== 'connected')
 					return; // i don't know what this status means, but its apparently bad
 				

@@ -7,7 +7,7 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', 'sc
 		restrict: 'A',
         scope: { 'texMarkdown': '='},
         templateUrl: 'templates/directives/texMarkdown.html',
-        link: function(scope, element, attrs) {
+        link: function(scope, element) {
 
         	//interesting elements
         	scope.$previewDoc = element.find('.document-preview');
@@ -22,7 +22,7 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', 'sc
 			});
 
 			//watch for editor changes
-			scope.$watch('document', function(newVal, oldVal) {
+			scope.$watch('document', function(newVal) {
 				if(newVal === undefined)
 					return;
 				

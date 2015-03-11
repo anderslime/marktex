@@ -19,7 +19,7 @@ texapp.directive('texMenu', [function() {
 			    });
 	        }
 
-	        $scope.$on('$locationChangeStart', function(event) {
+	        $scope.$on('$locationChangeStart', function() {
 			    updateMenu();
 			});
 

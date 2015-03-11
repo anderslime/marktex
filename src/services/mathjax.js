@@ -1,7 +1,7 @@
 var texapp = require('../main.js');
 
-texapp.factory('mathjaxservice', ['$q', '$sanitize', 'markdownConverter', '$rootScope', '$timeout',
-						function(  $q,   $sanitize,   markdownConverter,   $rootScope,   $timeout) {
+texapp.factory('mathjaxservice', ['$q', '$sanitize', 'markdownConverter',
+						function(  $q,   $sanitize,   markdownConverter) {
 
 	function replaceSlashes(value){
 		if(value === undefined)
@@ -40,7 +40,7 @@ texapp.factory('mathjaxservice', ['$q', '$sanitize', 'markdownConverter', '$root
 			return deferred.promise;
 		},
 		typeset: function(element, mdtext){
-			return $q(function(resolve, reject) {
+			return $q(function(resolve) {
 				if(!(new RegExp(/ class="mj /)).test(mdtext)){
 					// do not waste time on typesetting, if there is no mathjax
 					resolve();
@@ -50,7 +50,7 @@ texapp.factory('mathjaxservice', ['$q', '$sanitize', 'markdownConverter', '$root
 				console.log('typesetting...');
 
 				MathJax.Hub.Queue(['Typeset', MathJax.Hub, element[0]]);
-				MathJax.Hub.Queue(function(x){
+				MathJax.Hub.Queue(function(){
 					console.log('typesat in ' + (((new Date()).getTime() - tsstart)/1000).toFixed(2) + ' seconds');
 					resolve();
 				});

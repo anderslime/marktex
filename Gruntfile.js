@@ -89,7 +89,7 @@ module.exports = function(grunt) {
 
 		watch: {
 			dist: {
-				files: [ 'Gruntfile.js', 'package.json', 'src/**', 'components/**', '!src/node_modules/**/*' ],
+				files: [ 'Gruntfile.js', '.jshintrc', 'package.json', 'src/**', 'components/**', '!src/node_modules/**/*' ],
 				tasks: [ 'watchbase'],
 				options: {
 					livereload: 35728
@@ -151,7 +151,14 @@ module.exports = function(grunt) {
 		},
 
 		jshint: {
-			all: [ 'Gruntfile.js', 'src/**/*.js' ]
+			all: {
+				options: {
+					jshintrc: true
+				},
+				files: {
+					src: [ 'Gruntfile.js', 'src/**/*.js' ]
+				}
+			}
 		},
 
 		'git-describe': {

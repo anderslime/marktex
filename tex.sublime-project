@@ -7,11 +7,11 @@
 		},
 		{
 			"follow_symlinks": true,
-			"path": "/Users/andreastoftegaard/Ikke Synkroniseret/marktex-livecollab"
+			"path": "./../marktex-livecollab"
 		},
 		{
 			"follow_symlinks": true,
-			"path": "/Users/andreastoftegaard/Ikke Synkroniseret/marktex-server"
+			"path": "./../marktex-server"
 		}
 	]
 }
