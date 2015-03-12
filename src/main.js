@@ -38,7 +38,6 @@ function bootstrapAngularApp(){
 
 	texapp.config(['$facebookProvider', function (facebookProvider) {
 		facebookProvider.setAppId(config.facebook.appID);
-		facebookProvider.setAppId('878282388901735');
 		facebookProvider.setVersion('v2.2');
 		facebookProvider.setPermissions("email");
 	}]).run(function() {
