@@ -23,7 +23,7 @@ module.exports = function(grunt) {
 				logging: false,
 				urls: {
 					document: {
-						list: 'http://marktex-server.herokuapp.com/docs'
+						list: 'http://api.dtu.ninja/docs'
 					},
 					sharejscollab: 'http://livecollab.dtu.ninja/channel',
 					me: 'http://api.dtu.ninja/me',
