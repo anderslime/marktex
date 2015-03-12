@@ -7,7 +7,10 @@ texapp.controller('editorController', ['$scope', '$routeParams', '$http', '$q', 
 	var config = require('config');
 	var BCSocket = require('../../components/sharejs/channel/bcsocket.js').BCSocket;
 	var sharejs = require('sharejs');
-	var socket = new BCSocket(config.urls.sharejscollab, { reconnect: true });
+	var socket = new BCSocket(config.urls.sharejscollab, {
+		reconnect: true,
+		crossDomainXhr: true
+	});
 	var sjs = new sharejs.Connection(socket);
 	var defAceLoaded = $q.defer();
 	var defDocLoaded = $q.defer();
