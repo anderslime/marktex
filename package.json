@@ -52,6 +52,7 @@
     "uilayout": "./components/angular-ui-layout/ui-layout.js",
     "angularroute": "./bower_components/angular-route/angular-route.js",
     "angularanimate": "./bower_components/angular-animate/angular-animate.js",
+    "angularcookies": "./bower_components/angular-cookies/angular-cookies.js",
     "uiace": "./bower_components/angular-ui-ace/ui-ace.js",
     "showdownmathjax": "./components/showdown.mathjax.js",
     "showdownlinebreak": "./components/showdown.linebreak.js",
@@ -101,6 +102,11 @@
       ]
     },
     "angularanimate": {
+      "depends": [
+        "angular"
+      ]
+    },
+    "angularcookies": {
       "depends": [
         "angular"
       ]

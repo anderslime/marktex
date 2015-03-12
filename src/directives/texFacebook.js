@@ -1,8 +1,8 @@
 var texapp = require('../main.js');
 var config = require('config');
 
-texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificationservice',
-						 function($http,   $facebook,   userservice,   notificationservice) {
+texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificationservice', '$rootScope',
+						 function($http,   $facebook,   userservice,   notificationservice,   $rootScope) {
 	return {
 		restrict: 'A',
 		replace: true,
@@ -11,7 +11,7 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
         templateUrl: 'templates/directives/texFacebook.html',
         controller: ['$scope', function($scope){
 
-       		$scope.isLoggedIn = false;
+       		$scope.isLoggedIn = $rootScope.isLoggedIn = false;
 			var unknownError = 'Unknown error encountered when authing with Facebook'; // lets not have this!
 			
 			$scope.onFacebookLoginClick = function() {
@@ -28,6 +28,7 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
 			$scope.onFacebookLogoutClick = function() {
 				$facebook.logout().then(function() {
 					//user is logged out
+					window.location = '/';
 				}, function() {
 					notificationservice.error(unknownError); // what excactly happens here?
 				});
@@ -43,7 +44,7 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
 
 				//see if we have user data
 				userservice.me().success(function(user) {
-					$scope.isLoggedIn = true;
+					$scope.isLoggedIn = $rootScope.isLoggedIn = true;
 					$scope.username = user.name;
 
 					//everything is cool

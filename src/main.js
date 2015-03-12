@@ -9,6 +9,7 @@ function requireDependencies(){
 	require('angularsanitize');
 	require('angularroute');
 	require('angularanimate');
+	require('angularcookies');
 	require('uiace');
 	//require('katex');
 	window.Showdown = require('showdown');
@@ -25,7 +26,7 @@ function requireDependencies(){
 }
 
 function bootstrapAngularApp(){
-	var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.layout', 'ui.ace', 'ngRoute', 'ngAnimate', 'ngFacebook']);
+	var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.layout', 'ui.ace', 'ngRoute', 'ngAnimate', 'ngFacebook', 'ngCookies']);
 	module.exports = texapp;
 
 	require('../tmp/templates');
@@ -58,13 +59,15 @@ function bootstrapAngularApp(){
 				templateUrl: 'templates/controllers/editor.html',
 				controller: 'editorController',
 				title: 'Write',
-				url: '/editor'
+				url: '/editor',
+				authorization: false
 			}).
 			when('/documents', {
 				templateUrl: 'templates/controllers/documentlist.html',
 				controller: 'documentListController',
 				title: 'Documents',
-				url: '/documents'
+				url: '/documents',
+				authorization: true
 			}).
 			otherwise({
 				redirectTo: '/editor'

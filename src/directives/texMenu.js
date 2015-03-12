@@ -1,6 +1,6 @@
 var texapp = require('../main.js');
 
-texapp.directive('texMenu', [function() {
+texapp.directive('texMenu', ['$rootScope', function($rootScope) {
 	return {
 		restrict: 'A',
 		scope: { 'texMenu': '=' },
@@ -10,7 +10,7 @@ texapp.directive('texMenu', [function() {
 	        	$scope.items = [];
 	        	var path = $location.path();
 	        	angular.forEach($route.routes,function (route) {
-	        		if(route.title !== undefined)
+	        		if(route.title !== undefined && (!route.authorization || (route.authorization && $rootScope.isLoggedIn)))
 				    	$scope.items.push({
 				    		title: route.title,
 				    		url: route.url,
@@ -21,6 +21,10 @@ texapp.directive('texMenu', [function() {
 
 	        $scope.$on('$locationChangeStart', function() {
 			    updateMenu();
+			});
+
+			$rootScope.$watch('isLoggedIn', function(){
+				updateMenu();
 			});
 
 			updateMenu();
