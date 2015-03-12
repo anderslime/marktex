@@ -71,6 +71,17 @@ function bootstrapAngularApp(){
 			});
 
 		$locationProvider.html5Mode(true);
+
+		console.log('MarkTex version: ' + config.gitrev + '\n\n');
+		//disable logging if desired
+		if(!config.logging){
+			(function () {
+				console.log = function () {
+					//if(config.persistentLogging)
+					//	$http.post(config.urls.logging, { text: text, obj: obj });
+				};
+			}());
+		}
 	}]);
 }
 
@@ -96,14 +107,3 @@ function requireAngularAppDependencies(){
 requireDependencies();
 bootstrapAngularApp();
 requireAngularAppDependencies();
-
-console.log('MarkTex version: ' + config.gitrev + '\n\n');
-
-//disable logging if desired
-if(!config.logging){
-	(function () {
-		console.log = function () {
-			//void
-		};
-	}());
-}

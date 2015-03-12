@@ -7,13 +7,13 @@ module.exports = function(grunt) {
 		config: {
 			dev: {
 				logging: true,
+				persistentLogging: true,
 				urls: {
 					sharejscollab: 'http://localhost:7000/channel',
 					me: 'http://localhost:3000/me',
+					logging: 'http://localhost:3000/logging',
 					fbCallbackUrl: 'http://localhost:3000/auth/facebook/callback',
-					document: {
-						list: 'http://localhost:3000/docs'
-					}
+					document: 'http://localhost:3000/docs'
 				},
 				facebook: {
 					appID: '878282388901735'
@@ -21,12 +21,12 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				logging: false,
+				persistentLogging: true,
 				urls: {
-					document: {
-						list: 'http://api.dtu.ninja/docs'
-					},
+					document: 'http://api.dtu.ninja/docs',
 					sharejscollab: 'http://livecollab.dtu.ninja/channel',
 					me: 'http://api.dtu.ninja/me',
+					logging: 'http://api.dtu.ninja/logging',
 					fbCallbackUrl: 'http://api.dtu.ninja/auth/facebook/callback'
 				},
 				facebook: {

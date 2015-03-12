@@ -11,8 +11,8 @@
 		margin: 2em;
 
 		.fa-file-text-o {
-			font-size: 2em;
-	  		line-height: 2em;
+			/*font-size: 2em;
+	  		line-height: 2em;*/
 	  		margin-right: 0.4em;
 		}
 
@@ -30,6 +30,44 @@
 
 		tr {
 			cursor: pointer;
+
+			td {
+				padding: 1em 0.2em;
+			}
+		}
+
+		th {
+			white-space: nowrap;
+		}
+	}
+
+	.createwrapper {
+		margin-bottom: 2em;
+	}
+
+	.btn-deletedoc {
+		padding: 3px 13px;
+		width: 6em;
+	}
+
+	.options{
+		position: relative;
+		width: 10.5em;
+		margin-left: -7.5em;
+	}
+
+	.optionsicon {
+		margin-right: 1em;
+  		color: rgb(221, 221, 221);
+	}
+
+	.rename-group {
+		.btn {
+			line-height: 4px;
+		}
+
+		input {
+			height: 28px;
 		}
 	}
 }

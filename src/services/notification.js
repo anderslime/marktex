@@ -15,6 +15,9 @@ texapp.factory('notificationservice', ['$rootScope', function($rootScope) {
 	return {
 		error: function(text, duration){
 			broadcastNotification(text, duration, 'danger');
+
+			//if(config.persistentLogging)
+			//	$http.post(config.urls.logging, { text: text });
 		},
 		warning: function(text, duration){
 			broadcastNotification(text, duration, 'warning');
