@@ -2,6 +2,9 @@ var texapp = require('../main.js');
 var config = require('config');
 
 texapp.factory('documentservice', ['$http', function($http) {
+	var resourceUrl = function(id) {
+		return [config.urls.document, id].join('/');
+	};
 	return {
 		list: function(){
 			return $http.get(config.urls.document, { withCredentials: true });
@@ -10,10 +13,10 @@ texapp.factory('documentservice', ['$http', function($http) {
 			return $http.post(config.urls.document, { title: title }, { withCredentials: true });
 		},
 		remove: function(id){
-			return $http.delete(config.urls.document, { id: id }, { withCredentials: true });
+			return $http.delete(resourceUrl(id), { withCredentials: true });
 		},
 		update: function(doc){
-			return $http.put(config.urls.document, doc, { withCredentials: true });
+			return $http.put(resourceUrl(doc._id), doc, { withCredentials: true });
 		}
 	};
 }]);
