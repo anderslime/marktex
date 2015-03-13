@@ -36,10 +36,10 @@ texapp.controller('documentListController', ['$scope', '$location', 'documentser
 		var index = $scope.documents.indexOf(doc);
 		doc.loading = true;
 
-		documentservice.update(doc).success(function(doc){
+		documentservice.update(doc).success(function(updatedDoc){
 			doc.loading = false;
 			doc.options = false;
-			$scope.documents.splice(index, 1);
+			$scope.documents[index] = updatedDoc;
 		}).error(function(){
 			notificationservice.error('Unable to update document, please try again', 'long');
 			doc.loading = false;
