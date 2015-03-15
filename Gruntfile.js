@@ -130,6 +130,8 @@ module.exports = function(grunt) {
 					'bower_components/bootstrap/dist/css/bootstrap.min.css',
 					'bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
 					'components/angular-ui-layout/ui-layout.css',
+					'components/ui-select/select.css',
+					'components/ui-select/select2.css',
 					//'components/katex/katex.min.css',
 					'src/css/bootstrap-sandstone.css',
 					'src/css/style.css',

@@ -1,7 +1,10 @@
 <div>
+	<img class="profile-picture" src="{{ imgurl }}" />
 	<span class="navbar-username">{{ username }}</span>
 	<span>
 		<a ng-click="onFacebookLoginClick()" ng-if="!isLoggedIn">Connect using Facebook</a>
-		<a ng-click="onFacebookLogoutClick()" ng-if="isLoggedIn">Log Out</a>
+		<a ng-click="onFacebookLogoutClick()" ng-if="isLoggedIn">
+			Log Out
+		</a>
 	</span>
 </div>

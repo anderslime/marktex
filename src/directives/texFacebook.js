@@ -46,8 +46,17 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
 				userservice.me().success(function(user) {
 					$scope.isLoggedIn = $rootScope.isLoggedIn = true;
 					$scope.username = user.name;
-
+					$scope.id = user.id;
 					//everything is cool
+
+					//this should probably be added to the already made request. will move when not lazy
+					$facebook.api('/me/picture?width=30&height=30').then( 
+						function(response) {
+							$scope.imgurl = response.data.url;
+						},
+						function(err) {
+							notificationservice.error(err);
+						});
 
 				}).error(function(){
 					//facebook data about the user was not found. we must fetch it

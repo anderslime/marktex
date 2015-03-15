@@ -1,0 +1,11 @@
+<ui-select multiple ng-model="$parent.ngModel" theme="bootstrap" ng-disabled="disabled" class="share-select">
+	<ui-select-match placeholder="Select persons...">{{ $item.name }}</ui-select-match>
+	<ui-select-choices repeat="person in texShareDoc | filter:$select.search">
+		<div>
+			<div style="display: inline">
+				<img class="profile-picture" src="{{ 'http://graph.facebook.com/'+person.id+'/picture' }}" />
+			</div>
+			<div style="display: inline">{{ person.name }}</div>
+		</div>
+	</ui-select-choices>
+</ui-select>

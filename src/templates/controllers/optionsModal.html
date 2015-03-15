@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{ doc.name }} attributes</h3>
+</div>
+<div class="modal-body">
+    <h4>Title</h4>
+	<div ng-form name="document" class="input-group rename-group">
+		<input type="text" name="doctitle" class="form-control create-text" ng-model="doc.name" placeholder="Document title.." required>
+		<span class="input-group-btn">
+	        <button class="btn btn-default" type="button" ng-click="update(doc)" ng-disabled="doc.loading || document.doctitle.$error.required">{{ loading ? 'Loading' : 'Rename' }}</button>
+	    </span>
+    </div>
+
+    <h4><i class="fa fa-share-alt"></i> Sharing</h4>
+    <div>
+    	<div class="add-share">
+	    	<div tex-share-doc="connections" ng-model="doc.shared" on-select="update(doc)" on-remove="update(doc)"/>
+    	</div>
+    	<div class="text-info italic not-shared" ng-show="doc.shared.length === 0 || !doc.shared">You are not sharing this document with anyone, yet</div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn" ng-hide="confirmDelete" ng-click="confirmDelete=true">Delete</button>
+    <button class="btn" ng-show="confirmDelete" ng-click="confirmDelete=false">No, wait!</button>
+    <button class="btn btn-danger" style="float:left" ng-show="confirmDelete" ng-click="removeDoc(doc)">Sure, delete permanently</button>
+    <button class="btn btn-primary" ng-click="close()">Close</button>
+</div>

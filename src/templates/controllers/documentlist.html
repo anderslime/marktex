@@ -4,7 +4,7 @@
 		<form class="createwrapper input-group" name="create">
 	    	<input type="text" name="createTitle" class="form-control create-text" placeholder="Create a new document..." aria-describedby="basic-addon2" ng-model="createTitle" required>
 	    	<span class="input-group-btn">
-		        <button class="btn btn-success" type="button" ng-click="createDoc()" ng-disabled="creating || create.createTitle.$error.required">{{ creating ? 'Creating' : 'Create' }}</button>
+		        <button class="btn btn-success" type="submit" ng-click="createDoc()" ng-disabled="creating || create.createTitle.$error.required">{{ creating ? 'Creating' : 'Create' }}</button>
 		    </span>
 		</form>
 		<table>
@@ -13,32 +13,23 @@
 				<th class="icon"></th>
 				<th>Title</th>
 				<th>Last modified</th>
-				<th>Shared</th>
+				<th>Shared with</th>
 			</thead>
 			<tbody>
 				<tr ng-repeat="doc in documents">
 					<td>
-						<i class="optionsicon fa fa-cog fa-2x" ng-hide="doc.options" ng-click="doc.options = true"></i>
-						<div class="options" ng-show="doc.options">
-							<button class="btn btn-deletedoc btn-danger" ng-disabled="doc.loading" ng-click="removeDoc(doc)">Remove</button>
-							<button class="btn btn-deletedoc btn-default" ng-disabled="doc.loading" ng-click="doc.options = false">Cancel</button>
-						</div>
+						<i class="optionsicon fa fa-cog fa-2x" ng-click="openOptions(doc)"></i>
 					</td>
 					<td ng-click="gotoDoc(doc)">
 						<i class="fa fa-file-text-o fa-2x"></i>
 					</td>
 					<td>
 						<span ng-click="gotoDoc(doc)" ng-hide="doc.options">{{ doc.name }}</span>
-
-						<div ng-form name="document" class="input-group rename-group" ng-show="doc.options">
-							<input type="text" name="doctitle" class="form-control create-text" placeholder="Document title.." aria-describedby="basic-addon2" ng-model="doc.name" required>
-							<span class="input-group-btn">
-						        <button class="btn btn-default" type="button" ng-click="renameDoc(doc)" ng-disabled="doc.loading || document.doctitle.$error.required">{{ loading ? 'Loading' : 'Rename' }}</button>
-						    </span>
-					    </div>
 					</td>
 					<td ng-click="gotoDoc(doc)">{{ doc.modified }}</td>
-					<td ng-click="gotoDoc(doc)">{{ doc.shared }}</td>
+					<td>
+						<span ng-repeat="person in doc.shared">{{ $last ? person.name : (person.name + ',') }}</span>
+					</td>
 				</tr>
 			</tbody>
 		</table>

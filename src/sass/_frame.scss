@@ -22,13 +22,73 @@ body {
 	height: 100%;
 }
 
+.profile-picture {
+	width: 30px;
+	height: 30px;
+	border-radius: 15px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	margin-top: -4px;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.modal {
+	z-index: 10000 !important;
+}
+
+.modal-backdrop {
+	z-index: 10000 !important;
+	width: 100%;
+	height: 100%;
+	background-color: white;
+}
+
+.share-select, .select2-input {
+	width: 100%;
+}
+
+.select2-choices {
+	border: 1px solid #dfd7ca !important;
+	border-radius: 4px;
+	padding: 0.56em !important;
+}
+
+.ui-select-multiple.ui-select-bootstrap {
+	padding: 11px 15px 7px 15px;
+}
+
 /////// BUTTONS
 
 .btn-default {
 	text-shadow: none;
 }
 
+
 /////// BUTTONS END
+
+/////// SELECT2
+
+.ui-select-match-close {
+	opacity: 1;
+	color: white;
+}
+
+.select2-container-multi .select2-choices {
+	background-image: none;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: white;
+  background-image: none;
+  background-image: none;
+}
+
+/////// SELECT2 END
 
 /////// NAVBAR
 

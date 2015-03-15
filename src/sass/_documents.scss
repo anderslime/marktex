@@ -52,8 +52,8 @@
 
 	.options{
 		position: relative;
-		width: 10.5em;
-		margin-left: -7.5em;
+		width: 15.5em;
+  		margin-left: -12em;
 	}
 
 	.optionsicon {
@@ -70,4 +70,13 @@
 			height: 28px;
 		}
 	}
+
+	.share-select {
+		width: 13em;
+	}
+}
+
+// IN MODALS
+.not-shared {
+	margin: 16px 16px 0 16px;
 }

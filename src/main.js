@@ -10,6 +10,7 @@ function requireDependencies(){
 	require('angularroute');
 	require('angularanimate');
 	require('angularcookies');
+	require('uiselect');
 	require('uiace');
 	//require('katex');
 	window.Showdown = require('showdown');
@@ -26,7 +27,18 @@ function requireDependencies(){
 }
 
 function bootstrapAngularApp(){
-	var texapp = angular.module('texapp', ['btford.markdown', 'ui.bootstrap', 'ui.layout', 'ui.ace', 'ngRoute', 'ngAnimate', 'ngFacebook', 'ngCookies']);
+	var texapp = angular.module('texapp', [
+		'btford.markdown',
+		'ui.bootstrap',
+		'ui.layout',
+		'ui.ace',
+		'ngRoute',
+		'ngAnimate',
+		'ngFacebook',
+		'ngCookies',
+		'ui.select'
+	]);
+
 	module.exports = texapp;
 
 	require('../tmp/templates');
@@ -40,7 +52,7 @@ function bootstrapAngularApp(){
 	texapp.config(['$facebookProvider', function (facebookProvider) {
 		facebookProvider.setAppId(config.facebook.appID);
 		facebookProvider.setVersion('v2.2');
-		facebookProvider.setPermissions("email");
+		facebookProvider.setPermissions('email,user_friends');
 	}]).run(function() {
 		(function(d, s, id) {
 			var js, fjs = d.getElementsByTagName(s)[0];
@@ -103,6 +115,7 @@ function requireAngularAppDependencies(){
 	require('./directives/texMarkdown');
 	require('./directives/texFacebook');
 	require('./directives/texNotification');
+	require('./directives/texShareDoc');
 
 	require('./filters/readystate');
 }
