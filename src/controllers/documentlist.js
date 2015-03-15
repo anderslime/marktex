@@ -67,28 +67,28 @@ texapp.controller('optionsModalController', ['$scope', '$modalInstance', 'doc', 
 			notificationservice.error(err);
 		});
 
-	$scope.remove = function(doc){
-		doc.loading = true;
+	$scope.remove = function(){
+		$scope.doc.loading = true;
 
-		documentservice.remove(doc._id).success(function(){
-			doc.loading = false;
+		documentservice.remove($scope.doc._id).success(function(){
+			$scope.doc.loading = false;
 			//delete
 			$modalInstance.close(true);
 		}).error(function(){
 			notificationservice.error('Unable to delete document, please try again', 'long');
-			doc.loading = false;
+			$scope.doc.loading = false;
 		});
 	};
 
-	$scope.update = function(doc){
-		doc.loading = true;
+	$scope.update = function(){
+		$scope.doc.loading = true;
 
-		documentservice.update(doc).success(function(updatedDoc){
-			doc.name = updatedDoc.name;
-			doc.loading = false;
+		documentservice.update($scope.doc).success(function(updatedDoc){
+			$scope.doc.name = updatedDoc.name;
+			$scope.doc.loading = false;
 		}).error(function(){
 			notificationservice.error('Unable to update document, please try again', 'long');
-			doc.loading = false;
+			$scope.doc.loading = false;
 		});
 	};
 
