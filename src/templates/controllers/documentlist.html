@@ -26,7 +26,7 @@
 					<td>
 						<span ng-click="gotoDoc(doc)" ng-hide="doc.options">{{ doc.name }}</span>
 					</td>
-					<td ng-click="gotoDoc(doc)">{{ doc.modified }}</td>
+					<td ng-click="gotoDoc(doc)">{{ doc.updated_at }}</td>
 					<td>
 						<span ng-repeat="person in doc.shared">{{ $last ? person.name : (person.name + ',') }}</span>
 					</td>

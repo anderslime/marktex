@@ -1,13 +1,11 @@
 <div class="modal-header">
-    <h3 class="modal-title">{{ doc.name }} attributes</h3>
+    <h3 class="modal-title">{{ doc.name || 'Document' }} attributes</h3>
 </div>
 <div class="modal-body">
     <h4>Title</h4>
-	<div ng-form name="document" class="input-group rename-group">
-		<input type="text" name="doctitle" class="form-control create-text" ng-model="doc.name" placeholder="Document title.." required>
-		<span class="input-group-btn">
-	        <button class="btn btn-default" type="button" ng-click="update()" ng-disabled="doc.loading || document.doctitle.$error.required">{{ loading ? 'Loading' : 'Rename' }}</button>
-	    </span>
+	<div ng-form name="document">
+		<input type="text" name="doctitle" class="form-control create-text" ng-model="doc.name" ng-change="update()" required>
+		<span class="text-danger" ng-show="document.doctitle.$error.required">Documents must have a title</span>
     </div>
 
     <h4><i class="fa fa-share-alt"></i> Sharing</h4>
@@ -22,5 +20,5 @@
     <button class="btn" ng-hide="confirmDelete" ng-click="confirmDelete=true">Delete</button>
     <button class="btn" ng-show="confirmDelete" ng-click="confirmDelete=false">No, wait!</button>
     <button class="btn btn-danger" style="float:left" ng-show="confirmDelete" ng-click="removeDoc(doc)">Sure, delete permanently</button>
-    <button class="btn btn-primary" ng-click="close()">Close</button>
+    <button class="btn btn-primary" ng-click="close()" ng-disabled="document.$invalid">Close</button>
 </div>

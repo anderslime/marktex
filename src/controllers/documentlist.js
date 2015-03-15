@@ -81,6 +81,9 @@ texapp.controller('optionsModalController', ['$scope', '$modalInstance', 'doc', 
 	};
 
 	$scope.update = function(){
+		if($scope.document.$invalid)
+			return;
+
 		$scope.doc.loading = true;
 
 		documentservice.update($scope.doc).success(function(updatedDoc){
