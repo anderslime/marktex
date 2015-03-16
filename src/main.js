@@ -10,9 +10,10 @@ function requireDependencies(){
 	require('angularroute');
 	require('angularanimate');
 	require('angularcookies');
+	require('moment');
+	require('angular-moment');
 	require('uiselect');
 	require('uiace');
-	//require('katex');
 	window.Showdown = require('showdown');
 	require('markdown');
 	require('showdownmathjax');
@@ -36,7 +37,8 @@ function bootstrapAngularApp(){
 		'ngAnimate',
 		'ngFacebook',
 		'ngCookies',
-		'ui.select'
+		'ui.select',
+		'angularMoment'
 	]);
 
 	module.exports = texapp;

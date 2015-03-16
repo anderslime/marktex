@@ -4,14 +4,14 @@
 <div class="modal-body">
     <h4>Title</h4>
 	<div ng-form name="document">
-		<input type="text" name="doctitle" class="form-control create-text" ng-model="doc.name" ng-change="update()" required>
+		<input type="text" name="doctitle" class="form-control create-text" ng-model="doc.name" required>
 		<span class="text-danger" ng-show="document.doctitle.$error.required">Documents must have a title</span>
     </div>
 
     <h4><i class="fa fa-share-alt"></i> Sharing</h4>
     <div>
     	<div class="add-share">
-	    	<div tex-share-doc="connections" ng-model="doc.shared" on-change="update"/>
+	    	<div tex-share-doc="connections" ng-model="doc.shared" on-change="update" placeholder="connections.length > 0 ? 'Share with your friends...' : 'You have no friends using MarkTex, thus no one to share with'"/>
     	</div>
     	<div class="text-info italic not-shared" ng-show="doc.shared.length === 0 || !doc.shared">You are not sharing this document with anyone, yet</div>
     </div>

@@ -9,6 +9,7 @@ module.exports = function(grunt) {
 				logging: true,
 				persistentLogging: true,
 				urls: {
+					logout: 'http://localhost:3000/logout',
 					sharejscollab: 'http://localhost:7000/channel',
 					me: 'http://localhost:3000/me',
 					logging: 'http://localhost:3000/logging',
@@ -23,6 +24,7 @@ module.exports = function(grunt) {
 				logging: false,
 				persistentLogging: true,
 				urls: {
+					logout: 'http://api.dtu.ninja/logout',
 					document: 'http://api.dtu.ninja/docs',
 					sharejscollab: 'http://livecollab.dtu.ninja/channel',
 					me: 'http://api.dtu.ninja/me',

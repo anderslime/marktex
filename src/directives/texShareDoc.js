@@ -3,7 +3,7 @@ var texapp = require('../main.js');
 texapp.directive('texShareDoc', [function() {
 	return {
 		restrict: 'A',
-		scope: { 'texShareDoc': '=', 'ngModel': '=', 'onChange': '=' },
+		scope: { 'texShareDoc': '=', 'ngModel': '=', 'onChange': '=', 'placeholder': '=' },
 		templateUrl: 'templates/directives/texShareDoc.html',
 		controller: ['$scope', function($scope){
 			$scope.$watch('ngModel', function(newVal, oldVal){

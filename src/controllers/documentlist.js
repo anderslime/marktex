@@ -54,10 +54,11 @@ texapp.controller('documentListController', ['$scope', '$location', 'documentser
 
 }]);
 
-texapp.controller('optionsModalController', ['$scope', '$modalInstance', 'doc', '$facebook', 'notificationservice', 'documentservice',
-									function ($scope,    $modalInstance,  doc,   $facebook,   notificationservice,   documentservice) {
+texapp.controller('optionsModalController', ['$scope', '$modalInstance', 'doc', '$facebook', 'notificationservice', 'documentservice', '$timeout',
+									function ($scope,    $modalInstance,  doc,   $facebook,   notificationservice,   documentservice,   $timeout) {
 	$scope.doc = doc;
 	$scope.connections = [];
+	var timeout = null;
 
 	$facebook.api('/me/friends').then( 
 		function(response) {
@@ -66,6 +67,25 @@ texapp.controller('optionsModalController', ['$scope', '$modalInstance', 'doc', 
 		function(err) {
 			notificationservice.error(err);
 		});
+
+	var update = function() {
+		$scope.doc.loading = true;
+
+		documentservice.update($scope.doc).success(function(updatedDoc){
+			$scope.doc.name = updatedDoc.name;
+			$scope.doc.loading = false;
+		}).error(function(){
+			notificationservice.error('Unable to update document, please try again', 'long');
+			$scope.doc.loading = false;
+		});
+	};
+
+	var debounceUpdate = function() {
+		if (timeout)
+			$timeout.cancel(timeout);
+
+		timeout = $timeout(update, 1000);
+	};
 
 	$scope.remove = function(){
 		$scope.doc.loading = true;
@@ -83,19 +103,13 @@ texapp.controller('optionsModalController', ['$scope', '$modalInstance', 'doc', 
 	$scope.update = function(){
 		if($scope.document.$invalid)
 			return;
-
-		$scope.doc.loading = true;
-
-		documentservice.update($scope.doc).success(function(updatedDoc){
-			$scope.doc.name = updatedDoc.name;
-			$scope.doc.loading = false;
-		}).error(function(){
-			notificationservice.error('Unable to update document, please try again', 'long');
-			$scope.doc.loading = false;
-		});
+		debounceUpdate();
 	};
 
 	$scope.close = function () {
 		$modalInstance.close();
 	};
+
+	$scope.$watch('doc.name', debounceUpdate);
+
 }]);

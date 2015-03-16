@@ -28,7 +28,7 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
 			$scope.onFacebookLogoutClick = function() {
 				$facebook.logout().then(function() {
 					//user is logged out
-					window.location = '/';
+					window.location = config.urls.logout;
 				}, function() {
 					notificationservice.error(unknownError); // what excactly happens here?
 				});
