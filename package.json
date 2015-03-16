@@ -7,6 +7,7 @@
     "node": "0.10.x"
   },
   "dependencies": {
+    "angular-moment": "^0.9.0",
     "bower": "^1.3.12",
     "browserify": "^9.0.3",
     "browserify-shim": "^3.8.3",
@@ -54,7 +55,7 @@
     "angularanimate": "./bower_components/angular-animate/angular-animate.js",
     "angularcookies": "./bower_components/angular-cookies/angular-cookies.js",
     "moment": "./bower_components/moment/moment.js",
-    "angular-moment": "./bower_components/angular-moment/angular-moment.js",
+    "angular-moment": "./node_modules/angular-moment/angular-moment.js",
     "uiselect": "./components/ui-select/select.js",
     "uiace": "./bower_components/angular-ui-ace/ui-ace.js",
     "showdownmathjax": "./components/showdown.mathjax.js",
