@@ -19,6 +19,6 @@
 <div class="modal-footer">
     <button class="btn" ng-hide="confirmDelete" ng-click="confirmDelete=true">Delete</button>
     <button class="btn" ng-show="confirmDelete" ng-click="confirmDelete=false">No, wait!</button>
-    <button class="btn btn-danger" style="float:left" ng-show="confirmDelete" ng-click="removeDoc(doc)">Sure, delete permanently</button>
+    <button class="btn btn-danger" style="float:left" ng-show="confirmDelete" ng-click="remove(doc)">Sure, delete permanently</button>
     <button class="btn btn-primary" ng-click="close()" ng-disabled="document.$invalid">Close</button>
 </div>
