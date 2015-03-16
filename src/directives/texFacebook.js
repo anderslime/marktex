@@ -60,7 +60,9 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
 
 				}).error(function(){
 					//facebook data about the user was not found. we must fetch it
-					notificationservice.error('You are logged in, and we though we had data about you, but we don\'t. This will be fixed!');
+					//apparently, this is also where we arrive for users not logged in. At least in Chrome Canary. Strange.
+
+					//notificationservice.error('You are logged in, and we though we had data about you, but we don\'t. This will be fixed!');
 				});
 
 			});
