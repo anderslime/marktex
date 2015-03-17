@@ -54,7 +54,7 @@ texapp.controller('documentListController', ['$scope', '$location', 'documentser
 
 }]);
 
-texapp.controller('optionsModalController', ['$scope', '$modalInstance', 'doc', '$facebook', 'notificationservice', 'documentservice', '$timeout', 'userservice',
+texapp.controller('optionsModalController', ['$scope',  '$modalInstance', 'doc', '$facebook', 'notificationservice', 'documentservice', '$timeout', 'userservice',
 									function ($scope,    $modalInstance,  doc,   $facebook,   notificationservice,   documentservice,   $timeout,   userservice) {
 	$scope.doc = doc;
 	$scope.connections = [];
@@ -65,6 +65,12 @@ texapp.controller('optionsModalController', ['$scope', '$modalInstance', 'doc', 
 
 			userservice.facebookIdsToUsers(response.data.map(function(f){ return f.id; }))
 				.success(function(users){
+
+					 //remove creator
+					for(var i = users.length -1; i >= 0; i--)
+						if(doc.creatorId === users[i]._id)
+							users.splice(i, 1);
+	
 					$scope.connections = users;
 				})
 				.error(function(){

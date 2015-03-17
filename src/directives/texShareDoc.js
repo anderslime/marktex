@@ -7,19 +7,52 @@ texapp.directive('texShareDoc', [function() {
 		templateUrl: 'templates/directives/texShareDoc.html',
 		controller: ['$scope', function($scope){
 
-			var hiddenuserids = ['54fed7ff7abcd73c56bfb4f6'];
+			// PIECE OF SHIT DIRECTIVE DOES NOT OFFER CUSTOM COMPARISON ON MATCHES TO CHOICES: YUCK!!!
 
-			if(hiddenuserids && hiddenuserids.length > 0)
-				angular.forEach($scope.ngModel, function(user){
-					if(hiddenuserids.indexOf(user._id) > -1)
-						user.locked = true;
-				});
+			var connections = angular.copy($scope.texShareDoc);
+			var filterChoices = function(){
+				//remove choices already selected. this is done manually, to allow for custom comparers
+				$scope.texShareDoc = angular.copy(connections);
 
+				var modelIds = $scope.ngModel.map(function(u){ return u._id; });
+				for(var i = $scope.texShareDoc.length -1; i >= 0; i--)
+					if(modelIds.indexOf($scope.texShareDoc[i]._id) > -1)
+						$scope.texShareDoc.splice(i, 1);
+			};
+
+			angular.forEach($scope.ngModel, function(user){
+				if($scope.$root.selfId === user._id){
+					user.locked = true;
+				}
+			});
+
+			var skipNextDigestCycle = false;
 			$scope.$watch('ngModel', function(newVal, oldVal){
 				if(typeof($scope.onChange) !== 'function' || newVal === oldVal)
 					return;
 
+				if(skipNextDigestCycle){
+					skipNextDigestCycle = false;
+					return;
+				}
+
+				skipNextDigestCycle = true;
+				filterChoices();
 				$scope.onChange();
+			});
+
+			$scope.$watch('texShareDoc', function(newVal, oldVal){
+				if(oldVal === newVal)
+					return;
+
+				if(skipNextDigestCycle){
+					skipNextDigestCycle = false;
+					return;
+				}
+
+				connections = angular.copy($scope.texShareDoc);
+				skipNextDigestCycle = true;
+				filterChoices();
 			});
 		}]
 	};
