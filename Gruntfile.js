@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 					logout: 'http://localhost:3000/logout',
 					sharejscollab: 'http://localhost:7000/channel',
 					me: 'http://localhost:3000/me',
+					facebookIdsToUsers: 'http://localhost:3000/facebookIdsToUsers',
 					logging: 'http://localhost:3000/logging',
 					fbCallbackUrl: 'http://localhost:3000/auth/facebook/callback',
 					document: 'http://localhost:3000/docs'
@@ -28,6 +29,7 @@ module.exports = function(grunt) {
 					document: 'http://api.dtu.ninja/docs',
 					sharejscollab: 'http://livecollab.dtu.ninja/channel',
 					me: 'http://api.dtu.ninja/me',
+					facebookIdsToUsers: 'http://api.dtu.ninja/facebookIdsToUsers',
 					logging: 'http://api.dtu.ninja/logging',
 					fbCallbackUrl: 'http://api.dtu.ninja/auth/facebook/callback'
 				},

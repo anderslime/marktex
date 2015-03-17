@@ -54,15 +54,23 @@ texapp.controller('documentListController', ['$scope', '$location', 'documentser
 
 }]);
 
-texapp.controller('optionsModalController', ['$scope', '$modalInstance', 'doc', '$facebook', 'notificationservice', 'documentservice', '$timeout',
-									function ($scope,    $modalInstance,  doc,   $facebook,   notificationservice,   documentservice,   $timeout) {
+texapp.controller('optionsModalController', ['$scope', '$modalInstance', 'doc', '$facebook', 'notificationservice', 'documentservice', '$timeout', 'userservice',
+									function ($scope,    $modalInstance,  doc,   $facebook,   notificationservice,   documentservice,   $timeout,   userservice) {
 	$scope.doc = doc;
 	$scope.connections = [];
 	var timeout = null;
 
 	$facebook.api('/me/friends').then( 
 		function(response) {
-			$scope.connections = response.data;
+
+			userservice.facebookIdsToUsers(response.data.map(function(f){ return f.id; }))
+				.success(function(users){
+					$scope.connections = users;
+				})
+				.error(function(){
+					notificationservice.error('Unable to fetch connections/friends', 'long');
+					$scope.doc.loading = false;
+				});
 		},
 		function(err) {
 			notificationservice.error(err);

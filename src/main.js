@@ -120,6 +120,7 @@ function requireAngularAppDependencies(){
 	require('./directives/texShareDoc');
 
 	require('./filters/readystate');
+	require('./filters/withoutselfifcreator');
 }
 
 requireDependencies();
