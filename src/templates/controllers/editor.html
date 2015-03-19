@@ -2,7 +2,15 @@
 	<div tex-markdown="tmOptions" ng-show="docloaded" class="tex-markdown"></div>
 	<div ng-hide="docloaded" class="docloading">
 		<div class="container">
-			<span tex-loader="docname"></span>
+			<span tex-loader="docname" ng-hide="unauthorized"></span>
+
+			<div ng-show="unauthorized">
+				<div>
+					<i class="fa fa-exclamation-triangle fa-5x text-danger"></i>
+				</div>
+				<div>You are not authorized for this document</div>
+			</div>
+			
 		</div>
 	</div>
 </div>

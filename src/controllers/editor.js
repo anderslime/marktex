@@ -1,17 +1,24 @@
 var texapp = require('../main.js');
 
 texapp.controller('editorController', ['$scope', '$routeParams', '$http', '$q', '$timeout',
-							   function($scope,   $routeParams,   $http,   $q,	  $timeout) {
+							   function($scope,   $routeParams,   $http,   $q,	 $timeout) {
 
 	$scope.docloaded = false;
 	var config = require('config');
-	var BCSocket = require('../../components/sharejs/channel/bcsocket.js').BCSocket;
+	var Primus = require('primus-client');
+	var primus = new Primus(config.urls.sharejscollab + '?docId=' + ($routeParams.docId || 'dojo'));
 	var sharejs = require('sharejs');
-	var socket = new BCSocket(config.urls.sharejscollab, {
-		reconnect: true,
-		crossDomainXhr: true
+
+	var sjs = new sharejs.Connection(primus.substream('share'));
+	primus.on('data', function message(data) {
+		if(data === 'Unauthorized')
+			$scope.unauthorized = true;
 	});
-	var sjs = new sharejs.Connection(socket);
+
+	$scope.$on('$locationChangeStart', function() {
+	    primus.end();
+	});
+
 	var defAceLoaded = $q.defer();
 	var defDocLoaded = $q.defer();
 
@@ -30,19 +37,6 @@ texapp.controller('editorController', ['$scope', '$routeParams', '$http', '$q', 
 	var doc = sjs.get('docs', $routeParams.docId || 'dojo');
 	doc.subscribe();
 	
-	/*doc.connection.on('connected', function(){
-			socketStateChanged(doc);
-	});
-	doc.connection.on('open', function(){
-			socketStateChanged(doc);
-	});
-	doc.connection.on('close', function(){
-			socketStateChanged(doc);
-	});
-	doc.connection.on('error', function(){
-			socketStateChanged(doc);
-	});*/
-
 	//note that the connection state will remain 'connecting' at least until this method has fired
 	doc.whenReady(function() {
 		if (!doc.type)

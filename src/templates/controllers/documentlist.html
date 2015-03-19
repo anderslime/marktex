@@ -28,8 +28,8 @@
 					</td>
 					<td ng-click="gotoDoc(doc)"><span am-time-ago="doc.updated_at"></span></td>
 					<td ng-hide="selfId === undefined">
-						<span ng-if="doc.creatorId !== selfId">{{ doc.creatorName }}</span>
-						<span ng-repeat="person in doc.permittedUsers | withoutselfifcreator:doc.creatorId:selfId:doc.creatorName ">{{ $last ? person.facebook.name : (person.facebook.name + ',') }}</span>
+						<span ng-if="doc.creatorId !== selfId">{{ doc.creatorName }}{{ doc.permittedUsers.length > 1 ? ', ' : '' }}</span>
+						<span ng-repeat="person in doc.permittedUsers | withoutselfifcreator:doc.creatorId:selfId:doc.creatorName ">{{ $last ? person.facebook.name : (person.facebook.name + ', ') }}</span>
 					</td>
 				</tr>
 			</tbody>

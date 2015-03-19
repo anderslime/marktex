@@ -25,6 +25,7 @@ function requireDependencies(){
 	require('../components/sharejs/text');
 	require('../components/sharejs/ace');
 	require('../components/jaxconfig');
+	require('share-primus');
 }
 
 function bootstrapAngularApp(){
