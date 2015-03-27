@@ -44,7 +44,6 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
 			};
 
 			$scope.$on('fb.auth.statusChange', function(event, res) {
-				console.log("facebook auth status changed");
 				if (res.status !== 'connected')
 					return; // i don't know what this status means, but its apparently bad
 
