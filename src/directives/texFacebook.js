@@ -26,9 +26,19 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
 			};
 
 			$scope.onFacebookLogoutClick = function() {
-				$facebook.logout().then(function() {
-					//user is logged out
-					window.location = config.urls.logout;
+				$facebook.getLoginStatus(true).then(function(res) {
+					if (res.status === 'connected') {
+						$facebook.logout().then(function() {
+							//user is logged out
+							window.location = config.urls.logout;
+						}, function() {
+							notificationservice.error(unknownError); // what excactly happens here?
+						});
+					} else {
+						// We are not logged in and the local information is not updated
+						console.log("already logged out");
+						window.location.reload();
+					}
 				}, function() {
 					notificationservice.error(unknownError); // what excactly happens here?
 				});
