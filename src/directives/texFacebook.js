@@ -51,9 +51,10 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
 				//we are now in a state where Facebook says the user authorized our app, but it
 				//is not guaranteed that we have info about him. if we are running with a clean
 				//database, that will be the case. we will handle this.
+				var facebookToken = res.authResponse.accessToken;
 
 				//see if we have user data
-				userservice.me().success(function(user) {
+				userservice.me(facebookToken).success(function(user) {
 					$scope.isLoggedIn = $rootScope.isLoggedIn = true;
 					$scope.username = user.name;
 					$scope.id = $rootScope.selfId = user.id;
