@@ -26,7 +26,7 @@ texapp.factory('scrollsyncservice', [function() {
 			return false;
 
 		if(listmode)
-			return new RegExp(/^\ {0,}(\*\ )/).test(line); // allow indents if already in listmode
+			return new RegExp(/^\ {0,}(\*|-\ )/).test(line); // allow indents if already in listmode
 		else
 			return new RegExp(/^(\*|-)\ /).test(line); // true if list
 	}
