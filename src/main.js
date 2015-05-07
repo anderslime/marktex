@@ -107,7 +107,7 @@ function requireAngularAppDependencies(){
 	require('./controllers/editor');
 	require('./controllers/documentlist');
 
-	require('./services/mathjax');
+	require('./services/typesetting');
 	require('./services/scrollsync');
 	require('./services/user');
 	require('./services/document');

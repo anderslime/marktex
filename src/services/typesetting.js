@@ -1,6 +1,6 @@
 var texapp = require('../main.js');
 
-texapp.factory('mathjaxservice', ['$q', '$sanitize', 'markdownConverter',
+texapp.factory('typesettingservice', ['$q', '$sanitize', 'markdownConverter',
 						function(  $q,   $sanitize,   markdownConverter) {
 
 	function replaceSlashes(value){
@@ -22,18 +22,20 @@ texapp.factory('mathjaxservice', ['$q', '$sanitize', 'markdownConverter',
 	}
 
 	var mdDef;
+	var lastMarkdownTime;
 	return {
 		markdown: function(text, imm){
 			var deferred = $q.defer();
 
 			var immediate = imm || false;
-			if(text === undefined || text.length === 0)
+			if(text === undefined || text.length === 0 || (new Date() - lastMarkdownTime) > 700)
 				immediate = true;
 
 			if(mdDef)
 				clearTimeout(mdDef);
 
 			mdDef = setTimeout(function(){
+				lastMarkdownTime = new Date();
 				deferred.resolve(markdown(text));
 			}, immediate ? 0 : 300);
 

@@ -1,7 +1,7 @@
 var texapp = require('../main.js');
 
-texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', 'scrollsyncservice',
-						function( $rootScope,   $compile,   mathjaxservice,   scrollsyncservice) {
+texapp.directive('texMarkdown', ['$rootScope', '$compile', 'typesettingservice', 'scrollsyncservice',
+						function( $rootScope,   $compile,   typesettingservice,   scrollsyncservice) {
 
 	return {
 		restrict: 'A',
@@ -26,11 +26,11 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'mathjaxservice', 'sc
 				if(newVal === undefined)
 					return;
 				
-				var mdtextPromise = mathjaxservice.markdown(newVal);
+				var mdtextPromise = typesettingservice.markdown(newVal);
 
 				mdtextPromise.then(function(mdtext) {
 				    scope.$previewDoc.html(mdtext);
-			    	var typesetPromise = mathjaxservice.typeset(scope.$previewDoc, mdtext);
+			    	var typesetPromise = typesettingservice.typeset(scope.$previewDoc, mdtext);
 
 			    	//occurs when mathjax completes typesetting the document
 			    	typesetPromise.then(function(){
