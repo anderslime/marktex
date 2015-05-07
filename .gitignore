@@ -4,3 +4,4 @@ dist
 .sass-cache/
 tmp/*
 tex.sublime-workspace
+tex.sublime-project
