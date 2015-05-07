@@ -484,10 +484,10 @@ angular.module('ui.layout', [])
         var afterChevron = angular.element(afterButton.children()[0]);
 
         //chevron bootstrap classes
-        var chevronLeft = 'glyphicon-chevron-left';
-        var chevronRight = 'glyphicon-chevron-right';
-        var chevronUp = 'glyphicon-chevron-up';
-        var chevronDown = 'glyphicon-chevron-down';
+        var chevronLeft = 'fa-chevron-left';
+        var chevronRight = 'fa-chevron-right';
+        var chevronUp = 'fa-chevron-up';
+        var chevronDown = 'fa-chevron-down';
 
         var prevChevronClass = ctrl.isUsingColumnFlow ? chevronLeft : chevronUp;
         var afterChevronClass = ctrl.isUsingColumnFlow ? chevronRight : chevronDown;
@@ -650,7 +650,7 @@ angular.module('ui.layout', [])
 
       compile: function(element) {
         //TODO: add ability to disable auto-adding a splitbar after the container
-        var splitbar = angular.element('<div ui-splitbar><a><span class="glyphicon"></span></a><a><span class="glyphicon"></span></a></div>');
+        var splitbar = angular.element('<div ui-splitbar><a><span class="fa"></span></a><a><span class="fa"></span></a></div>');
         element.after(splitbar);
 
         return {
