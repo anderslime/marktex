@@ -74,6 +74,8 @@
 	color: white;
 	text-align: center;
 	display: table;
+	position: relative;
+	z-index: 100000;
 
 	.container {
 		display: table-cell;
