@@ -6,7 +6,7 @@ texapp.directive('texMenu', ['$rootScope', function($rootScope) {
 		scope: { 'texMenu': '=' },
         templateUrl: 'templates/directives/texMenu.html',
         controller: ['$scope', '$route', '$location', '$routeParams', function($scope, $route, $location, $routeParams){
-        	$scope.doctitle = 'test';
+        	$scope.doctitle = '';
 			var path = $location.path();
 
         	function updateMenu(){
@@ -25,10 +25,7 @@ texapp.directive('texMenu', ['$rootScope', function($rootScope) {
 	        $scope.$on('$routeChangeSuccess', function() {
 	        	if(path.indexOf('/editor') === 0)
 		    		$scope.doctitle = $routeParams.docName;
-			});
-
-	        $scope.$on('$locationChangeStart', function() {
-			    updateMenu();
+		    	updateMenu();
 			});
 
 			$rootScope.$watch('isLoggedIn', function(){
