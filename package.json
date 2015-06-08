@@ -45,6 +45,7 @@
   "browser": {
     "jquery": "./bower_components/jquery/dist/jquery.js",
     "angular": "./bower_components/angular/angular.js",
+    "angular-touch": "./bower_components/angular-touch/angular-touch.js",
     "angularsanitize": "./bower_components/angular-sanitize/angular-sanitize.js",
     "showdown": "./bower_components/showdown/src/showdown.js",
     "markdown": "./bower_components/angular-markdown-directive/markdown.js",

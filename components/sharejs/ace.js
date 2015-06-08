@@ -41,7 +41,7 @@ applyToShareJS = function(editorDoc, delta, doc) {
 };
 
 sharejs.Doc.prototype['attach_ace'] = function(editor, keepEditorContents) {
-  var check, deleteListener, doc, docListener, editorDoc, editorListener, insertListener, offsetToPos, refreshListener, replaceTokenizer, suppress;
+  var check, deleteListener, doc, historymode, docListener, editorDoc, applyToEditorDoc, editorListener, insertListener, offsetToPos, refreshListener, replaceTokenizer, suppress;
 
   if (!this.provides['text']) {
     throw new Error('Only text documents can be attached to ace');
@@ -57,7 +57,7 @@ sharejs.Doc.prototype['attach_ace'] = function(editor, keepEditorContents) {
 
       editorText = editorDoc.getValue();
       otText = doc.get(); // gfodor
-      if (editorText.length !=0  && typeof otText != 'undefined' && editorText !== otText ) {
+      if (editorText.length !=0  && typeof otText != 'undefined' && editorText !== otText && !historymode ) {
         console.error('out of sync, resetting to base');
 
         suppress = true;
@@ -117,6 +117,36 @@ sharejs.Doc.prototype['attach_ace'] = function(editor, keepEditorContents) {
     replaceTokenizer();
   }
   editorDoc.on('change', editorListener);
+  doc.applyOperationsFromClean = function(ops){
+    historymode = true;
+    suppress = true;
+    editor.setValue('');
+    for(key in ops)
+      applyToEditorDoc(ops[key].op);
+    suppress = false;
+  };
+  applyToEditorDoc = function(op){
+    if(op === null || op === undefined)
+      return;
+    var pos = 0;
+    var spos = 0;
+    for (var i = 0; i < op.length; i++) {
+      var component = op[i];
+      switch (typeof component) {
+        case 'number':
+          pos += component;
+          spos += component;
+          break;
+        case 'string':
+          if (doc.onInsert) doc.onInsert(pos, component);
+          pos += component.length;
+          break;
+        case 'object':
+          if (doc.onRemove) doc.onRemove(pos, component.d);
+          spos += component.d;
+      }
+    }
+  };
   docListener = function(op) {
     suppress = true;
     applyToDoc(editorDoc, op);

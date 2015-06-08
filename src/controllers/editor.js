@@ -4,9 +4,10 @@ texapp.controller('editorController', ['$scope', '$routeParams', '$http', '$q', 
 							   function($scope,   $routeParams,   $http,   $q,	 $timeout) {
 
 	$scope.docloaded = false;
+	var docId = ($routeParams.docId || 'dojo');
 	var config = require('config');
 	var Primus = require('primus-client');
-	var primus = new Primus(config.urls.sharejscollab + '?docId=' + ($routeParams.docId || 'dojo'));
+	var primus = new Primus(config.urls.sharejscollab + '?docId=' + docId);
 	var sharejs = require('sharejs');
 
 	var sjs = new sharejs.Connection(primus.substream('share'));
@@ -32,11 +33,12 @@ texapp.controller('editorController', ['$scope', '$routeParams', '$http', '$q', 
 		defAceLoaded.resolve(aceEditor);
 	};
 
-	$scope.tmOptions = { onAceLoaded: $scope.onAceLoaded, readonly: true };
+	$scope.tmOptions = { onAceLoaded: $scope.onAceLoaded, readonly: true, docId: docId };
 	$scope.docname = $routeParams.docName || 'dojo';
-	var doc = sjs.get('docs', $routeParams.docId || 'dojo');
+	var doc = sjs.get('docs', docId);
 	doc.subscribe();
 	
+
 	//note that the connection state will remain 'connecting' at least until this method has fired
 	doc.whenReady(function() {
 		if (!doc.type)
@@ -51,6 +53,7 @@ texapp.controller('editorController', ['$scope', '$routeParams', '$http', '$q', 
 		$timeout(function(){
 			var ae = data[0];
 			doc.attach_ace(ae);
+			$scope.tmOptions.doc = doc;
 			ae.scrollToLine(0, false, false, function(){});
 			ae.focus();
 			socketStateChanged();

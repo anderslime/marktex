@@ -11,6 +11,7 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
 		templateUrl: 'templates/directives/texFacebook.html',
 		controller: ['$scope', function($scope){
 			$scope.isLoggedIn = $rootScope.isLoggedIn = false;
+			$scope.loading = true;
 			var unknownError = 'Unknown error encountered when authing with Facebook'; // lets not have this!
 
 			$scope.onFacebookLoginClick = function() {
@@ -55,6 +56,7 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
 				//see if we have user data
 				userservice.me(facebookToken).success(function(user) {
 					$scope.isLoggedIn = $rootScope.isLoggedIn = true;
+					$scope.loading = false;
 					$scope.username = user.name;
 					$scope.id = $rootScope.selfId = user.id;
 					//everything is cool
@@ -69,7 +71,7 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
 						});
 
 				}).error(function(){
-
+					$scope.loading = false;
 					//facebook data about the user was not found. we must fetch it
 					//apparently, this is also where we arrive for users not logged in. At least in Chrome Canary. Strange.
 

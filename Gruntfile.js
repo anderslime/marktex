@@ -15,7 +15,8 @@ module.exports = function(grunt) {
 					facebookIdsToUsers: 'http://localhost:3000/facebookIdsToUsers',
 					logging: 'http://localhost:3000/logging',
 					fbCallbackUrl: 'http://localhost:3000/auth/facebook/callback',
-					document: 'http://localhost:3000/docs'
+					document: 'http://localhost:3000/docs',
+					documentHistory: 'http://localhost:3000/dochistory'
 				},
 				facebook: {
 					appID: '878282388901735'

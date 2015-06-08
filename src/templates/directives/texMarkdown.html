@@ -1,15 +1,23 @@
-<div ui-layout="{flow : 'column', onresize: onPageResize }" class="tex-markdown-container" >
-	
-	<div ui-layout-container class="editor-container">
-		<div ui-ace="{ useWrapMode : true, showGutter: false, theme:'chrome',mode: 'markdown', highlightActiveLine: false, onLoad: aceLoaded }"
-			ng-model="document" ng-readonly="texMarkdown.readonly"></div>
-	</div>
+<!--<div>
+	<div tex-doc-history="texMarkdown"></div>
+</div>-->
 
-	<div ui-layout-container class="document-container">
-		<div class="tex-document">
-			<div class="document"></div>
-			<div class="document-preview"></div>
+<div ui-layout="{flow : 'row' }" style="top: 42px">
+	
+	<div ui-layout="{flow : 'column', onresize: onPageResize }" class="tex-markdown-container" >
+	
+		<div ui-layout-container class="editor-container">
+			<div ui-ace="{ useWrapMode : true, showGutter: false, theme:'chrome',mode: 'markdown', highlightActiveLine: false, onLoad: aceLoaded }"
+				ng-model="document" ng-readonly="texMarkdown.readonly"></div>
+		</div>
+
+		<div ui-layout-container class="document-container">
+			<div class="tex-document">
+				<div class="document"></div>
+				<div class="document-preview"></div>
+			</div>
 		</div>
 	</div>
 
 </div>
+

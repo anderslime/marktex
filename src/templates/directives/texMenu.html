@@ -2,11 +2,14 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">MarkTex</a>
+				<a class="navbar-brand" href="#">MarkTeX</a>
 			</div>
 			<ul class="nav navbar-nav" ng-repeat="item in items">
 				<li ng-class="item.active ? 'active' : ''"><a href="{{ item.url }}">{{ item.title }}</a></li>
 			</ul>
+
+			<p ng-hide="doctitle.length === 0" class="navbar-text title">{{ doctitle }}</p>
+
 			<ul class="nav navbar-nav navbar-right">
 				<li>
 					<span class="navbar-text"><span tex-facebook></span></span>

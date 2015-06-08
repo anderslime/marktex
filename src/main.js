@@ -119,6 +119,7 @@ function requireAngularAppDependencies(){
 	require('./directives/texFacebook');
 	require('./directives/texNotification');
 	require('./directives/texShareDoc');
+	require('./directives/texDocHistory');
 
 	require('./filters/readystate');
 	require('./filters/withoutselfifcreator');
