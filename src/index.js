@@ -15,7 +15,7 @@ webserver = connect();
 webserver.use(compression());
 webserver.use(cors());
 //webserver.use(rewriteUtils.rewriteRequest);
-webserver.use(serveStatic('./dist/', {index:'./dist/loaderio-441728208ec60f57d75602a3e9158492.txt'}));
+webserver.use(serveStatic('./dist/', {index:'./loaderio-441728208ec60f57d75602a3e9158492.txt'}));
 
 webserver.listen(process.env.PORT || port);
 
