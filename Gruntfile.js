@@ -45,6 +45,7 @@ module.exports = function(grunt) {
 				files: [
 					//kopier index.html - bliver overskrevet af minificeret udgave i dist
 					{ src: 'src/index.html', dest: 'dist/index.html' },
+					{ src: 'loaderio-441728208ec60f57d75602a3e9158492.html', dest: 'dist/loaderio-441728208ec60f57d75602a3e9158492.html' },
 					//kopier simpel webserver der bruges til heroku
 					{ src: 'src/index.js', dest: 'dist/index.js' },
 					//kopier bootstrap skrifttyper (glyphicons)
