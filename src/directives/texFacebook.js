@@ -11,7 +11,7 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
 		templateUrl: 'templates/directives/texFacebook.html',
 		controller: ['$scope', function($scope){
 			$scope.isLoggedIn = $rootScope.isLoggedIn = false;
-			$scope.loading = true;
+			$scope.loading = false;
 			var unknownError = 'Unknown error encountered when authing with Facebook'; // lets not have this!
 
 			$scope.onFacebookLoginClick = function() {
@@ -45,6 +45,7 @@ texapp.directive('texFacebook', ['$http', '$facebook', 'userservice', 'notificat
 			};
 
 			$scope.$on('fb.auth.statusChange', function(event, res) {
+				$scope.loading = true;
 				if (res.status !== 'connected')
 					return; // i don't know what this status means, but its apparently bad
 

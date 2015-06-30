@@ -73,9 +73,10 @@ function bootstrapAngularApp(){
 			when('/editor/:docId?/:docName?', {
 				templateUrl: 'templates/controllers/editor.html',
 				controller: 'editorController',
-				title: 'Write',
+				title: 'Demo',
 				url: '/editor',
-				authorization: false
+				authorization: false,
+				publicOnly: true
 			}).
 			when('/documents', {
 				templateUrl: 'templates/controllers/documentlist.html',

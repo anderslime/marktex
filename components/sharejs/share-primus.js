@@ -10,7 +10,7 @@
 
   // Override Connection's bindToSocket method with an implementation
   // that understands Primus Stream.
-  window.sharejs.Connection.prototype.bindToSocket = function(stream) {
+  require('sharejs').Connection.prototype.bindToSocket = function(stream) {
     var connection = this;
 
     setState(stream.readyState);

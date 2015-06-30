@@ -63,7 +63,7 @@
     "uiace": "./bower_components/angular-ui-ace/ui-ace.js",
     "showdownmathjax": "./components/showdown.mathjax.js",
     "showdownlinebreak": "./components/showdown.linebreak.js",
-    "sharejs": "./components/sharejs/share.js",
+    "sharejs": "./components/sharejs/client/index.js",
     "ngFacebook": "./bower_components/ng-facebook/ngFacebook.js",
     "katex": "./components/katex/katex.min.js",
     "primus-client": "./components/sharejs/primus-client.js",
@@ -139,8 +139,7 @@
       "depends": [
         "showdown"
       ]
-    },
-    "sharejs": "sharejs"
+    }
   },
   "browserify": {
     "transform": [

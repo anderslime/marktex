@@ -7,12 +7,12 @@ texapp.directive('texMenu', ['$rootScope', function($rootScope) {
         templateUrl: 'templates/directives/texMenu.html',
         controller: ['$scope', '$route', '$location', '$routeParams', function($scope, $route, $location, $routeParams){
         	$scope.doctitle = '';
-			var path = $location.path();
-
+			
         	function updateMenu(){
+				var path = $location.path();
 	        	$scope.items = [];
 	        	angular.forEach($route.routes,function (route) {
-	        		if(route.title !== undefined && (!route.authorization || (route.authorization && $rootScope.isLoggedIn))){
+	        		if(route.title !== undefined && (!route.authorization || (route.authorization && $rootScope.isLoggedIn)) && (!route.publicOnly || (route.publicOnly && !$rootScope.isLoggedIn))){
 				    	$scope.items.push({
 				    		title: route.title,
 				    		url: route.url,
@@ -23,11 +23,11 @@ texapp.directive('texMenu', ['$rootScope', function($rootScope) {
 	        }
 
 	        $scope.$on('$routeChangeSuccess', function() {
-	        	if(path.indexOf('/editor') === 0)
+	        	if($location.path().indexOf('/editor') === 0)
 		    		$scope.doctitle = $routeParams.docName;
 		    	updateMenu();
 			});
-
+			
 			$rootScope.$watch('isLoggedIn', function(){
 				updateMenu();
 			});
