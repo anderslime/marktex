@@ -19,6 +19,7 @@
 				<tr ng-repeat="doc in documents">
 					<td>
 						<i ng-hide="selfId === undefined || selfId !== doc.creatorId" class="optionsicon fa fa-cog fa-2x" ng-click="openOptions(doc)"></i>
+						<i ng-show="selfId !== undefined && selfId !== doc.creatorId" class="optionsicon fa fa-minus-circle fa-2x" ng-click="openLeaveSharing(doc, selfId)"></i>
 					</td>
 					<td ng-click="gotoDoc(doc)">
 						<i class="fa fa-file-text-o fa-2x"></i>

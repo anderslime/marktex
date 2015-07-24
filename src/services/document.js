@@ -18,6 +18,9 @@ texapp.factory('documentservice', ['$http', function($http) {
 		update: function(doc){
 			return $http.put(resourceUrl(doc._id), doc, { withCredentials: true });
 		},
+		leave: function(id){
+			return $http.post(resourceUrl('leave/' + id), null, { withCredentials: true });
+		},
 		listHistory: function(id){
 			return $http.get([config.urls.documentHistory, id].join('/'), { withCredentials: true });
 		}

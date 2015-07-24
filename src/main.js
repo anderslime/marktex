@@ -107,6 +107,7 @@ function bootstrapAngularApp(){
 function requireAngularAppDependencies(){
 	require('./controllers/editor');
 	require('./controllers/documentlist');
+	//require('./controllers/derbyEditor');
 
 	require('./services/typesetting');
 	require('./services/scrollsync');

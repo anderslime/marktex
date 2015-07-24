@@ -20,18 +20,33 @@ texapp.controller('documentListController', ['$scope', '$location', 'documentser
 			templateUrl: 'templates/controllers/optionsModal.html',
 			controller: 'optionsModalController',
 			resolve: {
-				doc: function () {
-					return doc;
-				}
+				doc: function () { return doc; }
 			}
 		});
 
 		modal.result.then(function (deleted) {
-			if(deleted)
-			{
-				var index = $scope.documents.indexOf(doc);
-				$scope.documents.splice(index, 1);
+			if(!deleted)
+				return;
+			var index = $scope.documents.indexOf(doc);
+			$scope.documents.splice(index, 1);
+		});
+	};
+
+	$scope.openLeaveSharing = function (doc, selfId) {
+		var modal = $modal.open({
+			templateUrl: 'templates/controllers/leaveSharingModal.html',
+			controller: 'leaveSharingModalController',
+			resolve: {
+				doc: function () { return doc; },
+				selfId: function () { return selfId; }
 			}
+		});
+
+		modal.result.then(function (left) {
+			if(!left)
+				return;
+			var index = $scope.documents.indexOf(doc);
+			$scope.documents.splice(index, 1);
 		});
 	};
 
@@ -54,8 +69,8 @@ texapp.controller('documentListController', ['$scope', '$location', 'documentser
 
 }]);
 
-texapp.controller('optionsModalController', ['$scope',  '$modalInstance', 'doc', '$facebook', 'notificationservice', 'documentservice', '$timeout', 'userservice',
-									function ($scope,    $modalInstance,  doc,   $facebook,   notificationservice,   documentservice,   $timeout,   userservice) {
+texapp.controller('optionsModalController', ['$scope', '$modalInstance', 'doc', '$facebook', 'notificationservice', 'documentservice', '$timeout', 'userservice',
+									function ($scope,   $modalInstance,   doc,   $facebook,   notificationservice,   documentservice,   $timeout,   userservice) {
 	$scope.doc = doc;
 	$scope.connections = [];
 	var timeout = null;
@@ -125,5 +140,32 @@ texapp.controller('optionsModalController', ['$scope',  '$modalInstance', 'doc',
 	};
 
 	$scope.$watch('doc.name', debounceUpdate);
+}]);
 
+texapp.controller('leaveSharingModalController', ['$scope', '$modalInstance', 'doc', 'selfId', 'notificationservice', 'documentservice',
+										 function ($scope,   $modalInstance,   doc,   selfId,	notificationservice,   documentservice) {
+	$scope.doc = doc;
+
+	$scope.leave = function(){
+		$scope.doc.loading = true;
+
+		var index = -1;
+		angular.forEach($scope.doc.permittedUsers, function(p, i){
+			if(p._id === selfId)
+				index = i;
+		});
+		$scope.doc.permittedUsers.splice(index, 1);
+		
+		documentservice.leave($scope.doc._id).success(function(){
+			$scope.doc.loading = false;
+			$modalInstance.close(true);
+		}).error(function(){
+			notificationservice.error('Unable to leave document, please try again', 'long');
+			$scope.doc.loading = false;
+		});
+	};
+
+	$scope.close = function () {
+		$modalInstance.close();
+	};
 }]);

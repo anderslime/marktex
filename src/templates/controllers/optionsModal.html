@@ -11,7 +11,7 @@
     <h4><i class="fa fa-share-alt"></i> Sharing</h4>
     <div>
     	<div class="add-share">
-	    	<div tex-share-doc="connections" self-id="selfId" ng-model="doc.permittedUsers" on-change="update" placeholder="connections.length > 0 ? 'Share with your friends...' : 'You have no friends using MarkTex, thus no one to share with'"/>
+	    	<div tex-share-doc="connections" self-id="selfId" ng-model="doc.permittedUsers" on-change="update" placeholder="connections.length > 0 ? 'Share with your friends...' : 'You have no friends using MarkTex, thus no one to share with'"/></div>
     	</div>
     	<div class="text-info italic not-shared" ng-show="doc.permittedUsers.length === 0 || !doc.permittedUsers">You are not sharing this document with anyone, yet</div>
     </div>

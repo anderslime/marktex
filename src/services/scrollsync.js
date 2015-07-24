@@ -26,9 +26,9 @@ texapp.factory('scrollsyncservice', [function() {
 			return false;
 
 		if(listmode)
-			return new RegExp(/^\ {0,}(\*|-\ )/).test(line); // allow indents if already in listmode
+			return new RegExp(/^\ {0,}(\*|-\ )|^\s?\d*\. .*/).test(line); // allow indents if already in listmode
 		else
-			return new RegExp(/^(\*|-)\ /).test(line); // true if list
+			return new RegExp(/^(\*|-)\ |^\s?\d*\. .*|^\ {4,}\*\s/).test(line); // true if list
 	}
 
 	function lineStartsOrEndsWithJaxToken(line, jaxmode){
@@ -47,7 +47,7 @@ texapp.factory('scrollsyncservice', [function() {
 		return new RegExp(/^\$\$(.*)\$\$$/).test(line); // true if jax starting and ending
 	}
 
-	function shouldCombineWithPreviousLine(prev, curr){
+	function shouldCombineWithPreviousLine(prev, curr, listmode, codemode){
 		if(prev === undefined)
 			return true; //first line should have index 0
 
@@ -57,21 +57,40 @@ texapp.factory('scrollsyncservice', [function() {
 
 		var currIsLink = new RegExp(/^\ {1,3}(\[.+\]):\s/).test(curr);
 
-		if(currIsLink)
-			return true;
-
-		if(prevIsNotBlank && currIsNotHeaderOrListOrJax)
+		if(currIsLink || (prevIsNotBlank && currIsNotHeaderOrListOrJax) && !isHeader(prev, listmode, codemode))
 			return true;
 		
 		return false;
 	}
 
-	function isCodeLine(prev, curr, listmode){
-		var r = RegExp(/(^\t|\ {4,})/);
-
-		if(!listmode && r.test(curr)) 		// if current line is indented
+	function isCodeLine(prev, curr, listmode, codemode){
+		if(curr.length === 0)
+			return false;
+		var r = RegExp(/\t|\ {4,}/);
+		if(!listmode && !codemode && r.test(curr) && isBlank(prev)) // if current line is indented, not in listmode or codemode, but prev is blank
 			return true;
-		if(isBlank(curr) && r.test(prev)) 	//if current line is blank, but prev is indented
+		if(!listmode && codemode && r.test(curr)) 					// if current line is indented, not in listmode but in codemode
+			return true;
+		if(listmode && RegExp(/(\t|\ {8,}(?!\*|\ ))/).test(curr) && isBlank(prev))
+			return true;
+		if(isBlank(curr) && r.test(prev)) 							// if current line is blank, but prev is indented
+			return true;
+		return false;
+	}
+
+	function isHeader(line, listmode, codemode){
+		var r = RegExp(/^(#){1,6}.*/);
+		if(!listmode && !codemode && r.test(line))
+			return true;
+		return false;
+	}
+
+	function isRule(line, prev){
+		var r = RegExp(/^(-|\s){3,}$|^(_|\s){3,}$|^(\*|\s){3,}$/);	 // rule if 3 or more rule chars, and prev line is whitespace
+		var r2 = RegExp(/^-{3,}(\ +-+)+$|^_{3,}(\ +_+)+$|^\*{3,}(\ +\*+)+$/); // enforces a whitespace somewhere after at least 3 rule chars
+		if(prev.length === 0 && r.test(line))
+			return true;
+		else if (prev.length > 0 && r2.test(line))
 			return true;
 		return false;
 	}
@@ -114,16 +133,17 @@ texapp.factory('scrollsyncservice', [function() {
 		var start = (new Date()).getTime();
 		console.log('indexing scroll...');
 		
-		//index document elements
-		//this will find all elements that can be scrolled to
-		//some elements will be unwrapped, like lists or code. for more fine grained
+		//index document elements.
+		//this will find all elements that can be scrolled to.
+		//some elements will be unwrapped, like lists or code. for more better
 		//scroll experience, other elements could be unwrapped if desired, otherwise
 		//it will fall back to the outermost element.
 		docElements = [];
 		var skipNextP = false;
-		for(var e = 0; e < doc.children().length; e++){
-			var tagname = doc.children()[e].tagName;
-			var classnames = doc.children()[e].className;
+		var dc = doc.children();
+		for(var e = 0; e < dc.length; e++){
+			var tagname = dc[e].tagName;
+			var classnames = dc[e].className;
 
 			if(skipNextP && tagname === 'P'){
 				skipNextP = false;
@@ -131,19 +151,18 @@ texapp.factory('scrollsyncservice', [function() {
 			}
 
 			if(tagname === 'UL' || tagname === 'OL')
-				docElements.push.apply(docElements, $(doc.children()[e]).find('li'));
+				docElements.push.apply(docElements, $(dc[e]).find('li:not(:has(ul, p, a)), a, p, pre:has(code)'));
 			else if(tagname === 'PRE')
-				docElements.push.apply(docElements, $(doc.children()[e]).find('code'));
+				docElements.push.apply(docElements, $(dc[e]).find('code'));
 			else if(tagname === 'SCRIPT'){
 				skipNextP = true; 	// mathjax inserts nasty paragraphs after equations
 			}else if(tagname === 'DIV' && classnames.indexOf('MathJax_Display') > -1){
 				docElements.pop();  // mathjax inserts nasty paragraphs before equations
-				docElements.push(doc.children()[e]);
-			}else if(tagname === 'SPAN' && classnames.indexOf('mj loader') > -1){
+				docElements.push(dc[e]);
+			}else if(tagname === 'SPAN' && classnames.indexOf('mj loader') > -1)
 				skipNextP = true; 	//skip more nasty mathjax elements
-			}
 			else
-				docElements.push(doc.children()[e]);
+				docElements.push(dc[e]);
 		}
 
 		//index ace editorlines
@@ -152,12 +171,16 @@ texapp.factory('scrollsyncservice', [function() {
 		//all meta info will be mapped to the previous line that mapped to an element
 		//all lines are considered, this runs in O(n) time
 		editorLines = editor.getSession().doc.getAllLines();
-		var p, listmode = false, jaxmode = false, cIsCodeLine = false, li = 0, pli = -1, pIsCodeLine = false, stack = [];
+		var p, listmode = false, jaxmode = false, cIsCodeLine = false, li = 0, pli = -1, pIsCodeLine = false, stack = [], forceNextToIncrement = false;
 		for(var i = 0; i < editorLines.length; i++){
 			var c = editorLines[i];										//c is current line, p is previous
-			cIsCodeLine = isCodeLine(p, c, listmode);					//check if current line is a code block
+			cIsCodeLine = isCodeLine(p, c, listmode, pIsCodeLine);		//check if current line is a code block
 
-			if(cIsCodeLine && !pIsCodeLine && !isBlank(c)){				//if beginning code block
+			if(i === 0){
+			}else if(c.length > 0 && forceNextToIncrement){
+				li++;
+				forceNextToIncrement = false;
+			}else if(cIsCodeLine && !pIsCodeLine && !isBlank(c)){		//if beginning code block
 				li++;													//beginning a code block maps to an element
 			}else if(cIsCodeLine && pIsCodeLine){ 						//if continuing code block
 																		//continuing a code block does not map to an element
@@ -167,16 +190,23 @@ texapp.factory('scrollsyncservice', [function() {
 				if(!lineStartsAndEndsWithJaxToken(c))
 					jaxmode = !jaxmode;
 			}else if (jaxmode){
+			}else if (isRule(c, p)){
+				li++;
+				forceNextToIncrement = true;
+			}else if (isHeader(c, listmode, pIsCodeLine)){
+				li++;
 			}else if(lineStartsWithListToken(c, listmode)){				//check if line is a list
+				//if(p.length > 0)
 				li++;													//we can map each list item to an element
 				listmode = true;
 			}else{
 				if(isBlank(c)){											//blank lines do not map to elements
-					listmode = false; 									
-					cIsCodeLine = false;
+					cIsCodeLine = pIsCodeLine;
 				}else{
-					if(!shouldCombineWithPreviousLine(p, c))			//make sure that line breaks in the editor, that does not
+					if(!shouldCombineWithPreviousLine(p, c, listmode, cIsCodeLine)){	//make sure that line breaks in the editor, that does not
 						li++;											//break in the document, are not mapped to elements
+						listmode = false;
+					}
 				}
 			}
 			pIsCodeLine = cIsCodeLine;									//insert object with mapping between editor line and document element
@@ -197,8 +227,9 @@ texapp.factory('scrollsyncservice', [function() {
 			p = c;
 			pli = li;
 		}
+		if(stack[stack.length - 1].scrollOffset === undefined)
+			stack[stack.length - 1].scrollOffset = $(docElements[docElements.length - 1]).outerHeight();
 
-		//console.log(editorLines.map(function(e){ return e. index + ' ' + e.value; }).join('\n'));
 		console.log('scroll indexed in ' + (((new Date()).getTime() - start)/1000).toFixed(2) + ' seconds');
 	}
 	

@@ -25,6 +25,8 @@ texapp.directive('texMenu', ['$rootScope', function($rootScope) {
 	        $scope.$on('$routeChangeSuccess', function() {
 	        	if($location.path().indexOf('/editor') === 0)
 		    		$scope.doctitle = $routeParams.docName;
+		    	else
+		    		$scope.doctitle = null;
 		    	updateMenu();
 			});
 			
