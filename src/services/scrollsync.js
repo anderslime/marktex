@@ -151,7 +151,7 @@ texapp.factory('scrollsyncservice', [function() {
 			}
 
 			if(tagname === 'UL' || tagname === 'OL')
-				docElements.push.apply(docElements, $(dc[e]).find('li:not(:has(ul, p, a)), a, p, pre:has(code)'));
+				docElements.push.apply(docElements, $(dc[e]).find('span:not(:has(a)), a, p, pre:has(code)'));
 			else if(tagname === 'PRE')
 				docElements.push.apply(docElements, $(dc[e]).find('code'));
 			else if(tagname === 'SCRIPT'){
