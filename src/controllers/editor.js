@@ -30,6 +30,7 @@ texapp.controller('editorController', ['$scope', '$routeParams', '$http', '$q', 
 	}
 
 	$scope.onAceLoaded = function(aceEditor){
+		aceEditor.$blockScrolling = Infinity;
 		defAceLoaded.resolve(aceEditor);
 	};
 
@@ -37,7 +38,6 @@ texapp.controller('editorController', ['$scope', '$routeParams', '$http', '$q', 
 	$scope.docname = $routeParams.docName || 'dojo';
 	var doc = sjs.get('docs', docId);
 	doc.subscribe();
-	
 
 	//note that the connection state will remain 'connecting' at least until this method has fired
 	doc.whenReady(function() {

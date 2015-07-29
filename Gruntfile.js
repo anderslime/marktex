@@ -227,7 +227,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-compass');
 
 	grunt.event.once('git-describe', function (rev) {
-		grunt.log.writeln("Git Revision: " + rev);
+		grunt.log.writeln('Git Revision: ' + rev);
 		grunt.option('gitRevision', rev);
 		grunt.config('config.dev.gitrev', rev[0]);
 		grunt.config('config.dist.gitrev', rev[0]);
@@ -251,6 +251,6 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('default', [ 'jshint', 'git-describe', 'configureRewriteCustomRules', 'clean:dist', 'copy:dist', 'file-creator:dev', 'ngtemplates', 'browserify:dev', 'compass', 'cssmin', 'clean:tmp', 'connect:server', 'watch' ]);
 	grunt.registerTask('watchbase', [ 'jshint', 'git-describe', 'configureRewriteCustomRules', 'copy:dist', 'file-creator:dev', 'compass', 'cssmin', 'ngtemplates', 'browserify:dev', 'clean:tmp' ]);
-	grunt.registerTask('build', [ 'jshint', 'clean:dist', 'copy:dist', 'file-creator:dist', 'ngtemplates', 'browserify:dev', 'compass', 'cssmin', 'htmlmin', 'clean:tmp' ]);
+	grunt.registerTask('build', [ 'jshint', 'clean:dist', 'copy:dist', 'file-creator:dist', 'ngtemplates', 'browserify:dist', 'compass', 'cssmin', 'htmlmin', 'clean:tmp' ]);
 
 };

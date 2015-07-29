@@ -12,11 +12,11 @@
 				<th class="icon"></th>
 				<th class="icon"></th>
 				<th>Title</th>
-				<th>Last modified</th>
+				<th>Created</th>
 				<th>Shared with</th>
 			</thead>
 			<tbody>
-				<tr ng-repeat="doc in documents">
+				<tr ng-repeat="doc in documents" class="document-row">
 					<td>
 						<i ng-hide="selfId === undefined || selfId !== doc.creatorId" class="optionsicon fa fa-cog fa-2x" ng-click="openOptions(doc)"></i>
 						<i ng-show="selfId !== undefined && selfId !== doc.creatorId" class="optionsicon fa fa-minus-circle fa-2x" ng-click="openLeaveSharing(doc, selfId)"></i>
@@ -28,7 +28,7 @@
 						<span ng-click="gotoDoc(doc)" ng-hide="doc.options">{{ doc.name }}</span>
 					</td>
 					<td ng-click="gotoDoc(doc)"><span am-time-ago="doc.updated_at"></span></td>
-					<td ng-hide="selfId === undefined">
+					<td ng-click="gotoDoc(doc)" ng-hide="selfId === undefined">
 						<span ng-if="doc.creatorId !== selfId">{{ doc.creatorName }}{{ doc.permittedUsers.length > 1 ? ', ' : '' }}</span>
 						<span ng-repeat="person in doc.permittedUsers | withoutselfifcreator:doc.creatorId:selfId:doc.creatorName ">{{ $last ? person.facebook.name : (person.facebook.name + ', ') }}</span>
 					</td>
