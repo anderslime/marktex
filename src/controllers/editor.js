@@ -9,6 +9,7 @@ texapp.controller('editorController', ['$scope', '$routeParams', '$http', '$q', 
 	var Primus = require('primus-client');
 	var primus = new Primus(config.urls.sharejscollab + '?docId=' + docId);
 	var sharejs = require('sharejs');
+	var range = window.ace.require('ace/range').Range;
 
 	var sjs = new sharejs.Connection(primus.substream('share'));
 	primus.on('data', function message(data) {
@@ -52,7 +53,7 @@ texapp.controller('editorController', ['$scope', '$routeParams', '$http', '$q', 
 	]).then(function(data) {
 		$timeout(function(){
 			var ae = data[0];
-			doc.attach_ace(ae);
+			doc.attachAce(range, ae);
 			$scope.tmOptions.doc = doc;
 			ae.scrollToLine(0, false, false, function(){});
 			ae.focus();

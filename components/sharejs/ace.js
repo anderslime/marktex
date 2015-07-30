@@ -1,162 +1,13 @@
+(function () {
+  'use strict';
 
-var Range, applyToShareJS, requireImpl, sharejs;
+  var sharejs = require('sharejs');
+  //var requireImpl = ace.require != null ? ace.require : require;
 
-requireImpl = ace.require != null ? ace.require : require;
-sharejs = require('sharejs');
-Range = ace.require("ace/range").Range;
-
-applyToShareJS = function(editorDoc, delta, doc) {
-  var getStartOffsetPosition, pos, text;
-
-  getStartOffsetPosition = function(range) {
-    var i, line, lines, offset, _i, _len;
-
-    lines = editorDoc.getLines(0, range.start.row);
-    offset = 0;
-    for (i = _i = 0, _len = lines.length; _i < _len; i = ++_i) {
-      line = lines[i];
-      offset += i < range.start.row ? line.length : range.start.column;
-    }
-    return offset + range.start.row;
-  };
-  pos = getStartOffsetPosition(delta.range);
-  switch (delta.action) {
-    case 'insertText':
-      doc.insert(pos, delta.text);
-      break;
-    case 'removeText':
-      doc.remove(pos, delta.text.length);
-      break;
-    case 'insertLines':
-      text = delta.lines.join('\n') + '\n';
-      doc.insert(pos, text);
-      break;
-    case 'removeLines':
-      text = delta.lines.join('\n') + '\n';
-      doc.remove(pos, text.length);
-      break;
-    default:
-      throw new Error("unknown action: " + delta.action);
-  }
-};
-
-sharejs.Doc.prototype['attach_ace'] = function(editor, keepEditorContents) {
-  var check, deleteListener, doc, historymode, docListener, editorDoc, applyToEditorDoc, editorListener, insertListener, offsetToPos, refreshListener, replaceTokenizer, suppress;
-
-  if (!this.provides['text']) {
-    throw new Error('Only text documents can be attached to ace');
-  }
-  doc = this.createContext();
-
-  editorDoc = editor.getSession().getDocument();
-  editorDoc.setNewLineMode('unix');
-
-  check = function() {
-    return window.setTimeout(function() {
-      var editorText, otText;
-
-      editorText = editorDoc.getValue();
-      otText = doc.get(); // gfodor
-      if (editorText.length !=0  && typeof otText != 'undefined' && editorText !== otText && !historymode ) {
-        console.error('out of sync, resetting to base');
-
-        suppress = true;
-        editorDoc.setValue(otText);
-        suppress = false;
-      }
-    }, 0);
-  };
-
-  if (keepEditorContents) {
-    doc.remove(0, doc.get().length); // gfodor
-    doc.insert(0, editorDoc.getValue());
-  } else {
-    editorDoc.setValue(doc.get()); // gfodor
-  }
-  check();
-  suppress = false;
-  editorListener = function(change) {
-    if (suppress) {
-      return;
-    }
-    applyToShareJS(editorDoc, change.data, doc);
-    return check();
-  };
-  replaceTokenizer = function() {
-    var oldGetLineTokens, oldTokenizer;
-
-    oldTokenizer = editor.getSession().getMode().getTokenizer();
-    oldGetLineTokens = oldTokenizer.getLineTokens;
-    return oldTokenizer.getLineTokens = function(line, state) {
-      var cIter, docTokens, modeTokens;
-
-      if ((state == null) || typeof state === "string") {
-        cIter = doc.createIterator(0);
-        state = {
-          modeState: state
-        };
-      } else {
-        cIter = doc.cloneIterator(state.iter);
-        doc.consumeIterator(cIter, 1);
-      }
-      modeTokens = oldGetLineTokens.apply(oldTokenizer, [line, state.modeState]);
-      docTokens = doc.consumeIterator(cIter, line.length);
-      if (docTokens.text !== line) {
-        return modeTokens;
-      }
-      return {
-        tokens: doc.mergeTokens(docTokens, modeTokens.tokens),
-        state: {
-          modeState: modeTokens.state,
-          iter: doc.cloneIterator(cIter)
-        }
-      };
-    };
-  };
-  if (doc.getAttributes != null) {
-    replaceTokenizer();
-  }
-  editorDoc.on('change', editorListener);
-  doc.applyOperationsFromClean = function(ops){
-    historymode = true;
-    suppress = true;
-    editor.setValue('');
-    for(key in ops)
-      applyToEditorDoc(ops[key].op);
-    suppress = false;
-  };
-  applyToEditorDoc = function(op){
-    if(op === null || op === undefined)
-      return;
-    var pos = 0;
-    var spos = 0;
-    for (var i = 0; i < op.length; i++) {
-      var component = op[i];
-      switch (typeof component) {
-        case 'number':
-          pos += component;
-          spos += component;
-          break;
-        case 'string':
-          if (doc.onInsert) doc.onInsert(pos, component);
-          pos += component.length;
-          break;
-        case 'object':
-          if (doc.onRemove) doc.onRemove(pos, component.d);
-          spos += component.d;
-      }
-    }
-  };
-  docListener = function(op) {
-    suppress = true;
-    applyToDoc(editorDoc, op);
-    suppress = false;
-    return check();
-  };
-  offsetToPos = function(offset) {
+  var offsetToPos = function(editor, offset) {
     var line, lines, row, _i, _len;
 
-    lines = editorDoc.getAllLines();
+    lines = editor.getSession().getDocument().getAllLines();
     row = 0;
     for (row = _i = 0, _len = lines.length; _i < _len; row = ++_i) {
       line = lines[row];
@@ -170,34 +21,115 @@ sharejs.Doc.prototype['attach_ace'] = function(editor, keepEditorContents) {
       column: offset
     };
   };
-  doc.onInsert = function(pos, text) {
-    suppress = true;
-    var poss = offsetToPos(pos);
-    var cpos = editor.getCursorPosition();
-    editorDoc.insert(poss, text);
-    if(poss.row === cpos.row && poss.column === cpos.column && text === '\n')
-      editor.moveCursorToPosition(poss);
 
-    suppress = false;
-    return check();
-  };
-  doc.onRemove = function(pos, length) {
-    var range;
+  /**
+   * @param editor - Ace instance
+   * @param ctx - Share context
+   */
+  function shareAce(Range, editor, ctx) {
+    if (!ctx.provides.text) throw new Error('Cannot attach to non-text document');
 
-    suppress = true;
-    range = Range.fromPoints(offsetToPos(pos), offsetToPos(pos + length));
-    editorDoc.remove(range);
-    suppress = false;
-    return check();
-  };
-  doc.onRefresh = function(startoffset, length) {
-    var range;
+    var suppress = false;
+    var text = ctx.get() || ''; // Due to a bug in share - get() returns undefined for empty docs.
+    editor.setValue(text);
+    check();
 
-    range = Range.fromPoints(offsetToPos(startoffset), offsetToPos(startoffset + length));
-    return editor.getSession().bgTokenizer.start(range.start.row);
+    // *** remote -> local changes
+
+    ctx.onInsert = function (pos, text) {
+      editor.off('change', onLocalChange);
+      suppress = true;
+
+      editor.getSession().insert(offsetToPos(editor, pos), text);
+      suppress = false;
+      check();
+      editor.on('change', onLocalChange);
+    };
+
+    ctx.onRemove = function (pos, length) {
+      editor.off('change', onLocalChange);
+      suppress = true;
+      var A = offsetToPos(editor, pos);
+      var B = offsetToPos(editor, pos + length);
+      var range = new Range (
+          A.row, A.column, B.row, B.column
+      );
+      editor.getSession().remove(range);
+      suppress = false;
+      check();
+      editor.on('change', onLocalChange);
+    };
+
+    // *** local -> remote changes
+
+    editor.on('change', onLocalChange);
+
+    function onLocalChange(change) {
+      if (suppress) return true;
+      applyToShareJS(editor, change);
+      check();
+      return true;
+    }
+
+    editor.detachShareJsDoc = function () {
+      ctx.onRemove = null;
+      ctx.onInsert = null;
+      editor.off('change', onLocalChange);
+    }
+
+    // Convert a Ace change into an op understood by share.js
+    function applyToShareJS(editor, change) {
+      var startPos = 0;  // Get character position from # of chars in each line.
+      var i = 0;         // i goes through all lines.
+
+      // CANNOT use editor.getLines() because of bug *frown* !!11!elf
+      var editorContent = editor.getValue().split('\n');
+
+      for (var i = 0; i != change.start.row; ++i) {
+        startPos += editorContent[i].length + 1;
+      }
+      startPos += change.start.column;
+
+      switch (change.action) {
+        case ('insert'): {
+          var insertion = change.lines.join('\n');
+
+          ctx.insert(startPos, insertion);
+          break;
+        }
+        case ('remove'): {
+          var delLen = 0;
+          for (var p = 0; p != change.lines.length; ++p) {
+            delLen += change.lines[p].length + 1;
+          }
+          delLen--;
+
+          ctx.remove(startPos, delLen);
+          break;
+        }
+      }
+    }
+
+    function check() {
+      setTimeout(function () {
+        var editorText, otText;
+
+        editorText = editor.getValue();
+        otText = ctx.get() || '';
+
+        if (editorText !== otText) {
+          console.error("Text does not match!");
+          console.error("editor: " + editorText);
+          return console.error("ot:     " + otText);
+        }
+      }, 0);
+    }
+
+    return ctx;
+  }
+
+  sharejs.Doc.prototype.attachAce = function (Range, editor, ctx) {
+    if (!ctx) ctx = this.createContext();
+    shareAce(Range, editor, ctx);
   };
-  doc.detach_ace = function() {
-    editorDoc.removeListener('change', editorListener);
-    return delete doc.detach_ace;
-  };
-};
+})();

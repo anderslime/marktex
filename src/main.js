@@ -22,7 +22,6 @@ function requireDependencies(){
 	require('raf');
 	require('uilayout');
 	require('ngFacebook');
-	require('../components/sharejs/text');
 	require('../components/sharejs/ace');
 	require('../components/jaxconfig');
 	require('share-primus');
