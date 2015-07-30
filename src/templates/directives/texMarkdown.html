@@ -7,7 +7,7 @@
 	<div ui-layout="{flow : 'column', onresize: onPageResize }" class="tex-markdown-container" >
 	
 		<div ui-layout-container class="editor-container">
-			<div ui-ace="{ useWrapMode : true, showGutter: false, theme:'chrome',mode: 'markdown', highlightActiveLine: false, onLoad: aceLoaded }"
+			<div id="aceditor" ui-ace="{ useWrapMode : true, showGutter: false, theme:'chrome',mode: 'markdown', highlightActiveLine: false, onLoad: aceLoaded }"
 				ng-model="document" ng-readonly="texMarkdown.readonly"></div>
 		</div>
 

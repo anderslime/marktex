@@ -35,6 +35,29 @@ texapp.directive('texMenu', ['$rootScope', function($rootScope) {
 			});
 
 			updateMenu();
+
+			$scope.test = false;
+
+			function insertChar(editor, session){
+				if(!$scope.test)
+					return;
+
+				session.insert({
+					row: session.getLength(),
+					column: 0
+				}, 'a ');
+
+				setTimeout(function(){insertChar(editor, session); }, 500);
+			}
+
+			$scope.loadtest = function(){
+				var editor = window.ace.edit("aceditor");
+				var session = editor.session;
+
+				$scope.test = !$scope.test;
+
+				insertChar(editor, session);
+			};
         }]
 	};
 }]);
