@@ -31,7 +31,7 @@
 
     var suppress = false;
     var text = ctx.get() || ''; // Due to a bug in share - get() returns undefined for empty docs.
-    editor.setValue(text);
+    editor.setValue(text, 1);
     check();
 
     // *** remote -> local changes
