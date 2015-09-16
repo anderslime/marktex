@@ -7,6 +7,13 @@
 		        <button class="btn btn-success" type="submit" ng-click="createDoc()" ng-disabled="creating || create.createTitle.$error.required">{{ creating ? 'Creating' : 'Create' }}</button>
 		    </span>
 		</form>
+
+		<div ng-hide="upload" class="btn btn-upload" ng-click="spawnUploadDialog()" nv-file-drop="" nv-file-over="" uploader="uploader" over-class="btn-info" ng-disabled="uploading">
+			<span ng-hide="uploading">Drop file here or click to open and import</span>
+			<span ng-show="uploading">Uploading, please wait...</span>
+		</div>
+		<input id="uploader" accept=".mdtex" ng-show="upload" type="file" nv-file-select="" uploader="uploader">
+
 		<table>
 			<thead>
 				<th class="icon"></th>

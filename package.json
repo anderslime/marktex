@@ -66,6 +66,8 @@
     "showdownlinebreak": "./components/showdown.linebreak.js",
     "sharejs": "./node_modules/share/lib/client/index.js",
     "ngFacebook": "./bower_components/ng-facebook/ngFacebook.js",
+    "filesaver": "./bower_components/file-saver.js/FileSaver.js",
+    "fileuploader": "./bower_components/angular-file-upload/dist/angular-file-upload.min.js",
     "katex": "./components/katex/katex.min.js",
     "primus-client": "./components/sharejs/primus-client.js",
     "share-primus": "./components/sharejs/share-primus.js"
@@ -106,6 +108,7 @@
     },
     "raf": "raf",
     "katex": "katex",
+    "fileuploader": "fileuploader",
     "uilayout": {
       "depends": [
         "raf"

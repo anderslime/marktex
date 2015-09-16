@@ -1,7 +1,7 @@
 var texapp = require('../main.js');
 
-texapp.controller('documentListController', ['$scope', '$location', 'documentservice', 'notificationservice', '$modal',
-									 function($scope,   $location,   documentservice,   notificationservice,   $modal) {
+texapp.controller('documentListController', ['$scope', '$location', 'documentservice', 'notificationservice', '$modal', 'FileUploader',
+									 function($scope,   $location,   documentservice,   notificationservice,   $modal,   FileUploader) {
 	$scope.loading = true;
 	$scope.creating = false;
 	$scope.documents = [];
@@ -14,6 +14,53 @@ texapp.controller('documentListController', ['$scope', '$location', 'documentser
 		notificationservice.error('Unable to fetch documents');
 		$scope.loading = false;
 	});
+
+	$scope.uploader = new FileUploader({
+		url: '#',
+		method: ''
+	});
+
+	$scope.uploader.onAfterAddingAll = function() {
+		$scope.uploading = true;
+		$scope.upload = false;
+		$scope.uploader.uploadAll();
+	};
+
+	$scope.uploader.onCompleteItem = function(fileItem) {
+		var reader = new FileReader();
+		reader.addEventListener('loadend', function() {
+
+			documentservice.create(fileItem.file.name.replace('.mdtex', '')).success(function(doc){
+				var config = require('config');
+				var Primus = require('primus-client');
+				var primus = new Primus(config.urls.sharejscollab + '?docId=' + doc._id);
+				var sharejs = require('sharejs');
+
+				var sjs = new sharejs.Connection(primus.substream('share'));
+				var sjsdoc = sjs.get('docs', doc._id);
+				sjsdoc.subscribe();
+
+				sjsdoc.whenReady(function() {
+					sjsdoc.create('text');
+					var ctx = sjsdoc.createContext();
+					ctx.insert(reader.result, 0);
+					$scope.uploading = false;
+					$scope.$apply(function() {
+						$scope.gotoDoc(doc);
+					});
+				});
+			}).error(function(){
+				$('#uploader')[0].value = null;
+				$scope.uploading = false;
+				notificationservice.error('Unable to create new document, please try again', 'long');
+			});
+		});
+		reader.readAsText(fileItem._file);
+	};
+
+	$scope.spawnUploadDialog = function(){
+		$('#uploader').click();
+	};
 
 	$scope.openOptions = function (doc) {
 		var modal = $modal.open({
@@ -114,6 +161,23 @@ texapp.controller('optionsModalController', ['$scope', '$modalInstance', 'doc', 
 			$timeout.cancel(timeout);
 
 		timeout = $timeout(update, 1000);
+	};
+
+	$scope.download = function(){
+		var config = require('config');
+		var Primus = require('primus-client');
+		var primus = new Primus(config.urls.sharejscollab + '?docId=' + $scope.doc._id);
+		var sharejs = require('sharejs');
+		var filesaver = require('filesaver');
+
+		var sjs = new sharejs.Connection(primus.substream('share'));
+		var doc = sjs.get('docs', $scope.doc._id);
+		doc.subscribe();
+
+		doc.whenReady(function() {
+			var blob = new Blob([doc.snapshot], {type: 'text/plain;charset=utf-8'});
+			filesaver.saveAs(blob, $scope.doc.name + '.mdtex');
+		});
 	};
 
 	$scope.remove = function(){

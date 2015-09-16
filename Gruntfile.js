@@ -138,7 +138,7 @@ module.exports = function(grunt) {
 					'components/angular-ui-layout/ui-layout.css',
 					'components/ui-select/select.css',
 					'components/ui-select/select2.css',
-					//'components/katex/katex.min.css',
+					'components/katex/katex.min.css',
 					'src/css/bootstrap-sandstone.css',
 					'src/css/style.css',
 					'tmp/css/main.css'

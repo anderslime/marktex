@@ -29,14 +29,40 @@ texapp.directive('texMarkdown', ['$rootScope', '$compile', 'typesettingservice',
 				var mdtextPromise = typesettingservice.markdown(newVal);
 
 				mdtextPromise.then(function(mdtext) {
-				    scope.$previewDoc.html(mdtext);
-			    	var typesetPromise = typesettingservice.typeset(scope.$previewDoc, mdtext);
+				    //scope.$previewDoc.html(mdtext);
+			    	//var typesetPromise = typesettingservice.typeset(scope.$previewDoc, mdtext);
 
 			    	//occurs when mathjax completes typesetting the document
-			    	typesetPromise.then(function(){
-			    		scope.$document.html(scope.$previewDoc.html());
-						scrollsyncservice.updateScrollSync(scope.ace, scope.$document, scope.$container);
-			    	});
+			    	//typesetPromise.then(function(){
+			    	var r = /\$\$([^\$]+?[^\$])\$\$/;
+			    	var match = r.exec(mdtext);
+			    	var math;
+					while (match !== null) {
+						try{
+							math = window.katex.renderToString(match[1], { displayMode: true, throwOnError: false, errorColor: '#ff0000' });
+						}catch(err){
+							math = '<span class="matherror">math err</span>';
+						}
+						mdtext = mdtext.replace(match[0], math);
+					    match = r.exec(mdtext);
+					}
+
+			    	r = /(^|[^\$\d\w;:\-_æøå<>!]?)\$([^\$]+?[^\$])\$($|[^\$\d\w;:\-_æøå<>!]?)/;
+			    	match = r.exec(mdtext);
+					while (match !== null) {
+						try{
+							math = window.katex.renderToString(match[2], { throwOnError: false, errorColor: '#ff0000' });
+						}catch(err){
+							math = '<span class="matherror">math err</span>';
+						}
+						mdtext = mdtext.replace(match[0], ' ' + math + ' ');
+					    match = r.exec(mdtext);
+					}
+
+		    		scope.$document.html(mdtext);
+		    		//scope.$document.html(scope.$previewDoc.html());
+					scrollsyncservice.updateScrollSync(scope.ace, scope.$document, scope.$container);
+			    //	});
 				});
 			});
 	    },

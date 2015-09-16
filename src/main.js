@@ -4,8 +4,10 @@ function requireDependencies(){
 	require('../bower_components/ace-builds/src-min-noconflict/ace');
 	require('../bower_components/ace-builds/src-min-noconflict/theme-chrome.js');
 	require('../bower_components/ace-builds/src-min-noconflict/mode-markdown.js');
+	require('katex');
 	require('jquery');
 	require('angular');
+	require('fileuploader');
 	require('angularsanitize');
 	require('angularroute');
 	require('angularanimate');
@@ -16,7 +18,7 @@ function requireDependencies(){
 	require('uiace');
 	window.Showdown = require('showdown');
 	require('markdown');
-	require('showdownmathjax');
+	//require('showdownmathjax');
 	require('bootstrap');
 	require('uibootstrap');
 	require('raf');
@@ -38,18 +40,19 @@ function bootstrapAngularApp(){
 		'ngFacebook',
 		'ngCookies',
 		'ui.select',
-		'angularMoment'
+		'angularMoment',
+		'angularFileUpload'
 	]);
 
 	module.exports = texapp;
 
 	require('../tmp/templates');
 
-	texapp.config(['markdownConverterProvider', function (markdownConverterProvider) {
+	/*texapp.config(['markdownConverterProvider', function (markdownConverterProvider) {
 		markdownConverterProvider.config({
 			extensions: ['mathjax']
 		});
-	}]);
+	}]);*/
 
 	texapp.config(['$facebookProvider', function (facebookProvider) {
 		facebookProvider.setAppId(config.facebook.appID);

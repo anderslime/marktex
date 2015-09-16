@@ -22,6 +22,7 @@ texapp.factory('typesettingservice', ['$q', '$sanitize', 'markdownConverter',
 	}
 
 	var mdDef;
+	var kDef;
 	var lastMarkdownTime;
 	return {
 		markdown: function(text, imm){
@@ -37,7 +38,24 @@ texapp.factory('typesettingservice', ['$q', '$sanitize', 'markdownConverter',
 			mdDef = setTimeout(function(){
 				lastMarkdownTime = new Date();
 				deferred.resolve(markdown(text));
-			}, immediate ? 0 : 300);
+			}, immediate ? 0 : 100);
+
+			return deferred.promise;
+		},
+		katex: function(text, imm){
+			var deferred = $q.defer();
+
+			var immediate = imm || false;
+			if(text === undefined || text.length === 0 || (new Date() - lastMarkdownTime) > 700)
+				immediate = true;
+
+			if(kDef)
+				clearTimeout(kDef);
+
+			kDef = setTimeout(function(){
+				lastMarkdownTime = new Date();
+				deferred.resolve(window.katex.renderToString(text));
+			}, immediate ? 0 : 100);
 
 			return deferred.promise;
 		},

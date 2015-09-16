@@ -11,7 +11,11 @@
 
             { type: 'lang', filter: function(text){
                 //this will use mathjax
-                var jax = function(e){ return '<p class="mj loader center">$' + e + '$</p>';};
+                //var jax = function(e){ return '<p class="mj loader center">$' + e + '$</p>';};
+                var jax = function(e){
+                    var k = window.katex.renderToString(e, { throwOnError: false, errorColor: 'red' });
+                    return k;
+                };
 
                 //this will use KaTeX
                 //var jax = function(e){ return '<div>' + katex.renderToString(e) + '</div>';};
@@ -31,7 +35,10 @@
                 if (leadingSlash === '\\') {
                     return match;
                 } else {
-                    return '<span class="mj loader">$' + equation + '$</span>';
+                    //return '<span class="mj loader">$' + equation + '$</span>';
+                    var k = window.katex.renderToString(equation, { throwOnError: false, errorColor: 'red' });
+                    //console.log(k,k);
+                    return k;
                     //this will use KaTeX
                     //return '<span>' + katex.renderToString(equation) + '</span>';
                 }
